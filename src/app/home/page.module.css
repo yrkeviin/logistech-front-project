@@ -1,110 +1,556 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.9;
+        transform: scale(1.08);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes buttonGlow {
+    0% {
+        box-shadow: 0 0 5px rgba(59, 130, 246, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.8), 0 0 30px rgba(59, 130, 246, 0.4);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(59, 130, 246, 0.4);
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 53%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40%, 43% {
+        transform: translateY(-8px);
+    }
+    70% {
+        transform: translateY(-4px);
+    }
+}
+
 .container {
     display: flex;
     flex-direction: column;
     width: 100%;
-    background-color: #252E43;
-    height: 200vh;
+    background: linear-gradient(135deg, #252E43 0%, #1a1f35 100%);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 300px;
+    background: radial-gradient(ellipse at top, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    pointer-events: none;
 }
 
 .dashboard {
     display: flex;
     align-items: center;
     color: white;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: 'Inter', sans-serif;
+    padding: 3rem 4rem 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.decorativeElements {
+    display: flex;
+    align-items: center;
+}
+
+.dashboardTitle h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 50%, #e2e8f0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: slideIn 1s ease-out;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    letter-spacing: -1px;
+}
+
+.dashboardTitle p {
+    font-size: 1.2rem;
+    color: #cbd5e1;
+    margin: 0;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    animation: slideIn 1s ease-out 0.2s both;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .quadrados {
     padding: 2rem;
+    animation: float 6s ease-in-out infinite;
 }
 
 .quadrados1, .quadrados2 {
     display: flex;
     padding: 0;
-    margin: .3rem;
-    gap: .3rem;
+    margin: 0.3rem;
+    gap: 0.3rem;
 }
 
 .quadrado {
-    width: .7rem;
-    height: .7rem;
-    background-color: #D9D9D9;
-    transition: .3s ease-in-out;
+    width: 1.1rem;
+    height: 1.1rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+.quadrado::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
 }
 
 .quadrado:hover {
-    width: .9rem;
-    height: .9rem;
-    transition: .3s ease-in-out;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 8px;
     cursor: pointer;
-    border-radius: 5px;
+    transform: rotate(45deg);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
 }
 
-.dash {
-    display: flex;
-    gap: 5%;
-    justify-content: center;
-    align-items: center;
+.quadrado:hover::before {
+    left: 100%;
+}
+
+.quadrado1 { animation-delay: 0.1s; }
+.quadrado2 { animation-delay: 0.3s; }
+.quadrado3 { animation-delay: 0.5s; }
+.quadrado4 { animation-delay: 0.7s; }
+
+.statsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    padding: 2rem 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.fadeInUp {
+    animation: fadeInUp 0.8s ease-out forwards;
 }
 
 .cardStatus {
-    background-color: #393B43;
-    width: 20%;
+    background: rgba(57, 59, 67, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.cardStatus:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.banner, .banner2, .banner3 {
+    border-radius: 20px 20px 0 0;
+    background-position: center;
+    width: 100%;
+    height: 120px;
+    padding: 1.5rem;
+    background-size: cover;
+    background-repeat: no-repeat;
     display: flex;
-    flex-direction: column;
-    border-radius: 15px;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+
+.banner::before, .banner2::before, .banner3::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
 }
 
 .banner {
-    background-image: linear-gradient(rgba(255, 238, 0, 0.55), rgba(255, 255, 255, 0.55)), url('/image/amareloBanner.png');
-    border-radius: 15px 15px 0 0;
-    background-position: center;
-    width: 100%;
-    height: 12vh;
-    padding: 10px;
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-image: linear-gradient(135deg, rgba(255, 193, 7, 0.9) 0%, rgba(255, 152, 0, 0.7) 100%), url('/image/amareloBanner.png');
 }
 
 .banner2 {
-    background-image: linear-gradient(rgba(0, 140, 255, 0.55), rgba(255, 255, 255, 0.55)), url('/image/azulBanner.png');
-    border-radius: 15px 15px 0 0;
-    background-position: center;
-    width: 100%;
-    height: 12vh;
-    padding: 10px;
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-image: linear-gradient(135deg, rgba(59, 130, 246, 0.9) 0%, rgba(37, 99, 235, 0.7) 100%), url('/image/azulBanner.png');
 }
 
 .banner3 {
-    background-image: linear-gradient(rgba(0, 255, 21, 0.55), rgba(255, 255, 255, 0.55)), url('/image/verdeBanner.png');
-    border-radius: 15px 15px 0 0;
-    background-position: center;
-    width: 100%;
-    height: 12vh;
-    padding: 10px;
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-image: linear-gradient(135deg, rgba(34, 197, 94, 0.9) 0%, rgba(22, 163, 74, 0.7) 100%), url('/image/verdeBanner.png');
 }
 
-.cardStatus h1 {
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif ;
-    color: rgb(0, 0, 0);
+.cardIcon {
+    font-size: 3rem;
+    z-index: 2;
+    position: relative;
+    animation: pulse 3s infinite;
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    transition: transform 0.3s ease;
 }
 
-.cardStatus p {
-    padding: 15px;
-    font-size: 91.5%;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+.cardIcon:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.cardContent {
+    flex: 1;
+    text-align: right;
+    z-index: 2;
+    position: relative;
+}
+
+.cardContent h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0 0 0.8rem 0;
+    color: #ffffff;
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.5px;
+}
+
+.cardNumber {
+    font-size: 3rem;
+    font-weight: 900;
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.cardBody {
+    padding: 1.5rem;
+}
+
+.cardBody p {
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    color: #f8fafc;
+    text-align: left;
+    margin: 0 0 2rem 0;
+    line-height: 1.7;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.cardActions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.actionBtn, .actionBtn2, .actionBtn3 {
     color: white;
-    text-align: justify;
-    margin-bottom: 50%;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.4);
+}
+
+.actionBtn {
+    background: linear-gradient(135deg, #f6e33b 0%, #d8b91d 50%, #d0d700 100%);
+}
+
+.actionBtn2 {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 50%, #2563eb 100%);
+}
+
+.actionBtn3 {
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 50%, #15803d 100%);
+}
+
+.actionBtn::before, .actionBtn2::before, .actionBtn3::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.6s;
+}
+
+.actionBtn:hover, .actionBtn2:hover, .actionBtn3:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(100, 100, 100, 0.6);
+    animation: buttonGlow 2s infinite;
+}
+
+.actionBtn:hover::before, .actionBtn2:hover::before, .actionBtn3:hover::before {
+    left: 100%;
+}
+
+.actionBtn:active, .actionBtn2:active, .actionBtn3:active {
+    transform: translateY(-1px) scale(0.98);
+    animation: bounce 0.6s;
+}
+
+.summarySection {
+    padding: 2rem 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.totalStats h2 {
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0 0 2rem 0;
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.5px;
+}
+
+.totalCard {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 15px;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(20px);
+    transition: all 0.3s ease;
+}
+
+.totalCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+}
+
+.totalLabel {
+    color: #f1f5f9;
+    font-size: 1.3rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.totalNumber {
+    color: #3b82f6;
+    font-size: 3.2rem;
+    font-weight: 900;
+    font-family: 'Poppins', sans-serif;
+    text-shadow: 0 2px 8px rgba(59, 130, 246, 0.5);
+    letter-spacing: -1px;
 }
 
 .separator {
-    width: 90%;
+    width: 80%;
     height: 1px;
-    background-color: #D9D9D9;
-    display: flex;
-    margin: 5% auto;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    margin: 3rem auto;
+}
+
+@media (max-width: 1200px) {
+    .dashboard {
+        padding: 2rem 3rem 1rem;
+    }
+    
+    .statsContainer {
+        padding: 1.5rem 3rem;
+        gap: 1.5rem;
+    }
+    
+    .summarySection {
+        padding: 1.5rem 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem 2rem 1rem;
+    }
+    
+    .dashboardTitle h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+    }
+    
+    .dashboardTitle p {
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+    
+    .statsContainer {
+        grid-template-columns: 1fr;
+        padding: 1rem 2rem;
+        gap: 1rem;
+    }
+    
+    .summarySection {
+        padding: 1rem 2rem;
+    }
+    
+    .totalCard {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .totalStats h2 {
+        font-size: 1.6rem;
+    }
+    
+    .totalNumber {
+        font-size: 2.8rem;
+    }
+    
+    .quadrados {
+        padding: 1rem;
+    }
+    
+    .actionBtn {
+        padding: 0.9rem 1.8rem;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard {
+        padding: 1rem;
+    }
+    
+    .dashboardTitle h1 {
+        font-size: 2rem;
+        font-weight: 700;
+    }
+    
+    .dashboardTitle p {
+        font-size: 1rem;
+    }
+    
+    .statsContainer {
+        padding: 1rem;
+    }
+    
+    .summarySection {
+        padding: 1rem;
+    }
+    
+    .cardBody {
+        padding: 1rem;
+    }
+    
+    .cardBody p {
+        font-size: 0.9rem;
+        margin: 0 0 1.5rem 0;
+    }
+    
+    .banner, .banner2, .banner3 {
+        height: 100px;
+        padding: 1rem;
+    }
+    
+    .cardContent h1 {
+        font-size: 1.4rem;
+    }
+    
+    .cardNumber {
+        font-size: 2.2rem;
+    }
+    
+    .cardIcon {
+        font-size: 2.5rem;
+    }
+    
+    .totalStats h2 {
+        font-size: 1.4rem;
+    }
+    
+    .totalLabel {
+        font-size: 1.1rem;
+    }
+    
+    .totalNumber {
+        font-size: 2.5rem;
+    }
+    
+    .actionBtn {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+        text-transform: none;
+        letter-spacing: 0.5px;
+    }
 }
