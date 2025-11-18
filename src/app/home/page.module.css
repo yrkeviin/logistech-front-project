@@ -247,17 +247,26 @@
 }
 
 .cardIcon {
-    font-size: 3rem;
+    font-size: 0.8rem;
     z-index: 2;
     position: relative;
     animation: pulse 3s infinite;
     text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
     transition: transform 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    letter-spacing: 1px;
 }
 
 .cardIcon:hover {
-    transform: scale(1.1) rotate(5deg);
+    transform: scale(1.05);
 }
 
 .cardContent {
@@ -552,5 +561,317 @@
         font-size: 0.9rem;
         text-transform: none;
         letter-spacing: 0.5px;
+    }
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+.modalContainer {
+    background: linear-gradient(135deg, rgba(37, 46, 67, 0.98) 0%, rgba(45, 55, 80, 0.98) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+    max-width: 700px;
+    width: 90%;
+    overflow: hidden;
+    animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.modalContainer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 2.5rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modalHeader h2 {
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.closeButton {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.closeButton:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.closeButton span {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 300;
+    line-height: 1;
+}
+
+.modalContent {
+    padding: 1.5rem 2.5rem;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.modalContent::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modalContent::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.modalContent::-webkit-scrollbar-thumb {
+    background: rgba(59, 130, 246, 0.6);
+    border-radius: 3px;
+}
+
+.modalContent::-webkit-scrollbar-thumb:hover {
+    background: rgba(59, 130, 246, 0.8);
+}
+
+.modalSection {
+    margin-bottom: 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 15px;
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.modalSection:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(59, 130, 246, 0.2);
+    transform: translateY(-2px);
+}
+
+.sectionHeader {
+    margin-bottom: 1.2rem;
+}
+
+.sectionHeader h3 {
+    color: #3b82f6;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.infoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.infoItem {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.infoItem.fullWidth {
+    grid-column: 1 / -1;
+}
+
+.infoLabel {
+    color: #94a3b8;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.infoValue {
+    color: #f1f5f9;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.8rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.infoValue:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+.statusPending {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.2) 0%, rgba(255, 152, 0, 0.1) 100%);
+    border-color: rgba(255, 193, 7, 0.3);
+    color: #fbbf24;
+    font-weight: 700;
+}
+
+.modalFooter {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding: 1rem 2.5rem 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modalActionBtn {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.8rem 1.8rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.modalActionBtn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modalPrimaryBtn {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 50%, #1e40af 100%);
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+}
+
+.modalPrimaryBtn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s;
+}
+
+.modalPrimaryBtn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #1e3a8a 100%);
+}
+
+.modalPrimaryBtn:hover::before {
+    left: 100%;
+}
+
+@media (max-width: 768px) {
+    .modalContainer {
+        width: 95%;
+        margin: 1rem;
+    }
+    
+    .modalHeader {
+        padding: 1.5rem 1.5rem 1rem;
+    }
+    
+    .modalHeader h2 {
+        font-size: 1.5rem;
+    }
+    
+    .modalContent {
+        padding: 1rem 1.5rem;
+        max-height: 55vh;
+    }
+    
+    .infoGrid {
+        grid-template-columns: 1fr;
+    }
+    
+    .modalFooter {
+        padding: 1rem 1.5rem 1.5rem;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    
+    .modalActionBtn, .modalPrimaryBtn {
+        width: 100%;
     }
 }
