@@ -12,67 +12,201 @@ export default function HomeAdm() {
   })
 
   const [isLoaded, setIsLoaded] = useState(false)
+  const [pendingModalOpen, setPendingModalOpen] = useState(false)
   const [reportModalOpen, setReportModalOpen] = useState(false)
   const [trackingModalOpen, setTrackingModalOpen] = useState(false)
   
-  // Dados de rastreamento em tempo real
-  const [trackingData] = useState([
+  const [pedidosPendentes] = useState([
     {
       id: 1,
-      numeroPedido: "PED-2024-025",
-      cliente: "Carlos Eduardo Silva",
-      motorista: "Ricardo Gomes",
-      veiculo: "Mercedes Sprinter - ABC-5678",
-      origem: "Centro de Distribuição - Vila Olímpia",
-      destino: "Rua Augusta, 1250 - Cerqueira César, São Paulo - SP",
-      distanciaTotal: "12.5 km",
-      distanciaPercorrida: "8.2 km",
-      percentualConcluido: 66,
-      tempoEstimado: "18 min",
-      horaInicio: "15:20",
-      horaEstimadaChegada: "16:05",
-      velocidadeAtual: "35 km/h",
-      ultimaAtualizacao: "15:52",
-      status: "Em trânsito",
-      observacoes: "Trânsito normal na região"
+      numero_pedido: "PED-2024-001",
+      cliente: {
+        nome: "Maria Silva Santos"
+      }
     },
     {
       id: 2,
-      numeroPedido: "PED-2024-028",
-      cliente: "Ana Beatriz Costa",
-      motorista: "Thiago Cardoso",
-      veiculo: "Fiat Ducato - XYZ-9012",
-      origem: "Centro de Distribuição - Mooca",
-      destino: "Av. Paulista, 2000 - Bela Vista, São Paulo - SP",
-      distanciaTotal: "15.3 km",
-      distanciaPercorrida: "11.8 km",
-      percentualConcluido: 77,
-      tempoEstimado: "12 min",
-      horaInicio: "14:45",
-      horaEstimadaChegada: "16:00",
-      velocidadeAtual: "42 km/h",
-      ultimaAtualizacao: "15:53",
-      status: "Próximo ao destino",
-      observacoes: "Cliente confirmou recebimento"
+      numero_pedido: "PED-2024-002",
+      cliente: {
+        nome: "Carlos Eduardo Oliveira"
+      }
     },
     {
       id: 3,
-      numeroPedido: "PED-2024-031",
-      cliente: "Roberto Santos Lima",
-      motorista: "Felipe Araújo",
-      veiculo: "Iveco Daily - DEF-3456",
-      origem: "Centro de Distribuição - Santo André",
-      destino: "Rua das Palmeiras, 856 - Vila Mariana, São Paulo - SP",
-      distanciaTotal: "22.1 km",
-      distanciaPercorrida: "6.5 km",
-      percentualConcluido: 29,
-      tempoEstimado: "35 min",
-      horaInicio: "15:35",
-      horaEstimadaChegada: "16:40",
-      velocidadeAtual: "28 km/h",
-      ultimaAtualizacao: "15:51",
-      status: "Trânsito lento",
-      observacoes: "Congestionamento na Marginal"
+      numero_pedido: "PED-2024-003",
+      cliente: {
+        nome: "Ana Beatriz Costa"
+      }
+    },
+    {
+      id: 4,
+      numero_pedido: "PED-2024-004",
+      cliente: {
+        nome: "Roberto Santos Lima"
+      }
+    },
+    {
+      id: 5,
+      numero_pedido: "PED-2024-005",
+      cliente: {
+        nome: "Fernanda Almeida Silva"
+      }
+    },
+    {
+      id: 6,
+      numero_pedido: "PED-2024-006",
+      cliente: {
+        nome: "João Pedro Martins"
+      }
+    },
+    {
+      id: 7,
+      numero_pedido: "PED-2024-007",
+      cliente: {
+        nome: "Juliana Ferreira Santos"
+      }
+    },
+    {
+      id: 8,
+      numero_pedido: "PED-2024-008",
+      cliente: {
+        nome: "Lucas Henrique Silva"
+      }
+    },
+    {
+      id: 9,
+      numero_pedido: "PED-2024-009",
+      cliente: {
+        nome: "Patricia Oliveira Lima"
+      }
+    },
+    {
+      id: 10,
+      numero_pedido: "PED-2024-010",
+      cliente: {
+        nome: "Rafael Costa Santos"
+      }
+    },
+    {
+      id: 11,
+      numero_pedido: "PED-2024-011",
+      cliente: {
+        nome: "Camila Rodrigues"
+      }
+    },
+    {
+      id: 12,
+      numero_pedido: "PED-2024-012",
+      cliente: {
+        nome: "Diego Almeida"
+      }
+    }
+  ])
+  
+  const [entregasEmRota] = useState([
+    {
+      id: 1,
+      pedido: {
+        numero_pedido: "PED-2024-025",
+        endereco_cliente: "Rua Augusta, 1250 - Cerqueira César, São Paulo - SP",
+        cliente: {
+          nome: "Carlos Eduardo Silva"
+        }
+      },
+      motorista: {
+        nome: "Ricardo Gomes"
+      }
+    },
+    {
+      id: 2,
+      pedido: {
+        numero_pedido: "PED-2024-028",
+        endereco_cliente: "Av. Paulista, 2000 - Bela Vista, São Paulo - SP",
+        cliente: {
+          nome: "Ana Beatriz Costa"
+        }
+      },
+      motorista: {
+        nome: "Thiago Cardoso"
+      }
+    },
+    {
+      id: 3,
+      pedido: {
+        numero_pedido: "PED-2024-031",
+        endereco_cliente: "Rua das Palmeiras, 856 - Vila Mariana, São Paulo - SP",
+        cliente: {
+          nome: "Roberto Santos Lima"
+        }
+      },
+      motorista: {
+        nome: "Felipe Araújo"
+      }
+    },
+    {
+      id: 4,
+      pedido: {
+        numero_pedido: "PED-2024-034",
+        endereco_cliente: "Rua Oscar Freire, 1200 - Jardins, São Paulo - SP",
+        cliente: {
+          nome: "Marina Souza"
+        }
+      },
+      motorista: {
+        nome: "André Silva"
+      }
+    },
+    {
+      id: 5,
+      pedido: {
+        numero_pedido: "PED-2024-037",
+        endereco_cliente: "Av. Faria Lima, 3500 - Itaim Bibi, São Paulo - SP",
+        cliente: {
+          nome: "Paulo Henrique"
+        }
+      },
+      motorista: {
+        nome: "Carlos Mendes"
+      }
+    },
+    {
+      id: 6,
+      pedido: {
+        numero_pedido: "PED-2024-040",
+        endereco_cliente: "Rua da Consolação, 890 - Consolação, São Paulo - SP",
+        cliente: {
+          nome: "Beatriz Lima"
+        }
+      },
+      motorista: {
+        nome: "João Santos"
+      }
+    },
+    {
+      id: 7,
+      pedido: {
+        numero_pedido: "PED-2024-043",
+        endereco_cliente: "Av. Rebouças, 1500 - Pinheiros, São Paulo - SP",
+        cliente: {
+          nome: "Fernando Costa"
+        }
+      },
+      motorista: {
+        nome: "Pedro Oliveira"
+      }
+    },
+    {
+      id: 8,
+      pedido: {
+        numero_pedido: "PED-2024-046",
+        endereco_cliente: "Rua Haddock Lobo, 600 - Cerqueira César, São Paulo - SP",
+        cliente: {
+          nome: "Larissa Pereira"
+        }
+      },
+      motorista: {
+        nome: "Gustavo Rodrigues"
+      }
     }
   ])
 
@@ -94,6 +228,14 @@ export default function HomeAdm() {
     reclamacoes: 3,
     elogios: 28
   })
+
+  const handleOpenPendingModal = () => {
+    setPendingModalOpen(true)
+  }
+
+  const handleClosePendingModal = () => {
+    setPendingModalOpen(false)
+  }
 
   const handleOpenReportModal = () => {
     setReportModalOpen(true)
@@ -151,7 +293,7 @@ export default function HomeAdm() {
           <div className={styles.cardBody}>
             <p>Pedidos aguardando processamento e atribuição de motorista</p>
             <div className={styles.cardActions}>
-              <button className={styles.actionBtn}>Ver Detalhes</button>
+              <button className={styles.actionBtn} onClick={handleOpenPendingModal}>Ver Detalhes</button>
             </div>
           </div>
         </div>
@@ -200,6 +342,38 @@ export default function HomeAdm() {
       </div>
 
       <div className={styles.separator}></div>
+
+      {pendingModalOpen && (
+        <div className={styles.modalOverlay} onClick={handleClosePendingModal}>
+          <div className={styles.pendingModalContainer} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h2>Pedidos Pendentes ({pedidosPendentes.length})</h2>
+              <button className={styles.closeButton} onClick={handleClosePendingModal}>
+                <span>×</span>
+              </button>
+            </div>
+            
+            <div className={styles.modalContent}>
+              <div className={styles.pendingList}>
+                {pedidosPendentes.map((pedido) => (
+                  <div key={pedido.id} className={styles.pendingItem}>
+                    <div className={styles.pendingItemHeader}>
+                      <span className={styles.pedidoNumber}>{pedido.numero_pedido}</span>
+                      <span className={styles.statusBadge}>PENDENTE</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className={styles.modalFooter}>
+              <button className={styles.modalActionBtn} onClick={handleClosePendingModal}>
+                Fechar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {reportModalOpen && (
         <div className={styles.modalOverlay} onClick={handleCloseReportModal}>
@@ -307,108 +481,42 @@ export default function HomeAdm() {
               <button className={styles.modalActionBtn} onClick={handleCloseReportModal}>
                 Fechar
               </button>
-              <button className={styles.modalPrimaryBtn}>
-                Exportar Relatório
-              </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Modal de Rastreamento em Tempo Real */}
       {trackingModalOpen && (
         <div className={styles.modalOverlay} onClick={handleCloseTrackingModal}>
           <div className={styles.trackingModalContainer} onClick={(e) => e.stopPropagation()}>
             <div className={styles.modalHeader}>
-              <h2>Rastreamento em Tempo Real</h2>
+              <h2>Entregas em Andamento ({entregasEmRota.length})</h2>
               <button className={styles.closeButton} onClick={handleCloseTrackingModal}>
                 <span>×</span>
               </button>
             </div>
             
             <div className={styles.modalContent}>
-              <div className={styles.trackingHeader}>
-                <div className={styles.statusIndicator}>
-                  <span className={styles.liveIndicator}></span>
-                  <span className={styles.liveText}>Ao Vivo</span>
-                </div>
-                <div className={styles.lastUpdate}>
-                  Última atualização: {new Date().toLocaleTimeString('pt-BR')}
-                </div>
-              </div>
-
-              {/* Lista de Entregas em Andamento */}
               <div className={styles.trackingList}>
-                {trackingData.map((entrega, index) => (
-                  <div key={entrega.id} className={`${styles.trackingCard} ${index === 0 ? styles.priority : ''}`}>
-                    <div className={styles.trackingCardHeader}>
-                      <div className={styles.orderInfo}>
-                        <h3 className={styles.orderNumber}>{entrega.numeroPedido}</h3>
-                        <span className={styles.customerName}>{entrega.cliente}</span>
-                      </div>
-                      <div className={styles.statusBadge} data-status={entrega.status.toLowerCase().replace(' ', '-')}>
-                        {entrega.status}
-                      </div>
+                {entregasEmRota.map((entrega) => (
+                  <div key={entrega.id} className={styles.trackingItem}>
+                    <div className={styles.trackingItemHeader}>
+                      <span className={styles.pedidoNumber}>{entrega.pedido.numero_pedido}</span>
+                      <span className={styles.statusBadge}>EM ROTA</span>
                     </div>
-
-                    <div className={styles.progressSection}>
-                      <div className={styles.progressInfo}>
-                        <span className={styles.progressText}>
-                          {entrega.distanciaPercorrida} de {entrega.distanciaTotal}
-                        </span>
-                        <span className={styles.progressPercentage}>
-                          {entrega.percentualConcluido}%
-                        </span>
+                    <div className={styles.entregaInfo}>
+                      <div className={styles.infoRow}>
+                        <span className={styles.infoLabel}>Cliente (Recebedor):</span>
+                        <span className={styles.infoValue}>{entrega.pedido.cliente.nome}</span>
                       </div>
-                      <div className={styles.progressBar}>
-                        <div 
-                          className={styles.progressFill} 
-                          style={{width: `${entrega.percentualConcluido}%`}}
-                        ></div>
+                      <div className={styles.infoRow}>
+                        <span className={styles.infoLabel}>Destino:</span>
+                        <span className={styles.infoValue}>{entrega.pedido.endereco_cliente}</span>
                       </div>
-                    </div>
-
-                    <div className={styles.trackingDetails}>
-                      <div className={styles.routeInfo}>
-                        <div className={styles.locationItem}>
-                          <span className={styles.locationLabel}>Origem:</span>
-                          <span className={styles.locationValue}>{entrega.origem}</span>
-                        </div>
-                        <div className={styles.locationItem}>
-                          <span className={styles.locationLabel}>Destino:</span>
-                          <span className={styles.locationValue}>{entrega.destino}</span>
-                        </div>
+                      <div className={styles.infoRow}>
+                        <span className={styles.infoLabel}>Motorista:</span>
+                        <span className={styles.infoValue}>{entrega.motorista.nome}</span>
                       </div>
-
-                      <div className={styles.deliveryInfo}>
-                        <div className={styles.infoRow}>
-                          <div className={styles.infoItem}>
-                            <span className={styles.infoLabel}>Motorista:</span>
-                            <span className={styles.infoValue}>{entrega.motorista}</span>
-                          </div>
-                          <div className={styles.infoItem}>
-                            <span className={styles.infoLabel}>Veículo:</span>
-                            <span className={styles.infoValue}>{entrega.veiculo}</span>
-                          </div>
-                        </div>
-                        <div className={styles.infoRow}>
-                          <div className={styles.infoItem}>
-                            <span className={styles.infoLabel}>Velocidade:</span>
-                            <span className={styles.infoValue}>{entrega.velocidadeAtual}</span>
-                          </div>
-                          <div className={styles.infoItem}>
-                            <span className={styles.infoLabel}>Chegada Estimada:</span>
-                            <span className={styles.infoValue}>{entrega.horaEstimadaChegada}</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {entrega.observacoes && (
-                        <div className={styles.observationsBox}>
-                          <span className={styles.obsLabel}>Observações:</span>
-                          <span className={styles.obsText}>{entrega.observacoes}</span>
-                        </div>
-                      )}
                     </div>
                   </div>
                 ))}
@@ -418,9 +526,6 @@ export default function HomeAdm() {
             <div className={styles.modalFooter}>
               <button className={styles.modalActionBtn} onClick={handleCloseTrackingModal}>
                 Fechar
-              </button>
-              <button className={styles.modalPrimaryBtn}>
-                Atualizar Posições
               </button>
             </div>
           </div>
