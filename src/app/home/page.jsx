@@ -12,30 +12,103 @@ export default function HomeAdm() {
   })
 
   const [isLoaded, setIsLoaded] = useState(false)
-  const [modalOpen, setModalOpen] = useState(false)
+  const [reportModalOpen, setReportModalOpen] = useState(false)
+  const [trackingModalOpen, setTrackingModalOpen] = useState(false)
   
-  // Dados simulados da última entrega pendente
-  const [entregaDetalhes] = useState({
-    numeroPedido: "PED-2024-001",
-    cliente: "Maria Silva Santos",
-    endereco: "Rua das Flores, 456 - Jardim Primavera, São Paulo - SP",
-    cep: "04567-890",
-    telefone: "(11) 99876-5432",
-    horaSaida: "14:30",
-    horaEstimada: "16:15",
-    motorista: "João Carlos Pereira",
-    veiculo: "Fiat Ducato - Placa: ABC-1234",
-    valorTotal: "R$ 1.250,00",
-    observacoes: "Entrega no portão principal, tocar interfone apto 45",
-    status: "Aguardando coleta"
+  // Dados de rastreamento em tempo real
+  const [trackingData] = useState([
+    {
+      id: 1,
+      numeroPedido: "PED-2024-025",
+      cliente: "Carlos Eduardo Silva",
+      motorista: "Ricardo Gomes",
+      veiculo: "Mercedes Sprinter - ABC-5678",
+      origem: "Centro de Distribuição - Vila Olímpia",
+      destino: "Rua Augusta, 1250 - Cerqueira César, São Paulo - SP",
+      distanciaTotal: "12.5 km",
+      distanciaPercorrida: "8.2 km",
+      percentualConcluido: 66,
+      tempoEstimado: "18 min",
+      horaInicio: "15:20",
+      horaEstimadaChegada: "16:05",
+      velocidadeAtual: "35 km/h",
+      ultimaAtualizacao: "15:52",
+      status: "Em trânsito",
+      observacoes: "Trânsito normal na região"
+    },
+    {
+      id: 2,
+      numeroPedido: "PED-2024-028",
+      cliente: "Ana Beatriz Costa",
+      motorista: "Thiago Cardoso",
+      veiculo: "Fiat Ducato - XYZ-9012",
+      origem: "Centro de Distribuição - Mooca",
+      destino: "Av. Paulista, 2000 - Bela Vista, São Paulo - SP",
+      distanciaTotal: "15.3 km",
+      distanciaPercorrida: "11.8 km",
+      percentualConcluido: 77,
+      tempoEstimado: "12 min",
+      horaInicio: "14:45",
+      horaEstimadaChegada: "16:00",
+      velocidadeAtual: "42 km/h",
+      ultimaAtualizacao: "15:53",
+      status: "Próximo ao destino",
+      observacoes: "Cliente confirmou recebimento"
+    },
+    {
+      id: 3,
+      numeroPedido: "PED-2024-031",
+      cliente: "Roberto Santos Lima",
+      motorista: "Felipe Araújo",
+      veiculo: "Iveco Daily - DEF-3456",
+      origem: "Centro de Distribuição - Santo André",
+      destino: "Rua das Palmeiras, 856 - Vila Mariana, São Paulo - SP",
+      distanciaTotal: "22.1 km",
+      distanciaPercorrida: "6.5 km",
+      percentualConcluido: 29,
+      tempoEstimado: "35 min",
+      horaInicio: "15:35",
+      horaEstimadaChegada: "16:40",
+      velocidadeAtual: "28 km/h",
+      ultimaAtualizacao: "15:51",
+      status: "Trânsito lento",
+      observacoes: "Congestionamento na Marginal"
+    }
+  ])
+
+  const [relatorioData] = useState({
+    periodo: "Novembro 2024",
+    totalEntregas: 145,
+    entregasHoje: 12,
+    entregasOntem: 18,
+    entregasSemana: 89,
+    entregasMes: 145,
+    tempoMedioEntrega: "1h 45min",
+    taxaSucesso: "97.8%",
+    valorTotalEntregues: "R$ 186.450,00",
+    motoristaMaisAtivo: "João Carlos Pereira",
+    entregasMotoristaMaisAtivo: 23,
+    regiaoMaisAtendida: "Zona Sul - São Paulo",
+    entregasRegiao: 45,
+    avaliacaoMedia: "4.8/5.0",
+    reclamacoes: 3,
+    elogios: 28
   })
 
-  const handleOpenModal = () => {
-    setModalOpen(true)
+  const handleOpenReportModal = () => {
+    setReportModalOpen(true)
   }
 
-  const handleCloseModal = () => {
-    setModalOpen(false)
+  const handleCloseReportModal = () => {
+    setReportModalOpen(false)
+  }
+
+  const handleOpenTrackingModal = () => {
+    setTrackingModalOpen(true)
+  }
+
+  const handleCloseTrackingModal = () => {
+    setTrackingModalOpen(false)
   }
 
   useEffect(() => {
@@ -78,7 +151,7 @@ export default function HomeAdm() {
           <div className={styles.cardBody}>
             <p>Pedidos aguardando processamento e atribuição de motorista</p>
             <div className={styles.cardActions}>
-              <button className={styles.actionBtn} onClick={handleOpenModal}>Ver Detalhes</button>
+              <button className={styles.actionBtn}>Ver Detalhes</button>
             </div>
           </div>
         </div>
@@ -94,7 +167,7 @@ export default function HomeAdm() {
           <div className={styles.cardBody}>
             <p>Entregas em andamento pelos nossos motoristas</p>
             <div className={styles.cardActions}>
-              <button className={styles.actionBtn2}>Acompanhar</button>
+              <button className={styles.actionBtn2} onClick={handleOpenTrackingModal}>Acompanhar</button>
             </div>
           </div>
         </div>
@@ -110,7 +183,7 @@ export default function HomeAdm() {
           <div className={styles.cardBody}>
             <p>Entregas concluídas com sucesso</p>
             <div className={styles.cardActions}>
-              <button className={styles.actionBtn3}>Relatório</button>
+              <button className={styles.actionBtn3} onClick={handleOpenReportModal}>Relatório</button>
             </div>
           </div>
         </div>
@@ -128,96 +201,226 @@ export default function HomeAdm() {
 
       <div className={styles.separator}></div>
 
-      {modalOpen && (
-        <div className={styles.modalOverlay} onClick={handleCloseModal}>
-          <div className={styles.modalContainer} onClick={(e) => e.stopPropagation()}>
+      {reportModalOpen && (
+        <div className={styles.modalOverlay} onClick={handleCloseReportModal}>
+          <div className={styles.reportModalContainer} onClick={(e) => e.stopPropagation()}>
             <div className={styles.modalHeader}>
-              <h2>Detalhes da Entrega Pendente</h2>
-              <button className={styles.closeButton} onClick={handleCloseModal}>
+              <h2>Relatório de Entregas</h2>
+              <button className={styles.closeButton} onClick={handleCloseReportModal}>
                 <span>×</span>
               </button>
             </div>
             
             <div className={styles.modalContent}>
-              <div className={styles.modalSection}>
+              <div className={styles.reportSection}>
                 <div className={styles.sectionHeader}>
-                  <h3>Informações do Pedido</h3>
+                  <h3>Resumo do Período - {relatorioData.periodo}</h3>
                 </div>
-                <div className={styles.infoGrid}>
-                  <div className={styles.infoItem}>
-                    <span className={styles.infoLabel}>Número do Pedido:</span>
-                    <span className={styles.infoValue}>{entregaDetalhes.numeroPedido}</span>
+                <div className={styles.statsGrid}>
+                  <div className={styles.statCard}>
+                    <div className={styles.statNumber}>{relatorioData.totalEntregas}</div>
+                    <div className={styles.statLabel}>Total de Entregas</div>
                   </div>
-                  <div className={styles.infoItem}>
-                    <span className={styles.infoLabel}>Status:</span>
-                    <span className={`${styles.infoValue} ${styles.statusPending}`}>{entregaDetalhes.status}</span>
+                  <div className={styles.statCard}>
+                    <div className={styles.statNumber}>{relatorioData.entregasHoje}</div>
+                    <div className={styles.statLabel}>Entregas Hoje</div>
                   </div>
-                  <div className={styles.infoItem}>
-                    <span className={styles.infoLabel}>Valor Total:</span>
-                    <span className={styles.infoValue}>{entregaDetalhes.valorTotal}</span>
+                  <div className={styles.statCard}>
+                    <div className={styles.statNumber}>{relatorioData.entregasSemana}</div>
+                    <div className={styles.statLabel}>Esta Semana</div>
+                  </div>
+                  <div className={styles.statCard}>
+                    <div className={styles.statNumber}>{relatorioData.taxaSucesso}</div>
+                    <div className={styles.statLabel}>Taxa de Sucesso</div>
                   </div>
                 </div>
               </div>
 
-              <div className={styles.modalSection}>
+              <div className={styles.reportSection}>
                 <div className={styles.sectionHeader}>
-                  <h3>Cliente e Endereço</h3>
+                  <h3>Performance e Eficiência</h3>
                 </div>
                 <div className={styles.infoGrid}>
                   <div className={styles.infoItem}>
-                    <span className={styles.infoLabel}>Nome do Cliente:</span>
-                    <span className={styles.infoValue}>{entregaDetalhes.cliente}</span>
+                    <span className={styles.infoLabel}>Tempo Médio de Entrega:</span>
+                    <span className={styles.infoValue}>{relatorioData.tempoMedioEntrega}</span>
                   </div>
                   <div className={styles.infoItem}>
-                    <span className={styles.infoLabel}>Telefone:</span>
-                    <span className={styles.infoValue}>{entregaDetalhes.telefone}</span>
-                  </div>
-                  <div className={`${styles.infoItem} ${styles.fullWidth}`}>
-                    <span className={styles.infoLabel}>Endereço:</span>
-                    <span className={styles.infoValue}>{entregaDetalhes.endereco}</span>
+                    <span className={styles.infoLabel}>Valor Total Entregue:</span>
+                    <span className={`${styles.infoValue} ${styles.valueHighlight}`}>{relatorioData.valorTotalEntregues}</span>
                   </div>
                   <div className={styles.infoItem}>
-                    <span className={styles.infoLabel}>CEP:</span>
-                    <span className={styles.infoValue}>{entregaDetalhes.cep}</span>
+                    <span className={styles.infoLabel}>Avaliação Média:</span>
+                    <span className={`${styles.infoValue} ${styles.ratingHighlight}`}>{relatorioData.avaliacaoMedia}</span>
+                  </div>
+                  <div className={styles.infoItem}>
+                    <span className={styles.infoLabel}>Total de Reclamações:</span>
+                    <span className={styles.infoValue}>{relatorioData.reclamacoes}</span>
                   </div>
                 </div>
               </div>
 
-              <div className={styles.modalSection}>
+              <div className={styles.reportSection}>
                 <div className={styles.sectionHeader}>
-                  <h3>Logística e Horários</h3>
+                  <h3>Destaques do Período</h3>
                 </div>
                 <div className={styles.infoGrid}>
                   <div className={styles.infoItem}>
-                    <span className={styles.infoLabel}>Motorista:</span>
-                    <span className={styles.infoValue}>{entregaDetalhes.motorista}</span>
+                    <span className={styles.infoLabel}>Motorista Mais Ativo:</span>
+                    <span className={styles.infoValue}>{relatorioData.motoristaMaisAtivo}</span>
                   </div>
                   <div className={styles.infoItem}>
-                    <span className={styles.infoLabel}>Veículo:</span>
-                    <span className={styles.infoValue}>{entregaDetalhes.veiculo}</span>
+                    <span className={styles.infoLabel}>Entregas do Motorista:</span>
+                    <span className={styles.infoValue}>{relatorioData.entregasMotoristaMaisAtivo}</span>
                   </div>
                   <div className={styles.infoItem}>
-                    <span className={styles.infoLabel}>Hora de Saída:</span>
-                    <span className={styles.infoValue}>{entregaDetalhes.horaSaida}</span>
+                    <span className={styles.infoLabel}>Região Mais Atendida:</span>
+                    <span className={styles.infoValue}>{relatorioData.regiaoMaisAtendida}</span>
                   </div>
                   <div className={styles.infoItem}>
-                    <span className={styles.infoLabel}>Previsão de Chegada:</span>
-                    <span className={styles.infoValue}>{entregaDetalhes.horaEstimada}</span>
+                    <span className={styles.infoLabel}>Entregas na Região:</span>
+                    <span className={styles.infoValue}>{relatorioData.entregasRegiao}</span>
                   </div>
-                  <div className={`${styles.infoItem} ${styles.fullWidth}`}>
-                    <span className={styles.infoLabel}>Observações:</span>
-                    <span className={styles.infoValue}>{entregaDetalhes.observacoes}</span>
+                </div>
+              </div>
+
+              <div className={styles.reportSection}>
+                <div className={styles.sectionHeader}>
+                  <h3>Feedback dos Clientes</h3>
+                </div>
+                <div className={styles.feedbackGrid}>
+                  <div className={styles.feedbackCard}>
+                    <div className={styles.feedbackNumber}>{relatorioData.elogios}</div>
+                    <div className={styles.feedbackLabel}>Elogios Recebidos</div>
+                    <div className={styles.feedbackStatus}>Positivo</div>
+                  </div>
+                  <div className={styles.feedbackCard}>
+                    <div className={styles.feedbackNumber}>{relatorioData.reclamacoes}</div>
+                    <div className={styles.feedbackLabel}>Reclamações</div>
+                    <div className={styles.feedbackStatus}>Para Revisar</div>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className={styles.modalFooter}>
-              <button className={styles.modalActionBtn} onClick={handleCloseModal}>
+              <button className={styles.modalActionBtn} onClick={handleCloseReportModal}>
                 Fechar
               </button>
               <button className={styles.modalPrimaryBtn}>
-                Iniciar Entrega
+                Exportar Relatório
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Rastreamento em Tempo Real */}
+      {trackingModalOpen && (
+        <div className={styles.modalOverlay} onClick={handleCloseTrackingModal}>
+          <div className={styles.trackingModalContainer} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h2>Rastreamento em Tempo Real</h2>
+              <button className={styles.closeButton} onClick={handleCloseTrackingModal}>
+                <span>×</span>
+              </button>
+            </div>
+            
+            <div className={styles.modalContent}>
+              <div className={styles.trackingHeader}>
+                <div className={styles.statusIndicator}>
+                  <span className={styles.liveIndicator}></span>
+                  <span className={styles.liveText}>Ao Vivo</span>
+                </div>
+                <div className={styles.lastUpdate}>
+                  Última atualização: {new Date().toLocaleTimeString('pt-BR')}
+                </div>
+              </div>
+
+              {/* Lista de Entregas em Andamento */}
+              <div className={styles.trackingList}>
+                {trackingData.map((entrega, index) => (
+                  <div key={entrega.id} className={`${styles.trackingCard} ${index === 0 ? styles.priority : ''}`}>
+                    <div className={styles.trackingCardHeader}>
+                      <div className={styles.orderInfo}>
+                        <h3 className={styles.orderNumber}>{entrega.numeroPedido}</h3>
+                        <span className={styles.customerName}>{entrega.cliente}</span>
+                      </div>
+                      <div className={styles.statusBadge} data-status={entrega.status.toLowerCase().replace(' ', '-')}>
+                        {entrega.status}
+                      </div>
+                    </div>
+
+                    <div className={styles.progressSection}>
+                      <div className={styles.progressInfo}>
+                        <span className={styles.progressText}>
+                          {entrega.distanciaPercorrida} de {entrega.distanciaTotal}
+                        </span>
+                        <span className={styles.progressPercentage}>
+                          {entrega.percentualConcluido}%
+                        </span>
+                      </div>
+                      <div className={styles.progressBar}>
+                        <div 
+                          className={styles.progressFill} 
+                          style={{width: `${entrega.percentualConcluido}%`}}
+                        ></div>
+                      </div>
+                    </div>
+
+                    <div className={styles.trackingDetails}>
+                      <div className={styles.routeInfo}>
+                        <div className={styles.locationItem}>
+                          <span className={styles.locationLabel}>Origem:</span>
+                          <span className={styles.locationValue}>{entrega.origem}</span>
+                        </div>
+                        <div className={styles.locationItem}>
+                          <span className={styles.locationLabel}>Destino:</span>
+                          <span className={styles.locationValue}>{entrega.destino}</span>
+                        </div>
+                      </div>
+
+                      <div className={styles.deliveryInfo}>
+                        <div className={styles.infoRow}>
+                          <div className={styles.infoItem}>
+                            <span className={styles.infoLabel}>Motorista:</span>
+                            <span className={styles.infoValue}>{entrega.motorista}</span>
+                          </div>
+                          <div className={styles.infoItem}>
+                            <span className={styles.infoLabel}>Veículo:</span>
+                            <span className={styles.infoValue}>{entrega.veiculo}</span>
+                          </div>
+                        </div>
+                        <div className={styles.infoRow}>
+                          <div className={styles.infoItem}>
+                            <span className={styles.infoLabel}>Velocidade:</span>
+                            <span className={styles.infoValue}>{entrega.velocidadeAtual}</span>
+                          </div>
+                          <div className={styles.infoItem}>
+                            <span className={styles.infoLabel}>Chegada Estimada:</span>
+                            <span className={styles.infoValue}>{entrega.horaEstimadaChegada}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {entrega.observacoes && (
+                        <div className={styles.observationsBox}>
+                          <span className={styles.obsLabel}>Observações:</span>
+                          <span className={styles.obsText}>{entrega.observacoes}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className={styles.modalFooter}>
+              <button className={styles.modalActionBtn} onClick={handleCloseTrackingModal}>
+                Fechar
+              </button>
+              <button className={styles.modalPrimaryBtn}>
+                Atualizar Posições
               </button>
             </div>
           </div>
