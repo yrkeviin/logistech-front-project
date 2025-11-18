@@ -26,12 +26,10 @@
   display: flex;
   gap: 1rem;
   margin-bottom: 2rem;
-  flex-wrap: wrap;
 }
 
 .searchInput {
   flex: 1;
-  min-width: 250px;
   padding: 0.75rem 1rem;
   border: none;
   border-radius: 8px;
@@ -41,22 +39,6 @@
 }
 
 .searchInput:focus {
-  outline: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.filterSelect {
-  padding: 0.75rem 1rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  background: white;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  min-width: 180px;
-}
-
-.filterSelect:focus {
   outline: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
@@ -191,29 +173,6 @@
   box-shadow: 0 4px 12px rgba(107, 114, 128, 0.4);
 }
 
-.statusBadge {
-  padding: 0.4rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  display: inline-block;
-}
-
-.statusPENDENTE {
-  background: #fef3c7;
-  color: #92400e;
-}
-
-.statusEM_ROTA {
-  background: #dbeafe;
-  color: #1e40af;
-}
-
-.statusENTREGUE {
-  background: #d1fae5;
-  color: #065f46;
-}
-
 .loading {
   text-align: center;
   padding: 3rem;
@@ -314,8 +273,7 @@
 }
 
 .formGroup input,
-.formGroup select,
-.formGroup textarea {
+.formGroup select {
   width: 100%;
   padding: 0.75rem;
   border: 2px solid #e5e7eb;
@@ -326,21 +284,10 @@
 }
 
 .formGroup input:focus,
-.formGroup select:focus,
-.formGroup textarea:focus {
+.formGroup select:focus {
   outline: none;
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-.formGroup select {
-  cursor: pointer;
-}
-
-.formGroup input:disabled,
-.formGroup select:disabled {
-  background: #f3f4f6;
-  cursor: not-allowed;
 }
 
 .modalActions {
@@ -378,20 +325,47 @@
   font-weight: 600;
 }
 
+.itemCard {
+  background: white;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+  border: 1px solid #e5e7eb;
+}
+
+.itemCard p {
+  margin: 0.25rem 0;
+  font-size: 0.875rem;
+}
+
+.statusBadge {
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.statusPENDENTE {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.statusEM_ROTA {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.statusENTREGUE {
+  background: #d1fae5;
+  color: #065f46;
+}
+
 @media (max-width: 768px) {
   .header {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
-  }
-
-  .filters {
-    flex-direction: column;
-  }
-
-  .searchInput,
-  .filterSelect {
-    width: 100%;
   }
 
   .table {

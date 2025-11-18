@@ -20,5 +20,8 @@
   "devDependencies": {
     "babel-plugin-react-compiler": "^1.0.0",
     "prisma": "^6.19.0"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }

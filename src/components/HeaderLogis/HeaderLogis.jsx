@@ -9,9 +9,9 @@ export default function HeaderLogis() {
         <h1>LOGISTECH</h1>
 
         <ul>
-            <li><a href="">Entregas</a></li>
-            <li><a href="">Informações</a></li>
-            <li><a href="">Usuário</a></li>
+            <li><a href="/entregas">Entregas</a></li>
+            <li><a href="/informacoes">Informações</a></li>
+            <li><a href="/estoque">Estoque</a></li>
         </ul>
     </div>
   )
