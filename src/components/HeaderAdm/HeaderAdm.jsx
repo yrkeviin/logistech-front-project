@@ -9,9 +9,11 @@ export default function HeaderAdm() {
         <h1>LOGISTECH</h1>
 
         <ul>
-            <li><a href="">Dashboard</a></li>
-            <li><a href="">Gestão</a></li>
-            <li><a href="">Usuário</a></li>
+            <li><a href="/home">Dashboard</a></li>
+            <li><a href="/entregas">Entregas</a></li>
+            <li><a href="/motoristas">Motoristas</a></li>
+            <li><a href="/estoque">Estoque</a></li>
+            <li><a href="/user">Usuários</a></li>
         </ul>
     </div>
   )
