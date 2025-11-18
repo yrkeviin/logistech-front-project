@@ -95,13 +95,13 @@ export default function LoginPage() {
                 value="ADMIN" 
                 className={styles.userTypeButton}
               >
-                👔 Admin
+                Admin
               </Radio.Button>
               <Radio.Button 
                 value="MOTORISTA" 
                 className={styles.userTypeButton}
               >
-                🚚 Motorista
+                Motorista
               </Radio.Button>
             </Radio.Group>
           </Form.Item>
@@ -133,7 +133,7 @@ export default function LoginPage() {
               loading={carregando}
               className={`${styles.submitButton} ${tipoUsuario === 'MOTORISTA' ? styles.submitButtonMotorista : styles.submitButtonAdmin}`}
             >
-              {tipoUsuario === 'MOTORISTA' ? '🚚 Entrar como Motorista' : '👔 Entrar como Admin'}
+              {tipoUsuario === 'MOTORISTA' ? 'Entrar como Motorista' : 'Entrar como Admin'}
             </Button>
           </Form.Item>
         </Form>
