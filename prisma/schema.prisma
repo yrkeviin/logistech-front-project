@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum FuncaoUsuario {
+  ADMIN
+  MOTORISTA
+}
+
+enum StatusPedido {
+  PENDENTE
+  EM_ROTA
+  ENTREGUE
+  CANCELADO
+}
+
+enum StatusEntrega {
+  PENDENTE
+  EM_ROTA
+  ENTREGUE
+}
+
+model Usuario {
+  id        Int           @id @default(autoincrement())
+  nome      String        @db.VarChar(100)
+  email     String        @unique @db.VarChar(150)
+  telefone  String        @unique @db.VarChar(20)
+  senha     String
+  funcao    FuncaoUsuario
+  criado_em DateTime      @default(now())
+
+  veiculos        Veiculo[] @relation("MotoristaVeiculos")
+  pedidos_cliente Pedido[]  @relation("ClientePedidos")
+  entregas        Entrega[] @relation("MotoristaEntregas")
+
+  @@map("usuarios")
+}
+
+model Veiculo {
+  id           Int     @id @default(autoincrement())
+  motorista_id Int?
+  placa        String  @unique @db.VarChar(10)
+  modelo       String? @db.VarChar(50)
+  marca        String? @db.VarChar(50)
+  ano          Int?
+
+  motorista Usuario?  @relation("MotoristaVeiculos", fields: [motorista_id], references: [id])
+  entregas  Entrega[]
+
+  @@map("veiculos")
+}
+
+model Pedido {
+  id               Int          @id @default(autoincrement())
+  numero_pedido    String       @unique @db.VarChar(50)
+  cliente_id       Int
+  valor_total      Decimal?     @db.Decimal(10, 2)
+  endereco_cliente String?
+  status           StatusPedido @default(PENDENTE)
+  criado_em        DateTime     @default(now())
+  atualizado_em    DateTime     @default(now()) @updatedAt
+
+  cliente  Usuario   @relation("ClientePedidos", fields: [cliente_id], references: [id])
+  entregas Entrega[]
+
+  @@map("pedidos")
+}
+
+model Entrega {
+  id           Int           @id @default(autoincrement())
+  pedido_id    Int
+  motorista_id Int
+  veiculo_id   Int
+  comprovante  String
+  status       StatusEntrega @default(PENDENTE)
+  atribuido_em DateTime
+  entregue_em  DateTime
+
+  pedido    Pedido  @relation(fields: [pedido_id], references: [id])
+  motorista Usuario @relation("MotoristaEntregas", fields: [motorista_id], references: [id])
+  veiculo   Veiculo @relation(fields: [veiculo_id], references: [id])
+
+  @@map("entregas")
+}

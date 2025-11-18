@@ -1,0 +1,39 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: #252E43;
+    height: 200vh;
+}
+
+.title {
+    color: white;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: 5% 0 0 5%;
+    cursor: default;
+    font-size: 1.5rem;
+}
+
+.cards {
+    display: flex;
+    gap: 3rem;
+    justify-content: center;
+    margin-top: 1rem;
+    cursor: default;
+}
+
+.slogan {
+    margin-left: 3rem;
+}
+
+.slogan span {
+    color: #FF3A18;
+}
+
+.slogan p {
+    font-size: 2rem;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    width: 26%;
+}

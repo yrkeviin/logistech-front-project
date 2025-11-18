@@ -1,0 +1,110 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: #252E43;
+    height: 200vh;
+}
+
+.dashboard {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.quadrados {
+    padding: 2rem;
+}
+
+.quadrados1, .quadrados2 {
+    display: flex;
+    padding: 0;
+    margin: .3rem;
+    gap: .3rem;
+}
+
+.quadrado {
+    width: .7rem;
+    height: .7rem;
+    background-color: #D9D9D9;
+    transition: .3s ease-in-out;
+}
+
+.quadrado:hover {
+    width: .9rem;
+    height: .9rem;
+    transition: .3s ease-in-out;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.dash {
+    display: flex;
+    gap: 5%;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardStatus {
+    background-color: #393B43;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;
+}
+
+.banner {
+    background-image: linear-gradient(rgba(255, 238, 0, 0.55), rgba(255, 255, 255, 0.55)), url('/image/amareloBanner.png');
+    border-radius: 15px 15px 0 0;
+    background-position: center;
+    width: 100%;
+    height: 12vh;
+    padding: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.banner2 {
+    background-image: linear-gradient(rgba(0, 140, 255, 0.55), rgba(255, 255, 255, 0.55)), url('/image/azulBanner.png');
+    border-radius: 15px 15px 0 0;
+    background-position: center;
+    width: 100%;
+    height: 12vh;
+    padding: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.banner3 {
+    background-image: linear-gradient(rgba(0, 255, 21, 0.55), rgba(255, 255, 255, 0.55)), url('/image/verdeBanner.png');
+    border-radius: 15px 15px 0 0;
+    background-position: center;
+    width: 100%;
+    height: 12vh;
+    padding: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.cardStatus h1 {
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif ;
+    color: rgb(0, 0, 0);
+}
+
+.cardStatus p {
+    padding: 15px;
+    font-size: 91.5%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white;
+    text-align: justify;
+    margin-bottom: 50%;
+}
+
+.separator {
+    width: 90%;
+    height: 1px;
+    background-color: #D9D9D9;
+    display: flex;
+    margin: 5% auto;
+}

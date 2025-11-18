@@ -1,0 +1,51 @@
+.header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: white;
+    height: 9vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+.header .logo {
+    width: 3.2%;
+    margin: 0 1.5rem;
+}
+
+.header .logo img {
+    width: 100%;
+}
+
+.header h1 {
+    transition: .4s ease-in-out;
+    font-size: 1.5rem;
+}
+
+.header h1:hover {
+    color: #FF3A18;
+    transition: .3s ease-in-out;
+    cursor: pointer;
+}
+
+.header ul {
+    display: flex;
+    list-style: none;
+    gap: 4rem;
+    margin-right: 5rem;
+    margin-left: auto;
+    font-size: .88rem;
+}
+
+.header ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    transition: .4s ease-in-out;
+    border-bottom: 1.5px solid transparent;
+}
+
+.header ul li a:hover {
+    color: #FF3A18;
+    transition: .3s ease-in-out;
+    border-bottom: 1.5px solid #FF3A18;
+}
