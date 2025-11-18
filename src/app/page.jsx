@@ -4,6 +4,7 @@ import { Form, Input, Button, Alert, Radio } from 'antd';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import axios from 'axios';
+import styles from './page.module.css';
 
 export default function LoginPage() {
   const [erro, setErro] = useState(null);
@@ -17,7 +18,6 @@ export default function LoginPage() {
 
     try {
       if (tipoUsuario === 'MOTORISTA') {
-        // Login do motorista
         const res = await fetch('/api/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -43,7 +43,6 @@ export default function LoginPage() {
 
         router.push('/minhas-entregas');
       } else {
-        // Login do admin
         const { data } = await axios.post('/api/login', values);
         
         if (data.usuario.funcao !== 'ADMIN') {
@@ -61,25 +60,15 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      justifyContent: 'center', 
-      alignItems: 'center', 
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      padding: '20px'
-    }}>
-      <div style={{ 
-        background: 'white',
-        padding: '40px',
-        borderRadius: '16px',
-        boxShadow: '0 10px 40px rgba(0,0,0,0.2)',
-        width: '100%',
-        maxWidth: '400px'
-      }}>
-        <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-          <h1 style={{ color: '#667eea', marginBottom: '10px' }}>🏢 LOGISTECH</h1>
-          <p style={{ color: '#718096', margin: 0 }}>Sistema de Entregas</p>
+    <div className={styles.loginContainer}>
+      <div className={styles.loginCard}>
+        <div className={styles.loginHeader}>
+          <div className={styles.logoContainer}>
+            <img src="/image/logoPrin.png" alt="LogisTech Logo" />
+
+            <h1 className={styles.loginTitle}>LOGISTECH</h1>
+          </div>
+          <p className={styles.loginSubtitle}>Sistema de Entregas</p>
         </div>
 
         {erro && (
@@ -87,45 +76,30 @@ export default function LoginPage() {
             message="Erro"
             description={erro}
             type="error"
-            style={{ marginBottom: '20px' }}
+            className={styles.errorAlert}
           />
         )}
 
         <Form onFinish={onFinish} layout="vertical" initialValues={{ tipoUsuario: 'ADMIN' }}>
           <Form.Item
-            label="Tipo de Usuário"
             name="tipoUsuario"
-            style={{ marginBottom: '20px' }}
+            className={styles.formItem}
           >
             <Radio.Group 
               onChange={(e) => setTipoUsuario(e.target.value)} 
               value={tipoUsuario}
               buttonStyle="solid"
-              style={{ width: '100%', display: 'flex' }}
+              className={styles.userTypeGroup}
             >
               <Radio.Button 
                 value="ADMIN" 
-                style={{ 
-                  flex: 1, 
-                  textAlign: 'center',
-                  height: '45px',
-                  lineHeight: '45px',
-                  fontSize: '16px',
-                  fontWeight: '600'
-                }}
+                className={styles.userTypeButton}
               >
                 👔 Admin
               </Radio.Button>
               <Radio.Button 
                 value="MOTORISTA" 
-                style={{ 
-                  flex: 1, 
-                  textAlign: 'center',
-                  height: '45px',
-                  lineHeight: '45px',
-                  fontSize: '16px',
-                  fontWeight: '600'
-                }}
+                className={styles.userTypeButton}
               >
                 🚚 Motorista
               </Radio.Button>
@@ -133,20 +107,21 @@ export default function LoginPage() {
           </Form.Item>
 
           <Form.Item
-            label="Email"
+            className={styles.formItem}
             name="email"
             rules={[
               { required: true, message: 'Digite seu email!' },
               { type: 'email', message: 'Digite um email válido!' }
             ]}>
-            <Input size="large" placeholder="exemplo@logistech.com" />
+            <input type="text" placeholder='Email@logistech.com' />
           </Form.Item>
 
           <Form.Item
-            label="Senha"
+          className={styles.formItem}
             name="senha"
             rules={[{ required: true, message: 'Digite sua senha!' }]}>
-            <Input.Password size="large" />
+            <input type="password" placeholder='Senha'
+          />
           </Form.Item>
 
           <Form.Item>
@@ -156,15 +131,7 @@ export default function LoginPage() {
               block 
               size="large"
               loading={carregando}
-              style={{ 
-                background: tipoUsuario === 'MOTORISTA' 
-                  ? 'linear-gradient(135deg, #48bb78 0%, #38a169 100%)'
-                  : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                border: 'none',
-                height: '45px',
-                fontSize: '16px',
-                fontWeight: '600'
-              }}
+              className={`${styles.submitButton} ${tipoUsuario === 'MOTORISTA' ? styles.submitButtonMotorista : styles.submitButtonAdmin}`}
             >
               {tipoUsuario === 'MOTORISTA' ? '🚚 Entrar como Motorista' : '👔 Entrar como Admin'}
             </Button>
