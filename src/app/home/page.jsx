@@ -5,15 +5,34 @@ import styles from './page.module.css'
 
 export default function HomeAdm() {
   const [stats, setStats] = useState({
-    pendentes: 12,
-    emRota: 8,
-    entregues: 145,
-    totalPedidos: 165
+    pendentes: 0,
+    emRota: 0,
+    entregues: 0,
+    totalPedidos: 0
   })
 
   const [isLoaded, setIsLoaded] = useState(false)
   const [reportModalOpen, setReportModalOpen] = useState(false)
   const [trackingModalOpen, setTrackingModalOpen] = useState(false)
+
+  // Função para buscar estatísticas
+  const fetchStats = async () => {
+    try {
+      const response = await fetch('/api/usuarios/estatisticas')
+      const data = await response.json()
+      
+      if (response.ok) {
+        setStats({
+          pendentes: data.entregas_por_status?.pendente || 0,
+          emRota: data.entregas_por_status?.em_rota || 0,
+          entregues: data.entregas_por_status?.entregue || 0,
+          totalPedidos: data.sistema?.pedidos || 0
+        })
+      }
+    } catch (error) {
+      console.error('Erro ao buscar estatísticas:', error)
+    }
+  }
   
   // Dados de rastreamento em tempo real
   const [trackingData] = useState([
@@ -113,6 +132,12 @@ export default function HomeAdm() {
 
   useEffect(() => {
     setIsLoaded(true)
+    fetchStats()
+    
+    // Atualizar estatísticas a cada 30 segundos
+    const interval = setInterval(fetchStats, 30000)
+    
+    return () => clearInterval(interval)
   }, [])
 
   return (

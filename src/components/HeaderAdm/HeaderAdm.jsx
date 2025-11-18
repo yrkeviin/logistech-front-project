@@ -12,7 +12,6 @@ export default function HeaderAdm() {
             <li><a href="/home">Dashboard</a></li>
             <li><a href="/entregas">Entregas</a></li>
             <li><a href="/motoristas">Motoristas</a></li>
-            <li><a href="/estoque">Estoque</a></li>
             <li><a href="/user">Usuários</a></li>
         </ul>
     </div>

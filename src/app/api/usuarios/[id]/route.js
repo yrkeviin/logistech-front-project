@@ -5,8 +5,9 @@ import bcrypt from 'bcryptjs';
 const prisma = new PrismaClient();
 
 // GET - Buscar usuário por ID
-export async function GET(request, { params }) {
+export async function GET(request, context) {
   try {
+    const params = await context.params;
     const id = parseInt(params.id);
 
     if (isNaN(id)) {
@@ -16,7 +17,7 @@ export async function GET(request, { params }) {
       );
     }
 
-    const usuario = await prisma.usuarios.findUnique({
+    const usuario = await prisma.usuario.findUnique({
       where: { id },
       select: {
         id: true,
@@ -25,11 +26,20 @@ export async function GET(request, { params }) {
         telefone: true,
         funcao: true,
         criado_em: true,
+        _count: {
+          select: {
+            veiculos: true,
+            pedidos_cliente: true,
+            entregas: true
+          }
+        },
         veiculos: {
           select: {
             id: true,
             placa: true,
+            marca: true,
             modelo: true,
+            ano: true,
             capacidade_kg: true,
             disponivel: true
           }
@@ -94,8 +104,9 @@ export async function GET(request, { params }) {
 }
 
 // PUT - Atualizar usuário
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
   try {
+    const params = await context.params;
     const id = parseInt(params.id);
 
     if (isNaN(id)) {
@@ -240,8 +251,9 @@ export async function PUT(request, { params }) {
 }
 
 // DELETE - Deletar usuário
-export async function DELETE(request, { params }) {
+export async function DELETE(request, context) {
   try {
+    const params = await context.params;
     const id = parseInt(params.id);
 
     if (isNaN(id)) {
