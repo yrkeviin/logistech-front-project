@@ -5,12 +5,14 @@ Sistema completo de gestão de entregas e logística desenvolvido com Next.js, P
 ## 📋 Funcionalidades Implementadas
 
 ### 🔐 Sistema de Autenticação
+
 - **Login de Administrador** (`/`) - Acesso ao painel administrativo
 - **Login de Motorista** (`/login-motorista`) - Acesso ao portal do entregador
 
 ### 👨‍💼 Painel Administrativo
 
 #### Gestão de Usuários (`/user`)
+
 - ✅ Listar todos os usuários (Admin e Motoristas)
 - ✅ Criar novo usuário com validação
 - ✅ Editar usuário existente
@@ -20,6 +22,7 @@ Sistema completo de gestão de entregas e logística desenvolvido com Next.js, P
 - ✅ Busca por nome, email ou telefone
 
 #### Gestão de Motoristas (`/motoristas`)
+
 - ✅ CRUD completo de motoristas
 - ✅ Visualização de veículos vinculados
 - ✅ Visualização de entregas do motorista
@@ -27,6 +30,7 @@ Sistema completo de gestão de entregas e logística desenvolvido com Next.js, P
 - ✅ Busca e filtros
 
 #### Gestão de Entregas (`/entregas`)
+
 - ✅ Listar todas as entregas com filtros
 - ✅ **Atribuir entrega a motorista** (modal completo)
 - ✅ Editar entrega (motorista, veículo, status)
@@ -37,12 +41,14 @@ Sistema completo de gestão de entregas e logística desenvolvido com Next.js, P
 - ✅ Busca por pedido, cliente, motorista ou placa
 
 #### Dashboard Principal (`/home`)
+
 - ✅ Estatísticas gerais do sistema
 - ✅ Gráficos e métricas
 
 ### 🚛 Portal do Motorista
 
 #### Minhas Entregas (`/minhas-entregas`)
+
 - ✅ Listagem de todas as entregas do motorista
 - ✅ Entregas ordenadas por prioridade (PENDENTE → EM_ROTA → ENTREGUE)
 - ✅ Estatísticas em tempo real:
@@ -53,6 +59,7 @@ Sistema completo de gestão de entregas e logística desenvolvido com Next.js, P
 - ✅ Design responsivo e intuitivo
 
 #### Detalhes da Entrega (`/entrega/[id]`)
+
 - ✅ Informações completas do cliente (nome, telefone, email)
 - ✅ Detalhes do pedido (número, valor, endereço)
 - ✅ Link para Google Maps (abrir navegação GPS)
@@ -96,6 +103,7 @@ src/
 ## 🎨 Design e UI
 
 ### Painel Administrativo
+
 - Gradiente roxo moderno (#667eea → #764ba2)
 - Cards com sombras e animações
 - Modais com backdrop blur
@@ -104,6 +112,7 @@ src/
 - Botões com hover effects
 
 ### Portal do Motorista
+
 - Gradiente escuro (#2c3e50 → #34495e)
 - Cards de estatísticas com ícones
 - Layout otimizado para mobile
@@ -113,6 +122,7 @@ src/
 ## 🔌 API Endpoints
 
 ### Entregas (`/api/entregas`)
+
 - `GET` - Listar entregas (filtros: status, motorista_id, data)
 - `POST` - Criar nova entrega
 - `GET /:id` - Buscar entrega específica
@@ -120,6 +130,7 @@ src/
 - `DELETE /:id` - Deletar entrega
 
 ### Usuários (`/api/usuarios`)
+
 - `GET` - Listar usuários (filtro: funcao)
 - `POST` - Criar usuário
 - `GET /:id` - Buscar usuário (com relações)
@@ -127,6 +138,7 @@ src/
 - `DELETE /:id` - Deletar usuário
 
 ### Pedidos (`/api/pedidos`)
+
 - `GET` - Listar pedidos (filtros: status, cliente_id)
 - `POST` - Criar pedido
 - `GET /:id` - Buscar pedido
@@ -134,17 +146,20 @@ src/
 - `DELETE /:id` - Deletar pedido
 
 ### Login (`/api/login`)
+
 - `POST` - Autenticar usuário (email + senha)
 
 ## 🗄️ Banco de Dados
 
 ### Modelos Principais
+
 - **Usuario** - Usuários do sistema (ADMIN/MOTORISTA)
 - **Veiculo** - Veículos dos motoristas
 - **Pedido** - Pedidos dos clientes
 - **Entrega** - Entregas atribuídas aos motoristas
 
 ### Relações
+
 - Usuario (MOTORISTA) → Veiculo (1:N)
 - Usuario (MOTORISTA) → Entrega (1:N)
 - Usuario (ADMIN/cliente) → Pedido (1:N)
@@ -154,27 +169,33 @@ src/
 ## 🚀 Como Executar
 
 ### 1. Instalar Dependências
+
 ```bash
 npm install
 ```
 
 ### 2. Configurar Banco de Dados
+
 Arquivo `.env`:
+
 ```env
 DATABASE_URL="postgresql://postgres:postgres@localhost:7777/logistech_db"
 ```
 
 ### 3. Executar Migrations
+
 ```bash
 npx prisma migrate dev
 ```
 
 ### 4. Popular Banco de Dados
+
 ```bash
 npx prisma db seed
 ```
 
 ### 5. Iniciar Servidor
+
 ```bash
 npm run dev
 ```
@@ -182,10 +203,12 @@ npm run dev
 ## 👥 Usuários de Teste
 
 ### Administradores
+
 - **Email:** anasilva1@logistech.com
 - **Senha:** 123456
 
 ### Motoristas
+
 - **Email:** joao.santos@logistech.com
 - **Senha:** 123456
 

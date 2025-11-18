@@ -6,10 +6,11 @@ const prisma = new PrismaClient();
 // GET - Buscar entrega por ID
 export async function GET(request, { params }) {
   try {
-    const id = parseInt(params.id);
+    const { id } = await params;
+    console.log('GET /api/entregas/[id] - Buscando entrega ID:', id);
 
     const entrega = await prisma.entrega.findUnique({
-      where: { id },
+      where: { id: parseInt(id) },
       include: {
         motorista: {
           select: {
@@ -25,7 +26,8 @@ export async function GET(request, { params }) {
             placa: true,
             modelo: true,
             marca: true,
-            ano: true
+            ano: true,
+            capacidade_kg: true
           }
         },
         pedido: {
@@ -43,6 +45,8 @@ export async function GET(request, { params }) {
       }
     });
 
+    console.log('Entrega encontrada:', entrega ? 'Sim' : 'Não');
+
     if (!entrega) {
       return NextResponse.json(
         { error: 'Entrega não encontrada' },
@@ -50,11 +54,19 @@ export async function GET(request, { params }) {
       );
     }
 
+    console.log('Retornando entrega com relações:', {
+      id: entrega.id,
+      temMotorista: !!entrega.motorista,
+      temVeiculo: !!entrega.veiculo,
+      temPedido: !!entrega.pedido,
+      temCliente: !!entrega.pedido?.cliente
+    });
+
     return NextResponse.json(entrega);
   } catch (error) {
     console.error('Erro ao buscar entrega:', error);
     return NextResponse.json(
-      { error: 'Erro ao buscar entrega' },
+      { error: 'Erro ao buscar entrega', details: error.message },
       { status: 500 }
     );
   }
@@ -63,14 +75,19 @@ export async function GET(request, { params }) {
 // PUT - Atualizar entrega
 export async function PUT(request, { params }) {
   try {
-    const id = parseInt(params.id);
+    const { id } = await params;
     const body = await request.json();
     const { motorista_id, veiculo_id, comprovante, status } = body;
 
+    console.log('PUT /api/entregas/[id] - ID:', id);
+    console.log('Body recebido:', body);
+
     // Verificar se entrega existe
     const entregaExistente = await prisma.entrega.findUnique({
-      where: { id }
+      where: { id: parseInt(id) }
     });
+
+    console.log('Entrega existente:', entregaExistente);
 
     if (!entregaExistente) {
       return NextResponse.json(
@@ -135,8 +152,10 @@ export async function PUT(request, { params }) {
       }
     }
 
+    console.log('Dados para atualizar:', dataToUpdate);
+
     const entrega = await prisma.entrega.update({
-      where: { id },
+      where: { id: parseInt(id) },
       data: dataToUpdate,
       include: {
         motorista: {
@@ -183,11 +202,11 @@ export async function PUT(request, { params }) {
 // DELETE - Deletar entrega
 export async function DELETE(request, { params }) {
   try {
-    const id = parseInt(params.id);
+    const { id } = await params;
 
     // Verificar se entrega existe
     const entregaExistente = await prisma.entrega.findUnique({
-      where: { id }
+      where: { id: parseInt(id) }
     });
 
     if (!entregaExistente) {
@@ -198,7 +217,7 @@ export async function DELETE(request, { params }) {
     }
 
     await prisma.entrega.delete({
-      where: { id }
+      where: { id: parseInt(id) }
     });
 
     return NextResponse.json({ message: 'Entrega deletada com sucesso' });

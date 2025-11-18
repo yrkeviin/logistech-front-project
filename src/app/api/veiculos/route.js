@@ -10,7 +10,7 @@ export async function GET(request) {
 
     const where = motoristaId ? { motorista_id: parseInt(motoristaId) } : {};
 
-    const veiculos = await prisma.veiculos.findMany({
+    const veiculos = await prisma.veiculo.findMany({
       where,
       include: {
         motorista: {

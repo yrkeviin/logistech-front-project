@@ -64,12 +64,21 @@ export default function Motoristas() {
 
   const handleView = async (id) => {
     try {
+      console.log('Buscando motorista ID:', id);
       const response = await fetch(`/api/usuarios/${id}`);
+      
+      if (!response.ok) {
+        throw new Error('Erro ao buscar motorista');
+      }
+      
       const data = await response.json();
+      console.log('Dados do motorista:', data);
+      
       setSelectedMotorista(data);
       setShowViewModal(true);
     } catch (error) {
       console.error('Erro ao buscar detalhes:', error);
+      alert('Erro ao carregar detalhes do motorista');
     }
   };
 
@@ -240,7 +249,7 @@ export default function Motoristas() {
         <div className={styles.modalOverlay} onClick={() => setShowCreateModal(false)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
             <button className={styles.closeBtn} onClick={() => setShowCreateModal(false)}>×</button>
-            <h2>Novo Motorista</h2>
+            <h2>Criar Novo Motorista</h2>
             <form onSubmit={handleSubmitCreate}>
               <div className={styles.formGroup}>
                 <label>Nome *</label>
@@ -291,7 +300,7 @@ export default function Motoristas() {
                   Cancelar
                 </button>
                 <button type="submit" className={styles.btnPrimary}>
-                  Criar
+                  Criar Motorista
                 </button>
               </div>
             </form>
@@ -351,7 +360,7 @@ export default function Motoristas() {
                   Cancelar
                 </button>
                 <button type="submit" className={styles.btnPrimary}>
-                  Salvar
+                  Salvar Alterações
                 </button>
               </div>
             </form>
@@ -364,39 +373,55 @@ export default function Motoristas() {
         <div className={styles.modalOverlay} onClick={() => setShowViewModal(false)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
             <button className={styles.closeBtn} onClick={() => setShowViewModal(false)}>×</button>
-            <h2>Detalhes do Motorista</h2>
+            <h2>Detalhes do Motorista #{selectedMotorista.id || 'N/A'}</h2>
+
+            {/* Debug - Dados completos */}
+            <div style={{background: '#f0f0f0', padding: '1rem', borderRadius: '8px', marginBottom: '1rem', fontSize: '0.8rem'}}>
+              <strong>DEBUG - Dados recebidos:</strong>
+              <pre style={{maxHeight: '200px', overflow: 'auto'}}>
+                {JSON.stringify(selectedMotorista, null, 2)}
+              </pre>
+            </div>
 
             <div className={styles.viewSection}>
               <h3>Informações Pessoais</h3>
-              <p><strong>ID:</strong> #{selectedMotorista.id}</p>
-              <p><strong>Nome:</strong> {selectedMotorista.nome}</p>
-              <p><strong>Email:</strong> {selectedMotorista.email}</p>
-              <p><strong>Telefone:</strong> {selectedMotorista.telefone}</p>
+              <p><strong>Nome:</strong> {selectedMotorista.nome || 'N/A'}</p>
+              <p><strong>Email:</strong> {selectedMotorista.email || 'N/A'}</p>
+              <p><strong>Telefone:</strong> {selectedMotorista.telefone || 'N/A'}</p>
+              <p><strong>Função:</strong> {selectedMotorista.funcao || 'N/A'}</p>
+              <p><strong>Criado em:</strong> {selectedMotorista.criado_em ? new Date(selectedMotorista.criado_em).toLocaleDateString('pt-BR') : 'N/A'}</p>
+            </div>
+
+            <div className={styles.viewSection}>
+              <h3>Estatísticas</h3>
+              <p><strong>Total de Veículos:</strong> {selectedMotorista._count?.veiculos || selectedMotorista.veiculos?.length || 0}</p>
+              <p><strong>Total de Entregas:</strong> {selectedMotorista._count?.entregas || selectedMotorista.entregas?.length || 0}</p>
+              <p><strong>Total de Pedidos:</strong> {selectedMotorista._count?.pedidos_cliente || selectedMotorista.pedidos_cliente?.length || 0}</p>
             </div>
 
             {selectedMotorista.veiculos && selectedMotorista.veiculos.length > 0 && (
               <div className={styles.viewSection}>
                 <h3>Veículos ({selectedMotorista.veiculos.length})</h3>
-                {selectedMotorista.veiculos.map(veiculo => (
-                  <div key={veiculo.id} className={styles.itemCard}>
-                    <p><strong>Placa:</strong> {veiculo.placa}</p>
-                    <p><strong>Modelo:</strong> {veiculo.marca} {veiculo.modelo}</p>
-                    <p><strong>Ano:</strong> {veiculo.ano}</p>
-                  </div>
-                ))}
+                <ul>
+                  {selectedMotorista.veiculos.map(veiculo => (
+                    <li key={veiculo.id}>
+                      {veiculo.placa} - {veiculo.marca} {veiculo.modelo} ({veiculo.ano})
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
 
             {selectedMotorista.entregas && selectedMotorista.entregas.length > 0 && (
               <div className={styles.viewSection}>
                 <h3>Entregas Recentes ({selectedMotorista.entregas.slice(0, 5).length})</h3>
-                {selectedMotorista.entregas.slice(0, 5).map(entrega => (
-                  <div key={entrega.id} className={styles.itemCard}>
-                    <p><strong>Entrega #</strong>{entrega.id}</p>
-                    <p><strong>Status:</strong> <span className={`${styles.statusBadge} ${styles['status' + entrega.status]}`}>{entrega.status}</span></p>
-                    <p><strong>Atribuído em:</strong> {new Date(entrega.atribuido_em).toLocaleDateString('pt-BR')}</p>
-                  </div>
-                ))}
+                <ul>
+                  {selectedMotorista.entregas.slice(0, 5).map(entrega => (
+                    <li key={entrega.id}>
+                      Entrega #{entrega.id} - Status: {entrega.status} - {new Date(entrega.atribuido_em).toLocaleDateString('pt-BR')}
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
 

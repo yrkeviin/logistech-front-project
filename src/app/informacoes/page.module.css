@@ -3,27 +3,33 @@
     flex-direction: column;
     width: 100%;
     background-color: #252E43;
-    height: 200vh;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 .title {
     color: white;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    margin: 5% 0 0 5%;
+    margin: 1% 0 0 5%;
     cursor: default;
-    font-size: 1.5rem;
+    font-size: 1.1rem;
 }
 
 .cards {
     display: flex;
-    gap: 3rem;
+    gap: 1rem;
     justify-content: center;
-    margin-top: 1rem;
+    margin-top: 0.3rem;
     cursor: default;
+    padding: 0 2rem;
+    transform: scale(0.8);
 }
 
 .slogan {
     margin-left: 3rem;
+    margin-top: 0rem;
+    transform: scale(0.8);
+    transform-origin: left top;
 }
 
 .slogan span {
@@ -31,9 +37,15 @@
 }
 
 .slogan p {
-    font-size: 2rem;
+    font-size: 1.3rem;
     font-weight: bold;
     font-family: 'Poppins', sans-serif;
     color: white;
     width: 26%;
+    margin-bottom: 0.5rem;
+}
+
+.slogan img {
+    max-width: 85%;
+    height: auto;
 }
