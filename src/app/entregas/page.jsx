@@ -42,9 +42,17 @@ export default function Entregas() {
 
       const response = await fetch(url);
       const data = await response.json();
-      setEntregas(data);
+      
+      // Garantir que data seja sempre um array
+      if (Array.isArray(data)) {
+        setEntregas(data);
+      } else {
+        console.error('Resposta da API não é um array:', data);
+        setEntregas([]);
+      }
     } catch (error) {
       console.error('Erro ao buscar entregas:', error);
+      setEntregas([]);
     } finally {
       setLoading(false);
     }
@@ -54,9 +62,16 @@ export default function Entregas() {
     try {
       const response = await fetch('/api/usuarios?funcao=MOTORISTA');
       const data = await response.json();
-      setMotoristas(data);
+      
+      if (Array.isArray(data)) {
+        setMotoristas(data);
+      } else {
+        console.error('Motoristas não é um array:', data);
+        setMotoristas([]);
+      }
     } catch (error) {
       console.error('Erro ao buscar motoristas:', error);
+      setMotoristas([]);
     }
   };
 
@@ -64,9 +79,16 @@ export default function Entregas() {
     try {
       const response = await fetch('/api/pedidos');
       const data = await response.json();
-      setPedidos(data);
+      
+      if (Array.isArray(data)) {
+        setPedidos(data);
+      } else {
+        console.error('Pedidos não é um array:', data);
+        setPedidos([]);
+      }
     } catch (error) {
       console.error('Erro ao buscar pedidos:', error);
+      setPedidos([]);
     }
   };
 
@@ -91,25 +113,52 @@ export default function Entregas() {
     setShowAtribuirModal(true);
   };
 
-  const handleEdit = (entrega) => {
+  const handleEdit = async (entrega) => {
     setSelectedEntrega(entrega);
     setFormData({
       motorista_id: entrega.motorista_id,
-      veiculo_id: entrega.veiculo_id,
-      status: entrega.status
+      veiculo_texto: entrega.veiculo ? `${entrega.veiculo.placa} - ${entrega.veiculo.marca} ${entrega.veiculo.modelo}` : '',
+      status: entrega.status,
+      comprovante: entrega.comprovante || ''
     });
-    fetchVeiculosByMotorista(entrega.motorista_id);
+    
     setShowEditModal(true);
   };
 
   const handleView = async (id) => {
     try {
+      console.log('Buscando detalhes da entrega ID:', id);
+      
+      // Primeiro tenta pegar do array local
+      const entregaLocal = entregas.find(e => e.id === id);
+      console.log('Entrega do array local:', entregaLocal);
+      
+      // Se tiver dados locais completos, usa eles
+      if (entregaLocal && entregaLocal.pedido && entregaLocal.motorista && entregaLocal.veiculo) {
+        console.log('Usando dados locais');
+        setSelectedEntrega(entregaLocal);
+        setShowViewModal(true);
+        return;
+      }
+      
+      // Senão, busca da API
+      console.log('Buscando da API...');
       const response = await fetch(`/api/entregas/${id}`);
+      console.log('Response status:', response.status);
+      
       const data = await response.json();
-      setSelectedEntrega(data);
-      setShowViewModal(true);
+      console.log('Dados recebidos da API:', data);
+      
+      if (response.ok && data) {
+        setSelectedEntrega(data);
+        setShowViewModal(true);
+      } else {
+        console.error('Erro na resposta:', data);
+        alert('Erro ao carregar detalhes da entrega');
+      }
     } catch (error) {
       console.error('Erro ao buscar detalhes:', error);
+      alert('Erro ao buscar detalhes da entrega');
     }
   };
 
@@ -162,32 +211,48 @@ export default function Entregas() {
     e.preventDefault();
 
     try {
+      console.log('Atualizando entrega:', selectedEntrega.id, 'com dados:', formData);
+      
+      const updateData = {
+        motorista_id: parseInt(formData.motorista_id),
+        status: formData.status
+      };
+      
+      // Só adiciona comprovante se foi preenchido
+      if (formData.comprovante) {
+        updateData.comprovante = formData.comprovante;
+      }
+      
       const response = await fetch(`/api/entregas/${selectedEntrega.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(updateData)
       });
 
+      console.log('Response status:', response.status);
+      
       if (response.ok) {
+        const result = await response.json();
+        console.log('Entrega atualizada:', result);
         alert('Entrega atualizada com sucesso!');
         setShowEditModal(false);
         fetchEntregas();
       } else {
         const error = await response.json();
+        console.error('Erro da API:', error);
         alert(error.error || 'Erro ao atualizar entrega');
       }
     } catch (error) {
       console.error('Erro ao atualizar:', error);
-      alert('Erro ao atualizar entrega');
+      alert('Erro ao atualizar entrega: ' + error.message);
     }
   };
 
-  const handleMotoristaChange = (motoristaId) => {
+  const handleMotoristaChange = async (motoristaId) => {
     setFormData({ ...formData, motorista_id: motoristaId, veiculo_id: '' });
+    setVeiculos([]);
     if (motoristaId) {
-      fetchVeiculosByMotorista(motoristaId);
-    } else {
-      setVeiculos([]);
+      await fetchVeiculosByMotorista(motoristaId);
     }
   };
 
@@ -394,12 +459,17 @@ export default function Entregas() {
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
             <button className={styles.closeBtn} onClick={() => setShowEditModal(false)}>×</button>
             <h2>Editar Entrega #{selectedEntrega.id}</h2>
+            
+            <div className={styles.viewSection} style={{marginBottom: '1.5rem', padding: '10px', background: '#f5f5f5', borderRadius: '5px'}}>
+              <p><strong>Pedido:</strong> {selectedEntrega.pedido?.numero_pedido}</p>
+            </div>
+
             <form onSubmit={handleSubmitEdit}>
               <div className={styles.formGroup}>
                 <label>Motorista *</label>
                 <select
                   value={formData.motorista_id}
-                  onChange={(e) => handleMotoristaChange(parseInt(e.target.value))}
+                  onChange={(e) => setFormData({...formData, motorista_id: parseInt(e.target.value)})}
                   required
                 >
                   <option value="">Selecione um motorista</option>
@@ -410,19 +480,23 @@ export default function Entregas() {
               </div>
 
               <div className={styles.formGroup}>
-                <label>Veículo *</label>
-                <select
-                  value={formData.veiculo_id}
-                  onChange={(e) => setFormData({...formData, veiculo_id: parseInt(e.target.value)})}
-                  required
-                >
-                  <option value="">Selecione um veículo</option>
-                  {veiculos.map(v => (
-                    <option key={v.id} value={v.id}>
-                      {v.placa} - {v.marca} {v.modelo}
-                    </option>
-                  ))}
-                </select>
+                <label>Veículo</label>
+                <input
+                  type="text"
+                  value={formData.veiculo_texto}
+                  onChange={(e) => setFormData({...formData, veiculo_texto: e.target.value})}
+                  placeholder="Digite a placa ou informações do veículo (opcional)"
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Comprovante</label>
+                <input
+                  type="text"
+                  value={formData.comprovante}
+                  onChange={(e) => setFormData({...formData, comprovante: e.target.value})}
+                  placeholder="Digite o número/nome do comprovante (opcional)"
+                />
               </div>
 
               <div className={styles.formGroup}>
@@ -456,46 +530,52 @@ export default function Entregas() {
         <div className={styles.modalOverlay} onClick={() => setShowViewModal(false)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
             <button className={styles.closeBtn} onClick={() => setShowViewModal(false)}>×</button>
-            <h2>Detalhes da Entrega #{selectedEntrega.id}</h2>
+            <h2>Detalhes da Entrega #{selectedEntrega.id || 'N/A'}</h2>
+
+            {/* Debug - mostrar objeto completo */}
+            <div style={{background: '#f0f0f0', padding: '10px', marginBottom: '10px', fontSize: '11px', maxHeight: '150px', overflow: 'auto'}}>
+              <strong>DEBUG - Dados carregados:</strong>
+              <pre>{JSON.stringify(selectedEntrega, null, 2)}</pre>
+            </div>
 
             <div className={styles.viewSection}>
               <h3>Informações do Pedido</h3>
-              <p><strong>Número do Pedido:</strong> {selectedEntrega.pedido?.numero_pedido}</p>
-              <p><strong>Valor Total:</strong> R$ {selectedEntrega.pedido?.valor_total}</p>
-              <p><strong>Endereço:</strong> {selectedEntrega.pedido?.endereco_cliente}</p>
-              <p><strong>Status do Pedido:</strong> {selectedEntrega.pedido?.status}</p>
+              <p><strong>Número do Pedido:</strong> {selectedEntrega.pedido?.numero_pedido || 'N/A'}</p>
+              <p><strong>Valor Total:</strong> R$ {selectedEntrega.pedido?.valor_total ? Number(selectedEntrega.pedido.valor_total).toFixed(2) : '0.00'}</p>
+              <p><strong>Endereço:</strong> {selectedEntrega.pedido?.endereco_cliente || 'N/A'}</p>
+              <p><strong>Status do Pedido:</strong> {selectedEntrega.pedido?.status || 'N/A'}</p>
             </div>
 
             <div className={styles.viewSection}>
               <h3>Cliente</h3>
-              <p><strong>Nome:</strong> {selectedEntrega.pedido?.cliente?.nome}</p>
-              <p><strong>Email:</strong> {selectedEntrega.pedido?.cliente?.email}</p>
-              <p><strong>Telefone:</strong> {selectedEntrega.pedido?.cliente?.telefone}</p>
+              <p><strong>Nome:</strong> {selectedEntrega.pedido?.cliente?.nome || 'N/A'}</p>
+              <p><strong>Email:</strong> {selectedEntrega.pedido?.cliente?.email || 'N/A'}</p>
+              <p><strong>Telefone:</strong> {selectedEntrega.pedido?.cliente?.telefone || 'N/A'}</p>
             </div>
 
             <div className={styles.viewSection}>
               <h3>Motorista</h3>
-              <p><strong>Nome:</strong> {selectedEntrega.motorista?.nome}</p>
-              <p><strong>Email:</strong> {selectedEntrega.motorista?.email}</p>
-              <p><strong>Telefone:</strong> {selectedEntrega.motorista?.telefone}</p>
+              <p><strong>Nome:</strong> {selectedEntrega.motorista?.nome || 'N/A'}</p>
+              <p><strong>Email:</strong> {selectedEntrega.motorista?.email || 'N/A'}</p>
+              <p><strong>Telefone:</strong> {selectedEntrega.motorista?.telefone || 'N/A'}</p>
             </div>
 
             <div className={styles.viewSection}>
               <h3>Veículo</h3>
-              <p><strong>Placa:</strong> {selectedEntrega.veiculo?.placa}</p>
-              <p><strong>Modelo:</strong> {selectedEntrega.veiculo?.marca} {selectedEntrega.veiculo?.modelo}</p>
-              <p><strong>Ano:</strong> {selectedEntrega.veiculo?.ano}</p>
+              <p><strong>Placa:</strong> {selectedEntrega.veiculo?.placa || 'N/A'}</p>
+              <p><strong>Modelo:</strong> {selectedEntrega.veiculo?.marca || ''} {selectedEntrega.veiculo?.modelo || 'N/A'}</p>
+              <p><strong>Ano:</strong> {selectedEntrega.veiculo?.ano || 'N/A'}</p>
             </div>
 
             <div className={styles.viewSection}>
               <h3>Status da Entrega</h3>
               <p>
                 <span className={`${styles.statusBadge} ${getStatusClass(selectedEntrega.status)}`}>
-                  {selectedEntrega.status}
+                  {selectedEntrega.status || 'N/A'}
                 </span>
               </p>
-              <p><strong>Atribuído em:</strong> {new Date(selectedEntrega.atribuido_em).toLocaleString('pt-BR')}</p>
-              {selectedEntrega.entregue_em && (
+              <p><strong>Atribuído em:</strong> {selectedEntrega.atribuido_em ? new Date(selectedEntrega.atribuido_em).toLocaleString('pt-BR') : 'N/A'}</p>
+              {selectedEntrega.entregue_em && selectedEntrega.status === 'ENTREGUE' && (
                 <p><strong>Entregue em:</strong> {new Date(selectedEntrega.entregue_em).toLocaleString('pt-BR')}</p>
               )}
               {selectedEntrega.comprovante && (

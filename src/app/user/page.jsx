@@ -223,7 +223,9 @@ export default function UserPage() {
       <HeaderAdm />
       
       <main className={styles.main}>
-        <h1 className={styles.title}>Gestão de Usuários</h1>
+        <div className={styles.header}>
+          <h1 className={styles.title}>Gestão de Motoristas</h1>
+        </div>
 
         <div className={styles.actions}>
           <div className={styles.searchBox}>
@@ -252,7 +254,7 @@ export default function UserPage() {
             <p>Carregando usuários...</p>
           </div>
         ) : usuariosFiltrados.length === 0 ? (
-          <div className={styles.noUsers}>
+          <div className={styles.empty}>
             <p>
               {searchTerm 
                 ? '🔍 Nenhum usuário encontrado com os critérios de busca.' 
@@ -260,76 +262,64 @@ export default function UserPage() {
             </p>
           </div>
         ) : (
-          <div className={styles.userGrid}>
-            {usuariosFiltrados.map((usuario) => (
-              <div key={usuario.id} className={styles.userCard}>
-                <div className={styles.userHeader}>
-                  <div className={styles.userAvatar}>
-                    {getInitials(usuario.nome).toUpperCase()}
-                  </div>
-                  <div className={styles.userInfo}>
-                    <div className={styles.userId}>#{usuario.id}</div>
-                    <h3 className={styles.userName}>{usuario.nome}</h3>
-                    <span className={`${styles.userBadge} ${
-                      usuario.funcao === 'ADMIN' ? styles.badgeAdmin : styles.badgeMotorista
-                    }`}>
-                      {usuario.funcao === 'ADMIN' ? '👑 Admin' : '🚚 Motorista'}
-                    </span>
-                  </div>
-                </div>
-
-                <div className={styles.userDetails}>
-                  <div className={styles.detailItem}>
-                    <span className={styles.detailIcon}>📧</span>
-                    <span>{usuario.email}</span>
-                  </div>
-                  <div className={styles.detailItem}>
-                    <span className={styles.detailIcon}>📱</span>
-                    <span>{usuario.telefone}</span>
-                  </div>
-                </div>
-
-                <div className={styles.userStats}>
-                  <div className={styles.statItem}>
-                    <span className={styles.statValue}>{usuario._count.veiculos}</span>
-                    <span className={styles.statLabel}>Veículos</span>
-                  </div>
-                  <div className={styles.statItem}>
-                    <span className={styles.statValue}>{usuario._count.pedidos_cliente}</span>
-                    <span className={styles.statLabel}>Pedidos</span>
-                  </div>
-                  <div className={styles.statItem}>
-                    <span className={styles.statValue}>{usuario._count.entregas}</span>
-                    <span className={styles.statLabel}>Entregas</span>
-                  </div>
-                </div>
-
-                <div className={styles.userActions}>
-                  <button 
-                    className={styles.btnView}
-                    onClick={() => handleView(usuario.id)}
-                  >
-                    👁️ Ver
-                  </button>
-                  <button 
-                    className={styles.btnEdit}
-                    onClick={() => handleEdit(usuario)}
-                  >
-                    ✏️ Editar
-                  </button>
-                  <button 
-                    className={styles.btnDelete}
-                    onClick={() => handleDelete(usuario.id, usuario)}
-                  >
-                    🗑️ Deletar
-                  </button>
-                </div>
-
-                <div className={styles.userDate}>
-                  Criado em: {formatDate(usuario.criado_em)}
-                </div>
-              </div>
-            ))}
+          <div className={styles.tableContainer}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Telefone</th>
+                  <th>Função</th>
+                  <th>Veículos</th>
+                  <th>Pedidos</th>
+                  <th>Entregas</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {usuariosFiltrados.map((usuario) => (
+                  <tr key={usuario.id}>
+                    <td>#{usuario.id}</td>
+                    <td>{usuario.nome}</td>
+                    <td>{usuario.email}</td>
+                    <td>{usuario.telefone}</td>
+                    <td>
+                      <span className={`${styles.roleBadge} ${
+                        usuario.funcao === 'ADMIN' ? styles.roleAdmin : styles.roleMotorista
+                      }`}>
+                        {usuario.funcao}
+                      </span>
+                    </td>
+                    <td>{usuario._count.veiculos}</td>
+                    <td>{usuario._count.pedidos_cliente}</td>
+                    <td>{usuario._count.entregas}</td>
+                    <td>
+                      <button 
+                        className={styles.btnView}
+                        onClick={() => handleView(usuario.id)}
+                      >
+                        Ver
+                      </button>
+                      {' '}
+                      <button 
+                        className={styles.btnEdit}
+                        onClick={() => handleEdit(usuario)}
+                      >
+                        Editar
+                      </button>
+                      {' '}
+                      <button 
+                        className={styles.btnDelete}
+                        onClick={() => handleDelete(usuario.id, usuario)}
+                      >
+                        Deletar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
 
@@ -337,12 +327,10 @@ export default function UserPage() {
         {showCreateModal && (
           <div className={styles.modalOverlay} onClick={() => setShowCreateModal(false)}>
             <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-              <div className={styles.modalHeader}>
-                <h2>➕ Criar Novo Usuário</h2>
-                <button className={styles.modalClose} onClick={() => setShowCreateModal(false)}>✕</button>
-              </div>
+              <button className={styles.closeBtn} onClick={() => setShowCreateModal(false)}>×</button>
+              <h2>Criar Novo Usuário</h2>
               
-              <form onSubmit={handleSubmitCreate} className={styles.modalForm}>
+              <form onSubmit={handleSubmitCreate}>
                 <div className={styles.formGroup}>
                   <label>Nome Completo *</label>
                   <input
@@ -394,16 +382,16 @@ export default function UserPage() {
                     value={formData.funcao}
                     onChange={(e) => setFormData({...formData, funcao: e.target.value})}
                   >
-                    <option value="MOTORISTA">🚚 Motorista</option>
-                    <option value="ADMIN">👑 Admin</option>
+                    <option value="MOTORISTA">Motorista</option>
+                    <option value="ADMIN">Admin</option>
                   </select>
                 </div>
 
                 <div className={styles.modalActions}>
-                  <button type="button" className={styles.btnCancel} onClick={() => setShowCreateModal(false)}>
+                  <button type="button" className={styles.btnSecondary} onClick={() => setShowCreateModal(false)}>
                     Cancelar
                   </button>
-                  <button type="submit" className={styles.btnSubmit}>
+                  <button type="submit" className={styles.btnPrimary}>
                     Criar Usuário
                   </button>
                 </div>
@@ -416,12 +404,10 @@ export default function UserPage() {
         {showEditModal && selectedUser && (
           <div className={styles.modalOverlay} onClick={() => setShowEditModal(false)}>
             <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-              <div className={styles.modalHeader}>
-                <h2>✏️ Editar Usuário #{selectedUser.id}</h2>
-                <button className={styles.modalClose} onClick={() => setShowEditModal(false)}>✕</button>
-              </div>
+              <button className={styles.closeBtn} onClick={() => setShowEditModal(false)}>×</button>
+              <h2>Editar Usuário #{selectedUser.id}</h2>
               
-              <form onSubmit={handleSubmitEdit} className={styles.modalForm}>
+              <form onSubmit={handleSubmitEdit}>
                 <div className={styles.formGroup}>
                   <label>Nome Completo</label>
                   <input
@@ -469,16 +455,16 @@ export default function UserPage() {
                     value={formData.funcao}
                     onChange={(e) => setFormData({...formData, funcao: e.target.value})}
                   >
-                    <option value="MOTORISTA">🚚 Motorista</option>
-                    <option value="ADMIN">👑 Admin</option>
+                    <option value="MOTORISTA">Motorista</option>
+                    <option value="ADMIN">Admin</option>
                   </select>
                 </div>
 
                 <div className={styles.modalActions}>
-                  <button type="button" className={styles.btnCancel} onClick={() => setShowEditModal(false)}>
+                  <button type="button" className={styles.btnSecondary} onClick={() => setShowEditModal(false)}>
                     Cancelar
                   </button>
-                  <button type="submit" className={styles.btnSubmit}>
+                  <button type="submit" className={styles.btnPrimary}>
                     Salvar Alterações
                   </button>
                 </div>
@@ -491,103 +477,65 @@ export default function UserPage() {
         {showViewModal && selectedUser && (
           <div className={styles.modalOverlay} onClick={() => setShowViewModal(false)}>
             <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-              <div className={styles.modalHeader}>
-                <h2>👁️ Detalhes do Usuário #{selectedUser.id}</h2>
-                <button className={styles.modalClose} onClick={() => setShowViewModal(false)}>✕</button>
-              </div>
+              <button className={styles.closeBtn} onClick={() => setShowViewModal(false)}>×</button>
+              <h2>Detalhes do Usuário #{selectedUser.id}</h2>
               
-              <div className={styles.detailsContent}>
-                <div className={styles.detailsHeader}>
-                  <div className={styles.detailsAvatar}>
-                    {getInitials(selectedUser.nome).toUpperCase()}
-                  </div>
-                  <div>
-                    <h3>{selectedUser.nome}</h3>
-                    <span className={`${styles.userBadge} ${
-                      selectedUser.funcao === 'ADMIN' ? styles.badgeAdmin : styles.badgeMotorista
-                    }`}>
-                      {selectedUser.funcao === 'ADMIN' ? '👑 Admin' : '🚚 Motorista'}
-                    </span>
-                  </div>
+              <div className={styles.viewSection}>
+                <h3>Informações Pessoais</h3>
+                <p><strong>Nome:</strong> {selectedUser.nome}</p>
+                <p><strong>Email:</strong> {selectedUser.email}</p>
+                <p><strong>Telefone:</strong> {selectedUser.telefone}</p>
+                <p><strong>Função:</strong> <span className={`${styles.roleBadge} ${
+                  selectedUser.funcao === 'ADMIN' ? styles.roleAdmin : styles.roleMotorista
+                }`}>
+                  {selectedUser.funcao}
+                </span></p>
+                <p><strong>Criado em:</strong> {formatDate(selectedUser.criado_em)}</p>
+              </div>
+
+              {selectedUser.veiculos && selectedUser.veiculos.length > 0 && (
+                <div className={styles.viewSection}>
+                  <h3>Veículos ({selectedUser.veiculos.length})</h3>
+                  <ul>
+                    {selectedUser.veiculos.map((veiculo) => (
+                      <li key={veiculo.id}>
+                        {veiculo.placa} - {veiculo.marca} {veiculo.modelo} ({veiculo.ano})
+                      </li>
+                    ))}
+                  </ul>
                 </div>
+              )}
 
-                <div className={styles.detailsSection}>
-                  <h4>📋 Informações Pessoais</h4>
-                  <div className={styles.detailsGrid}>
-                    <div className={styles.detailItem}>
-                      <strong>Email:</strong>
-                      <span>{selectedUser.email}</span>
-                    </div>
-                    <div className={styles.detailItem}>
-                      <strong>Telefone:</strong>
-                      <span>{selectedUser.telefone}</span>
-                    </div>
-                    <div className={styles.detailItem}>
-                      <strong>Criado em:</strong>
-                      <span>{formatDate(selectedUser.criado_em)}</span>
-                    </div>
-                  </div>
+              {selectedUser.pedidos_cliente && selectedUser.pedidos_cliente.length > 0 && (
+                <div className={styles.viewSection}>
+                  <h3>Pedidos Recentes ({selectedUser.pedidos_cliente.length})</h3>
+                  <ul>
+                    {selectedUser.pedidos_cliente.slice(0, 5).map((pedido) => (
+                      <li key={pedido.id}>
+                        {pedido.numero_pedido} - R$ {pedido.valor_total} - Status: {pedido.status}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
+              )}
 
-                {selectedUser.veiculos && selectedUser.veiculos.length > 0 && (
-                  <div className={styles.detailsSection}>
-                    <h4>🚐 Veículos ({selectedUser.veiculos.length})</h4>
-                    <div className={styles.vehicleList}>
-                      {selectedUser.veiculos.map((veiculo) => (
-                        <div key={veiculo.id} className={styles.vehicleItem}>
-                          <span className={styles.vehiclePlate}>{veiculo.placa}</span>
-                          <span className={styles.vehicleInfo}>
-                            {veiculo.marca} {veiculo.modelo} ({veiculo.ano})
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {selectedUser.pedidos_cliente && selectedUser.pedidos_cliente.length > 0 && (
-                  <div className={styles.detailsSection}>
-                    <h4>📦 Pedidos Recentes ({selectedUser.pedidos_cliente.length})</h4>
-                    <div className={styles.orderList}>
-                      {selectedUser.pedidos_cliente.slice(0, 5).map((pedido) => (
-                        <div key={pedido.id} className={styles.orderItem}>
-                          <div className={styles.orderNumber}>{pedido.numero_pedido}</div>
-                          <div className={styles.orderDetails}>
-                            <span className={styles.orderValue}>R$ {pedido.valor_total}</span>
-                            <span className={`${styles.orderStatus} ${styles['status' + pedido.status]}`}>
-                              {pedido.status}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {selectedUser.entregas && selectedUser.entregas.length > 0 && (
-                  <div className={styles.detailsSection}>
-                    <h4>🚚 Entregas Recentes ({selectedUser.entregas.length})</h4>
-                    <div className={styles.deliveryList}>
-                      {selectedUser.entregas.slice(0, 5).map((entrega) => (
-                        <div key={entrega.id} className={styles.deliveryItem}>
-                          <div className={styles.deliveryInfo}>
-                            <strong>{entrega.pedido.numero_pedido}</strong>
-                            <span>{entrega.veiculo.placa}</span>
-                          </div>
-                          <span className={`${styles.deliveryStatus} ${styles['status' + entrega.status]}`}>
-                            {entrega.status}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                <div className={styles.modalActions}>
-                  <button className={styles.btnClose} onClick={() => setShowViewModal(false)}>
-                    Fechar
-                  </button>
+              {selectedUser.entregas && selectedUser.entregas.length > 0 && (
+                <div className={styles.viewSection}>
+                  <h3>Entregas Recentes ({selectedUser.entregas.length})</h3>
+                  <ul>
+                    {selectedUser.entregas.slice(0, 5).map((entrega) => (
+                      <li key={entrega.id}>
+                        Pedido {entrega.pedido.numero_pedido} - {entrega.veiculo.placa} - Status: {entrega.status}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
+              )}
+
+              <div className={styles.modalActions}>
+                <button className={styles.btnSecondary} onClick={() => setShowViewModal(false)}>
+                  Fechar
+                </button>
               </div>
             </div>
           </div>
