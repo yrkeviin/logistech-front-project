@@ -2,13 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import HeaderAdm from '../../components/HeaderAdm/HeaderAdm';
+import ViewModal from '../../components/ViewModal/ViewModal';
 
 export default function Motoristas() {
   const [motoristas, setMotoristas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [busca, setBusca] = useState('');
 
-  // Modais
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
@@ -19,12 +19,29 @@ export default function Motoristas() {
     email: '',
     telefone: '',
     senha: '',
-    funcao: 'MOTORISTA'
+    funcao: 'MOTORISTA',
+    veiculo_id: ''
   });
+
+  const [veiculos, setVeiculos] = useState([]);
+  const [newVehicleMode, setNewVehicleMode] = useState(false);
+  const [newVehicle, setNewVehicle] = useState({ placa: '', modelo: '', marca: '', ano: '' });
 
   useEffect(() => {
     fetchMotoristas();
+    fetchVeiculos();
   }, []);
+
+  const fetchVeiculos = async () => {
+    try {
+      const response = await fetch('/api/veiculos');
+      const data = await response.json();
+  const disponiveis = data.filter(v => !v.motorista);
+      setVeiculos(disponiveis);
+    } catch (error) {
+      console.error('Erro ao buscar veículos:', error);
+    }
+  };
 
   const fetchMotoristas = async () => {
     try {
@@ -45,8 +62,11 @@ export default function Motoristas() {
       email: '',
       telefone: '',
       senha: '',
-      funcao: 'MOTORISTA'
+      funcao: 'MOTORISTA',
+      veiculo_id: ''
     });
+    setNewVehicleMode(false);
+    setNewVehicle({ placa: '', modelo: '', marca: '', ano: '' });
     setShowCreateModal(true);
   };
 
@@ -64,7 +84,6 @@ export default function Motoristas() {
 
   const handleView = async (id) => {
     try {
-      console.log('Buscando motorista ID:', id);
       const response = await fetch(`/api/usuarios/${id}`);
       
       if (!response.ok) {
@@ -72,8 +91,6 @@ export default function Motoristas() {
       }
       
       const data = await response.json();
-      console.log('Dados do motorista:', data);
-      
       setSelectedMotorista(data);
       setShowViewModal(true);
     } catch (error) {
@@ -83,7 +100,6 @@ export default function Motoristas() {
   };
 
   const handleDelete = async (id, motorista) => {
-    // Verificar se motorista tem entregas ou veículos
     try {
       const response = await fetch(`/api/usuarios/${id}`);
       const data = await response.json();
@@ -116,19 +132,33 @@ export default function Motoristas() {
     e.preventDefault();
 
     try {
+      const payload = { ...formData };
+      if (newVehicleMode) {
+        delete payload.veiculo_id;
+        payload.veiculo = {
+          placa: newVehicle.placa,
+          modelo: newVehicle.modelo,
+          marca: newVehicle.marca,
+          ano: newVehicle.ano ? Number(newVehicle.ano) : undefined
+        };
+      } else {
+        payload.veiculo_id = formData.veiculo_id ? Number(formData.veiculo_id) : undefined;
+      }
+
       const response = await fetch('/api/usuarios', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(payload)
       });
 
       if (response.ok) {
         alert('Motorista criado com sucesso!');
         setShowCreateModal(false);
         fetchMotoristas();
+        fetchVeiculos();
       } else {
         const error = await response.json();
-        alert(error.error || 'Erro ao criar motorista');
+        alert(error.erro || error.error || 'Erro ao criar motorista');
       }
     } catch (error) {
       console.error('Erro ao criar:', error);
@@ -244,7 +274,7 @@ export default function Motoristas() {
         )}
       </div>
 
-      {/* Modal Criar */}
+      
       {showCreateModal && (
         <div className={styles.modalOverlay} onClick={() => setShowCreateModal(false)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
@@ -294,6 +324,47 @@ export default function Motoristas() {
                   placeholder="Senha de acesso"
                 />
               </div>
+              <div className={styles.formGroup}>
+                <label>
+                  <input type="checkbox" checked={newVehicleMode} onChange={(e) => setNewVehicleMode(e.target.checked)} />{' '}
+                  Criar veículo novo
+                </label>
+              </div>
+
+              {newVehicleMode ? (
+                <>
+                  <div className={styles.formGroup}>
+                    <label>Placa *</label>
+                    <input type="text" value={newVehicle.placa} onChange={(e) => setNewVehicle({...newVehicle, placa: e.target.value})} required placeholder="ABC1D23" />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label>Marca</label>
+                    <input type="text" value={newVehicle.marca} onChange={(e) => setNewVehicle({...newVehicle, marca: e.target.value})} placeholder="Marca" />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label>Modelo</label>
+                    <input type="text" value={newVehicle.modelo} onChange={(e) => setNewVehicle({...newVehicle, modelo: e.target.value})} placeholder="Modelo" />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label>Ano</label>
+                    <input type="number" value={newVehicle.ano} onChange={(e) => setNewVehicle({...newVehicle, ano: e.target.value})} placeholder="2020" />
+                  </div>
+                </>
+              ) : (
+                <div className={styles.formGroup}>
+                  <label>Veículo *</label>
+                  <select
+                    value={formData.veiculo_id}
+                    onChange={(e) => setFormData({...formData, veiculo_id: e.target.value})}
+                    required
+                  >
+                    <option value="">Selecione um veículo</option>
+                    {veiculos.map(v => (
+                      <option key={v.id} value={v.id}>{`${v.placa} - ${v.marca || ''} ${v.modelo || ''} (${v.ano || ''})`}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
 
               <div className={styles.modalActions}>
                 <button type="button" onClick={() => setShowCreateModal(false)} className={styles.btnSecondary}>
@@ -308,7 +379,7 @@ export default function Motoristas() {
         </div>
       )}
 
-      {/* Modal Editar */}
+      
       {showEditModal && selectedMotorista && (
         <div className={styles.modalOverlay} onClick={() => setShowEditModal(false)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
@@ -368,21 +439,9 @@ export default function Motoristas() {
         </div>
       )}
 
-      {/* Modal Visualizar */}
       {showViewModal && selectedMotorista && (
-        <div className={styles.modalOverlay} onClick={() => setShowViewModal(false)}>
-          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.closeBtn} onClick={() => setShowViewModal(false)}>×</button>
-            <h2>Detalhes do Motorista #{selectedMotorista.id || 'N/A'}</h2>
-
-            {/* Debug - Dados completos */}
-            <div style={{background: '#f0f0f0', padding: '1rem', borderRadius: '8px', marginBottom: '1rem', fontSize: '0.8rem'}}>
-              <strong>DEBUG - Dados recebidos:</strong>
-              <pre style={{maxHeight: '200px', overflow: 'auto'}}>
-                {JSON.stringify(selectedMotorista, null, 2)}
-              </pre>
-            </div>
-
+        <React.Suspense fallback={null}>
+          <ViewModal title={`Detalhes do Motorista #${selectedMotorista.id || 'N/A'}`} onClose={() => setShowViewModal(false)}>
             <div className={styles.viewSection}>
               <h3>Informações Pessoais</h3>
               <p><strong>Nome:</strong> {selectedMotorista.nome || 'N/A'}</p>
@@ -425,13 +484,9 @@ export default function Motoristas() {
               </div>
             )}
 
-            <div className={styles.modalActions}>
-              <button onClick={() => setShowViewModal(false)} className={styles.btnSecondary}>
-                Fechar
-              </button>
-            </div>
-          </div>
-        </div>
+          </ViewModal>
+          
+        </React.Suspense>
       )}
     </div>
   );
