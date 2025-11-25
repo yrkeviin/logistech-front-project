@@ -81,7 +81,7 @@ export async function GET(request) {
 // POST - Criar novo usuário
 export async function POST(request) {
   try {
-    const { nome, email, telefone, senha, funcao } = await request.json();
+    const { nome, email, telefone, senha, funcao, veiculo_id, veiculo } = await request.json();
 
     // Validações
     if (!nome || !email || !telefone || !senha || !funcao) {
@@ -170,10 +170,51 @@ export async function POST(request) {
       }
     });
 
-    return NextResponse.json({
-      mensagem: 'Usuário criado com sucesso',
-      usuario: novoUsuario
-    }, { status: 201 });
+    // Se for motorista, permitir vincular veículo existente ou criar um novo veículo inline
+    if (funcao === 'MOTORISTA') {
+      // Prioriza criação inline de veículo quando `veiculo` está presente
+      if (veiculo && typeof veiculo === 'object') {
+        const { placa, modelo, marca, ano } = veiculo;
+        if (!placa) {
+          return NextResponse.json({ erro: 'Placa do veículo é obrigatória' }, { status: 400 });
+        }
+
+        // Verificar se placa já existe
+        const existePlaca = await prisma.veiculo.findUnique({ where: { placa } });
+        if (existePlaca) {
+          return NextResponse.json({ erro: 'Placa já cadastrada' }, { status: 409 });
+        }
+
+        await prisma.veiculo.create({
+          data: {
+            motorista_id: novoUsuario.id,
+            placa,
+            modelo: modelo || null,
+            marca: marca || null,
+            ano: ano ? Number(ano) : null
+          }
+        });
+      } else if (veiculo_id !== undefined && veiculo_id !== null && veiculo_id !== '') {
+        const vid = Number(veiculo_id);
+        if (Number.isNaN(vid)) {
+          return NextResponse.json({ erro: 'veiculo_id inválido' }, { status: 400 });
+        }
+
+        // Verificar se veículo existe e não está vinculado
+        const veic = await prisma.veiculo.findUnique({ where: { id: vid } });
+        if (!veic) {
+          return NextResponse.json({ erro: 'Veículo não encontrado' }, { status: 404 });
+        }
+        if (veic.motorista_id) {
+          return NextResponse.json({ erro: 'Veículo já está vinculado a outro motorista' }, { status: 400 });
+        }
+
+        // Atualizar veículo com o novo motorista
+        await prisma.veiculo.update({ where: { id: vid }, data: { motorista_id: novoUsuario.id } });
+      }
+    }
+
+    return NextResponse.json({ mensagem: 'Usuário criado com sucesso', usuario: novoUsuario }, { status: 201 });
   } catch (error) {
     console.error('Erro ao criar usuário:', error);
     return NextResponse.json(

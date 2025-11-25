@@ -316,8 +316,11 @@ export default function PerfilMotorista() {
                       <h4>{veiculo.modelo || 'Sem modelo'}</h4>
                       <p className={styles.vehiclePlate}>{veiculo.placa}</p>
                       <div className={styles.vehicleSpecs}>
+
                         {veiculo.marca && <span>Marca: {veiculo.marca}</span>}
                         {veiculo.ano && <span>Ano: {veiculo.ano}</span>}
+
+                        <span>Ano: {veiculo.ano || 'N/A'}</span>
                       </div>
                     </div>
                     <div className={styles.vehicleActions}>

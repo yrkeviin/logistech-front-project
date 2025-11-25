@@ -76,10 +76,10 @@ model Entrega {
   pedido_id    Int
   motorista_id Int
   veiculo_id   Int
-  comprovante  String
+  comprovante  String?
   status       StatusEntrega @default(PENDENTE)
   atribuido_em DateTime
-  entregue_em  DateTime
+  entregue_em  DateTime?
 
   pedido    Pedido  @relation(fields: [pedido_id], references: [id])
   motorista Usuario @relation("MotoristaEntregas", fields: [motorista_id], references: [id])

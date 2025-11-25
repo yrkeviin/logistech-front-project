@@ -40,8 +40,8 @@ export async function GET(request, context) {
             marca: true,
             modelo: true,
             ano: true,
-            capacidade_kg: true,
-            disponivel: true
+            // Note: `capacidade_kg` and `disponivel` are not present in the schema
+            // so we only select available fields here.
           }
         },
         pedidos_cliente: {
@@ -284,7 +284,6 @@ export async function DELETE(request, context) {
       );
     }
 
-    // Verifica se o usuário tem relações ativas
     if (usuario._count.veiculos > 0 || usuario._count.pedidos_cliente > 0 || usuario._count.entregas > 0) {
       return NextResponse.json(
         { 
