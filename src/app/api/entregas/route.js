@@ -140,16 +140,22 @@ export async function POST(request) {
         { status: 400 }
       );
     }
+    const createData = {
+      pedido: { connect: { id: pedido_id } },
+      motorista: { connect: { id: motorista_id } },
+      veiculo: { connect: { id: veiculo_id } },
+      comprovante: comprovante || null,
+      status: status || 'PENDENTE',
+      atribuido_em: new Date()
+    };
+
+    // Only set entregue_em when the entrega is already delivered
+    if ((status || 'PENDENTE') === 'ENTREGUE') {
+      createData.entregue_em = new Date();
+    }
 
     const entrega = await prisma.entrega.create({
-      data: {
-        pedido_id,
-        motorista_id,
-        veiculo_id,
-        comprovante: comprovante || null,
-        status: status || 'PENDENTE',
-        atribuido_em: new Date()
-      },
+      data: createData,
       include: {
         motorista: {
           select: {

@@ -237,10 +237,7 @@ export default function PerfilMotorista() {
                       <h4>{veiculo.modelo}</h4>
                       <p className={styles.vehiclePlate}>{veiculo.placa}</p>
                       <div className={styles.vehicleSpecs}>
-                        <span>Capacidade: {veiculo.capacidade_kg} kg</span>
-                        <span className={veiculo.disponivel ? styles.available : styles.unavailable}>
-                          {veiculo.disponivel ? '✓ Disponível' : '✗ Indisponível'}
-                        </span>
+                        <span>Ano: {veiculo.ano || 'N/A'}</span>
                       </div>
                     </div>
                   </div>

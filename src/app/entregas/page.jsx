@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import HeaderAdm from '../../components/HeaderAdm/HeaderAdm';
+import ViewModal from '../../components/ViewModal/ViewModal';
 
 export default function Entregas() {
   const [entregas, setEntregas] = useState([]);
@@ -10,13 +11,11 @@ export default function Entregas() {
   const [filtroMotorista, setFiltroMotorista] = useState('');
   const [busca, setBusca] = useState('');
 
-  // Modais
   const [showAtribuirModal, setShowAtribuirModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [selectedEntrega, setSelectedEntrega] = useState(null);
 
-  // Dados para formulários
   const [motoristas, setMotoristas] = useState([]);
   const [veiculos, setVeiculos] = useState([]);
   const [pedidos, setPedidos] = useState([]);
@@ -26,6 +25,7 @@ export default function Entregas() {
     veiculo_id: '',
     status: 'PENDENTE'
   });
+  const [pedidoAtribuidoId, setPedidoAtribuidoId] = useState(null);
 
   useEffect(() => {
     fetchEntregas();
@@ -43,7 +43,7 @@ export default function Entregas() {
       const response = await fetch(url);
       const data = await response.json();
       
-      // Garantir que data seja sempre um array
+      
       if (Array.isArray(data)) {
         setEntregas(data);
       } else {
@@ -81,7 +81,7 @@ export default function Entregas() {
       const data = await response.json();
       
       if (Array.isArray(data)) {
-        setPedidos(data);
+  setPedidos(data);
       } else {
         console.error('Pedidos não é um array:', data);
         setPedidos([]);
@@ -110,6 +110,7 @@ export default function Entregas() {
       status: 'PENDENTE'
     });
     setVeiculos([]);
+    setPedidoAtribuidoId(null);
     setShowAtribuirModal(true);
   };
 
@@ -127,33 +128,22 @@ export default function Entregas() {
 
   const handleView = async (id) => {
     try {
-      console.log('Buscando detalhes da entrega ID:', id);
-      
-      // Primeiro tenta pegar do array local
-      const entregaLocal = entregas.find(e => e.id === id);
-      console.log('Entrega do array local:', entregaLocal);
-      
-      // Se tiver dados locais completos, usa eles
+  const entregaLocal = entregas.find(e => e.id === id);
+
       if (entregaLocal && entregaLocal.pedido && entregaLocal.motorista && entregaLocal.veiculo) {
-        console.log('Usando dados locais');
         setSelectedEntrega(entregaLocal);
         setShowViewModal(true);
         return;
       }
-      
-      // Senão, busca da API
-      console.log('Buscando da API...');
-      const response = await fetch(`/api/entregas/${id}`);
-      console.log('Response status:', response.status);
-      
+
+  const response = await fetch(`/api/entregas/${id}`);
       const data = await response.json();
-      console.log('Dados recebidos da API:', data);
-      
+
       if (response.ok && data) {
         setSelectedEntrega(data);
         setShowViewModal(true);
       } else {
-        console.error('Erro na resposta:', data);
+        console.error('Erro na resposta ao buscar entrega:', data);
         alert('Erro ao carregar detalhes da entrega');
       }
     } catch (error) {
@@ -187,19 +177,49 @@ export default function Entregas() {
     e.preventDefault();
 
     try {
-      const response = await fetch('/api/entregas', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
+      if (pedidoAtribuidoId) {
+        const payload = {
+          motorista_id: parseInt(formData.motorista_id),
+          veiculo_id: parseInt(formData.veiculo_id),
+          status: formData.status
+        };
 
-      if (response.ok) {
-        alert('Entrega atribuída com sucesso!');
-        setShowAtribuirModal(false);
-        fetchEntregas();
+        const response = await fetch(`/api/entregas/${pedidoAtribuidoId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          alert('Entrega reatribuída com sucesso!');
+          setShowAtribuirModal(false);
+          fetchEntregas();
+        } else {
+          const error = await response.json();
+          alert(error.error || 'Erro ao reatribuir entrega');
+        }
       } else {
-        const error = await response.json();
-        alert(error.error || 'Erro ao atribuir entrega');
+        const payload = {
+          pedido_id: parseInt(formData.pedido_id),
+          motorista_id: parseInt(formData.motorista_id),
+          veiculo_id: parseInt(formData.veiculo_id),
+          status: formData.status
+        };
+
+        const response = await fetch('/api/entregas', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          alert('Entrega atribuída com sucesso!');
+          setShowAtribuirModal(false);
+          fetchEntregas();
+        } else {
+          const error = await response.json();
+          alert(error.error || 'Erro ao atribuir entrega');
+        }
       }
     } catch (error) {
       console.error('Erro ao atribuir:', error);
@@ -218,7 +238,6 @@ export default function Entregas() {
         status: formData.status
       };
       
-      // Só adiciona comprovante se foi preenchido
       if (formData.comprovante) {
         updateData.comprovante = formData.comprovante;
       }
@@ -373,7 +392,7 @@ export default function Entregas() {
         )}
       </div>
 
-      {/* Modal Atribuir Entrega */}
+      
       {showAtribuirModal && (
         <div className={styles.modalOverlay} onClick={() => setShowAtribuirModal(false)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
@@ -384,17 +403,35 @@ export default function Entregas() {
                 <label>Pedido *</label>
                 <select
                   value={formData.pedido_id}
-                  onChange={(e) => setFormData({...formData, pedido_id: parseInt(e.target.value)})}
+                  onChange={(e) => {
+                    const val = e.target.value ? parseInt(e.target.value) : '';
+                    setFormData({...formData, pedido_id: val});
+                    const p = pedidos.find(x => x.id === val);
+                    if (p && p.entregas && p.entregas.length > 0) {
+                      setPedidoAtribuidoId(p.entregas[0].id);
+                    } else {
+                      setPedidoAtribuidoId(null);
+                    }
+                  }}
                   required
                 >
                   <option value="">Selecione um pedido</option>
-                  {pedidos.map(p => (
-                    <option key={p.id} value={p.id}>
-                      {p.numero_pedido} - {p.cliente?.nome} - R$ {p.valor_total}
-                    </option>
-                  ))}
+                  {pedidos.map(p => {
+                    const jáAtribuido = p.entregas && p.entregas.length > 0;
+                    return (
+                      <option key={p.id} value={p.id} disabled={jáAtribuido}>
+                        {p.numero_pedido} - {p.cliente?.nome} - R$ {p.valor_total}{jáAtribuido ? ' — Já atribuído' : ''}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
+
+              {pedidoAtribuidoId && (
+                <div className={styles.formGroup} style={{background: '#fff6f0', padding: '8px', borderRadius: 6, marginBottom: 12}}>
+                  <strong>Atenção:</strong> Este pedido já possui uma entrega atribuída (ID: {pedidoAtribuidoId}). Ao confirmar, a entrega existente será reatribuída para o motorista/veículo selecionado.
+                </div>
+              )}
 
               <div className={styles.formGroup}>
                 <label>Motorista *</label>
@@ -440,12 +477,12 @@ export default function Entregas() {
                 </select>
               </div>
 
-              <div className={styles.modalActions}>
+                <div className={styles.modalActions}>
                 <button type="button" onClick={() => setShowAtribuirModal(false)} className={styles.btnSecondary}>
                   Cancelar
                 </button>
                 <button type="submit" className={styles.btnPrimary}>
-                  Atribuir
+                  {pedidoAtribuidoId ? 'Reatribuir entrega' : 'Atribuir'}
                 </button>
               </div>
             </form>
@@ -453,7 +490,7 @@ export default function Entregas() {
         </div>
       )}
 
-      {/* Modal Editar */}
+      
       {showEditModal && selectedEntrega && (
         <div className={styles.modalOverlay} onClick={() => setShowEditModal(false)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
@@ -525,71 +562,55 @@ export default function Entregas() {
         </div>
       )}
 
-      {/* Modal Visualizar */}
+      
       {showViewModal && selectedEntrega && (
-        <div className={styles.modalOverlay} onClick={() => setShowViewModal(false)}>
-          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.closeBtn} onClick={() => setShowViewModal(false)}>×</button>
-            <h2>Detalhes da Entrega #{selectedEntrega.id || 'N/A'}</h2>
-
-            {/* Debug - mostrar objeto completo */}
-            <div style={{background: '#f0f0f0', padding: '10px', marginBottom: '10px', fontSize: '11px', maxHeight: '150px', overflow: 'auto'}}>
-              <strong>DEBUG - Dados carregados:</strong>
-              <pre>{JSON.stringify(selectedEntrega, null, 2)}</pre>
-            </div>
-
-            <div className={styles.viewSection}>
-              <h3>Informações do Pedido</h3>
-              <p><strong>Número do Pedido:</strong> {selectedEntrega.pedido?.numero_pedido || 'N/A'}</p>
-              <p><strong>Valor Total:</strong> R$ {selectedEntrega.pedido?.valor_total ? Number(selectedEntrega.pedido.valor_total).toFixed(2) : '0.00'}</p>
-              <p><strong>Endereço:</strong> {selectedEntrega.pedido?.endereco_cliente || 'N/A'}</p>
-              <p><strong>Status do Pedido:</strong> {selectedEntrega.pedido?.status || 'N/A'}</p>
-            </div>
-
-            <div className={styles.viewSection}>
-              <h3>Cliente</h3>
-              <p><strong>Nome:</strong> {selectedEntrega.pedido?.cliente?.nome || 'N/A'}</p>
-              <p><strong>Email:</strong> {selectedEntrega.pedido?.cliente?.email || 'N/A'}</p>
-              <p><strong>Telefone:</strong> {selectedEntrega.pedido?.cliente?.telefone || 'N/A'}</p>
-            </div>
-
-            <div className={styles.viewSection}>
-              <h3>Motorista</h3>
-              <p><strong>Nome:</strong> {selectedEntrega.motorista?.nome || 'N/A'}</p>
-              <p><strong>Email:</strong> {selectedEntrega.motorista?.email || 'N/A'}</p>
-              <p><strong>Telefone:</strong> {selectedEntrega.motorista?.telefone || 'N/A'}</p>
-            </div>
-
-            <div className={styles.viewSection}>
-              <h3>Veículo</h3>
-              <p><strong>Placa:</strong> {selectedEntrega.veiculo?.placa || 'N/A'}</p>
-              <p><strong>Modelo:</strong> {selectedEntrega.veiculo?.marca || ''} {selectedEntrega.veiculo?.modelo || 'N/A'}</p>
-              <p><strong>Ano:</strong> {selectedEntrega.veiculo?.ano || 'N/A'}</p>
-            </div>
-
-            <div className={styles.viewSection}>
-              <h3>Status da Entrega</h3>
-              <p>
-                <span className={`${styles.statusBadge} ${getStatusClass(selectedEntrega.status)}`}>
-                  {selectedEntrega.status || 'N/A'}
-                </span>
-              </p>
-              <p><strong>Atribuído em:</strong> {selectedEntrega.atribuido_em ? new Date(selectedEntrega.atribuido_em).toLocaleString('pt-BR') : 'N/A'}</p>
-              {selectedEntrega.entregue_em && selectedEntrega.status === 'ENTREGUE' && (
-                <p><strong>Entregue em:</strong> {new Date(selectedEntrega.entregue_em).toLocaleString('pt-BR')}</p>
-              )}
-              {selectedEntrega.comprovante && (
-                <p><strong>Comprovante:</strong> {selectedEntrega.comprovante}</p>
-              )}
-            </div>
-
-            <div className={styles.modalActions}>
-              <button onClick={() => setShowViewModal(false)} className={styles.btnSecondary}>
-                Fechar
-              </button>
-            </div>
+        <ViewModal title={`Detalhes da Entrega #${selectedEntrega.id || 'N/A'}`} onClose={() => setShowViewModal(false)}>
+          <div className={styles.viewSection}>
+            <h3>Informações do Pedido</h3>
+            <p><strong>Número do Pedido:</strong> {selectedEntrega.pedido?.numero_pedido || 'N/A'}</p>
+            <p><strong>Valor Total:</strong> R$ {selectedEntrega.pedido?.valor_total ? Number(selectedEntrega.pedido.valor_total).toFixed(2) : '0.00'}</p>
+            <p><strong>Endereço:</strong> {selectedEntrega.pedido?.endereco_cliente || 'N/A'}</p>
+            <p><strong>Status do Pedido:</strong> {selectedEntrega.pedido?.status || 'N/A'}</p>
           </div>
-        </div>
+
+          <div className={styles.viewSection}>
+            <h3>Cliente</h3>
+            <p><strong>Nome:</strong> {selectedEntrega.pedido?.cliente?.nome || 'N/A'}</p>
+            <p><strong>Email:</strong> {selectedEntrega.pedido?.cliente?.email || 'N/A'}</p>
+            <p><strong>Telefone:</strong> {selectedEntrega.pedido?.cliente?.telefone || 'N/A'}</p>
+          </div>
+
+          <div className={styles.viewSection}>
+            <h3>Motorista</h3>
+            <p><strong>Nome:</strong> {selectedEntrega.motorista?.nome || 'N/A'}</p>
+            <p><strong>Email:</strong> {selectedEntrega.motorista?.email || 'N/A'}</p>
+            <p><strong>Telefone:</strong> {selectedEntrega.motorista?.telefone || 'N/A'}</p>
+          </div>
+
+          <div className={styles.viewSection}>
+            <h3>Veículo</h3>
+            <p><strong>Placa:</strong> {selectedEntrega.veiculo?.placa || 'N/A'}</p>
+            <p><strong>Modelo:</strong> {selectedEntrega.veiculo?.marca || ''} {selectedEntrega.veiculo?.modelo || 'N/A'}</p>
+            <p><strong>Ano:</strong> {selectedEntrega.veiculo?.ano || 'N/A'}</p>
+          </div>
+
+          <div className={styles.viewSection}>
+            <h3>Status da Entrega</h3>
+            <p>
+              <span className={`${styles.statusBadge} ${getStatusClass(selectedEntrega.status)}`}>
+                {selectedEntrega.status || 'N/A'}
+              </span>
+            </p>
+            <p><strong>Atribuído em:</strong> {selectedEntrega.atribuido_em ? new Date(selectedEntrega.atribuido_em).toLocaleString('pt-BR') : 'N/A'}</p>
+            {selectedEntrega.entregue_em && selectedEntrega.status === 'ENTREGUE' && (
+              <p><strong>Entregue em:</strong> {new Date(selectedEntrega.entregue_em).toLocaleString('pt-BR')}</p>
+            )}
+            {selectedEntrega.comprovante && (
+              <p><strong>Comprovante:</strong> {selectedEntrega.comprovante}</p>
+            )}
+          </div>
+
+        </ViewModal>
       )}
     </div>
   );

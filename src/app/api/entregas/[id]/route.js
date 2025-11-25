@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 export async function GET(request, { params }) {
   try {
     const { id } = await params;
-    console.log('GET /api/entregas/[id] - Buscando entrega ID:', id);
+  // buscando entrega por id
 
     const entrega = await prisma.entrega.findUnique({
       where: { id: parseInt(id) },
@@ -26,8 +26,7 @@ export async function GET(request, { params }) {
             placa: true,
             modelo: true,
             marca: true,
-            ano: true,
-            capacidade_kg: true
+            ano: true
           }
         },
         pedido: {
@@ -45,22 +44,13 @@ export async function GET(request, { params }) {
       }
     });
 
-    console.log('Entrega encontrada:', entrega ? 'Sim' : 'Não');
-
     if (!entrega) {
       return NextResponse.json(
         { error: 'Entrega não encontrada' },
         { status: 404 }
       );
     }
-
-    console.log('Retornando entrega com relações:', {
-      id: entrega.id,
-      temMotorista: !!entrega.motorista,
-      temVeiculo: !!entrega.veiculo,
-      temPedido: !!entrega.pedido,
-      temCliente: !!entrega.pedido?.cliente
-    });
+    // retorno da entrega com relações
 
     return NextResponse.json(entrega);
   } catch (error) {
@@ -79,15 +69,14 @@ export async function PUT(request, { params }) {
     const body = await request.json();
     const { motorista_id, veiculo_id, comprovante, status } = body;
 
-    console.log('PUT /api/entregas/[id] - ID:', id);
-    console.log('Body recebido:', body);
+  // atualizando entrega
 
     // Verificar se entrega existe
     const entregaExistente = await prisma.entrega.findUnique({
       where: { id: parseInt(id) }
     });
 
-    console.log('Entrega existente:', entregaExistente);
+  // entrega existente verificada
 
     if (!entregaExistente) {
       return NextResponse.json(
@@ -152,7 +141,7 @@ export async function PUT(request, { params }) {
       }
     }
 
-    console.log('Dados para atualizar:', dataToUpdate);
+  // dados a atualizar preparados
 
     const entrega = await prisma.entrega.update({
       where: { id: parseInt(id) },
