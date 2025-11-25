@@ -21,6 +21,14 @@ export default function PerfilMotorista() {
     confirmarSenha: ''
   });
   const [showSenhaModal, setShowSenhaModal] = useState(false);
+  const [showVeiculoModal, setShowVeiculoModal] = useState(false);
+  const [veiculoData, setVeiculoData] = useState({
+    id: null,
+    placa: '',
+    modelo: '',
+    marca: '',
+    ano: ''
+  });
 
   useEffect(() => {
     const motoristaData = localStorage.getItem('motorista');
@@ -30,22 +38,30 @@ export default function PerfilMotorista() {
     }
 
     const motorista = JSON.parse(motoristaData);
-    fetchMotorista(motorista.id);
-    fetchVeiculos(motorista.id);
+    fetchMotorista(motorista.email);
   }, []);
 
-  const fetchMotorista = async (id) => {
+  const fetchMotorista = async (email) => {
     try {
-      const res = await fetch(`/api/usuarios/${id}`);
+      const res = await fetch(`/api/usuarios?email=${encodeURIComponent(email)}`);
       const data = await res.json();
-      setMotorista(data);
-      setFormData({
-        nome: data.nome,
-        telefone: data.telefone,
-        email: data.email
-      });
+      
+      if (res.ok && data) {
+        setMotorista(data);
+        setFormData({
+          nome: data.nome,
+          telefone: data.telefone,
+          email: data.email
+        });
+        // Buscar veículos do motorista
+        fetchVeiculos(data.id);
+      } else {
+        console.error('Motorista não encontrado');
+        router.push('/login-motorista');
+      }
     } catch (error) {
       console.error('Erro ao carregar motorista:', error);
+      router.push('/login-motorista');
     }
   };
 
@@ -126,6 +142,47 @@ export default function PerfilMotorista() {
     } catch (error) {
       console.error('Erro ao atualizar senha:', error);
       alert('Erro ao atualizar senha');
+    }
+  };
+
+  const handleEditVeiculo = (veiculo) => {
+    setVeiculoData({
+      id: veiculo.id,
+      placa: veiculo.placa,
+      modelo: veiculo.modelo || '',
+      marca: veiculo.marca || '',
+      ano: veiculo.ano || ''
+    });
+    setShowVeiculoModal(true);
+  };
+
+  const handleUpdateVeiculo = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch(`/api/veiculos/${veiculoData.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          placa: veiculoData.placa,
+          modelo: veiculoData.modelo,
+          marca: veiculoData.marca,
+          ano: parseInt(veiculoData.ano) || null
+        })
+      });
+
+      if (res.ok) {
+        alert('Veículo atualizado com sucesso!');
+        setShowVeiculoModal(false);
+        fetchVeiculos(motorista.id);
+        setVeiculoData({ id: null, placa: '', modelo: '', marca: '', ano: '' });
+      } else {
+        const error = await res.json();
+        alert(error.erro || 'Erro ao atualizar veículo');
+      }
+    } catch (error) {
+      console.error('Erro ao atualizar veículo:', error);
+      alert('Erro ao atualizar veículo');
     }
   };
 
@@ -210,17 +267,39 @@ export default function PerfilMotorista() {
               </form>
             ) : (
               <div className={styles.profileDetails}>
-                <div className={styles.detailItem}>
-                  <span className={styles.detailLabel}>📧 E-mail:</span>
-                  <span className={styles.detailValue}>{motorista.email}</span>
+                <div className={styles.detailRow}>
+                  <div className={styles.detailItem}>
+                    <div className={styles.detailIcon}>📧</div>
+                    <div className={styles.detailContent}>
+                      <span className={styles.detailLabel}>E-mail</span>
+                      <span className={styles.detailValue}>{motorista.email}</span>
+                    </div>
+                  </div>
+                  <div className={styles.detailItem}>
+                    <div className={styles.detailIcon}>📱</div>
+                    <div className={styles.detailContent}>
+                      <span className={styles.detailLabel}>Telefone</span>
+                      <span className={styles.detailValue}>{motorista.telefone}</span>
+                    </div>
+                  </div>
                 </div>
-                <div className={styles.detailItem}>
-                  <span className={styles.detailLabel}>📱 Telefone:</span>
-                  <span className={styles.detailValue}>{motorista.telefone}</span>
-                </div>
-                <div className={styles.detailItem}>
-                  <span className={styles.detailLabel}>👤 Função:</span>
-                  <span className={styles.detailValue}>{motorista.funcao}</span>
+                <div className={styles.detailRow}>
+                  <div className={styles.detailItem}>
+                    <div className={styles.detailIcon}>👤</div>
+                    <div className={styles.detailContent}>
+                      <span className={styles.detailLabel}>Função</span>
+                      <span className={styles.detailValue}>{motorista.funcao}</span>
+                    </div>
+                  </div>
+                  <div className={styles.detailItem}>
+                    <div className={styles.detailIcon}>📅</div>
+                    <div className={styles.detailContent}>
+                      <span className={styles.detailLabel}>Membro desde</span>
+                      <span className={styles.detailValue}>
+                        {new Date(motorista.criado_em).toLocaleDateString('pt-BR')}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
@@ -234,14 +313,20 @@ export default function PerfilMotorista() {
                   <div key={veiculo.id} className={styles.vehicleItem}>
                     <div className={styles.vehicleIcon}>🚛</div>
                     <div className={styles.vehicleInfo}>
-                      <h4>{veiculo.modelo}</h4>
+                      <h4>{veiculo.modelo || 'Sem modelo'}</h4>
                       <p className={styles.vehiclePlate}>{veiculo.placa}</p>
                       <div className={styles.vehicleSpecs}>
-                        <span>Capacidade: {veiculo.capacidade_kg} kg</span>
-                        <span className={veiculo.disponivel ? styles.available : styles.unavailable}>
-                          {veiculo.disponivel ? '✓ Disponível' : '✗ Indisponível'}
-                        </span>
+                        {veiculo.marca && <span>Marca: {veiculo.marca}</span>}
+                        {veiculo.ano && <span>Ano: {veiculo.ano}</span>}
                       </div>
+                    </div>
+                    <div className={styles.vehicleActions}>
+                      <button 
+                        onClick={() => handleEditVeiculo(veiculo)}
+                        className={styles.btnEditVehicle}
+                      >
+                        ✏️ Editar
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -297,6 +382,66 @@ export default function PerfilMotorista() {
               <div className={styles.modalButtons}>
                 <button type="submit" className={styles.btnSave}>Alterar Senha</button>
                 <button type="button" onClick={() => setShowSenhaModal(false)} className={styles.btnCancel}>Cancelar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {showVeiculoModal && (
+        <div className={styles.modalOverlay} onClick={() => setShowVeiculoModal(false)}>
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h2>Editar Veículo</h2>
+              <button onClick={() => setShowVeiculoModal(false)} className={styles.closeBtn}>×</button>
+            </div>
+
+            <form onSubmit={handleUpdateVeiculo} className={styles.modalForm}>
+              <div className={styles.formGroup}>
+                <label>Placa</label>
+                <input
+                  type="text"
+                  value={veiculoData.placa}
+                  onChange={(e) => setVeiculoData({ ...veiculoData, placa: e.target.value })}
+                  required
+                  maxLength={10}
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Modelo</label>
+                <input
+                  type="text"
+                  value={veiculoData.modelo}
+                  onChange={(e) => setVeiculoData({ ...veiculoData, modelo: e.target.value })}
+                  maxLength={50}
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Marca</label>
+                <input
+                  type="text"
+                  value={veiculoData.marca}
+                  onChange={(e) => setVeiculoData({ ...veiculoData, marca: e.target.value })}
+                  maxLength={50}
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Ano</label>
+                <input
+                  type="number"
+                  value={veiculoData.ano}
+                  onChange={(e) => setVeiculoData({ ...veiculoData, ano: e.target.value })}
+                  min={1900}
+                  max={new Date().getFullYear() + 1}
+                />
+              </div>
+
+              <div className={styles.modalButtons}>
+                <button type="submit" className={styles.btnSave}>Salvar Alterações</button>
+                <button type="button" onClick={() => setShowVeiculoModal(false)} className={styles.btnCancel}>Cancelar</button>
               </div>
             </form>
           </div>

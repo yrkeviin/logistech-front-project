@@ -1,6 +1,6 @@
 .container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
 }
 
 .main {
@@ -10,10 +10,7 @@
 }
 
 .content {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  padding: 0;
 }
 
 .header {
@@ -21,13 +18,11 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid #f0f0f0;
 }
 
 .header h1 {
   font-size: 2rem;
-  color: #2d3748;
+  color: white;
   margin: 0;
 }
 
@@ -47,31 +42,32 @@
 }
 
 .btnEdit {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #3498db;
   color: white;
 }
 
 .btnEdit:hover {
+  background: #2980b9;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
 }
 
 .btnPassword {
-  background: #718096;
+  background: #95a5a6;
   color: white;
 }
 
 .btnPassword:hover {
-  background: #4a5568;
+  background: #7f8c8d;
   transform: translateY(-2px);
 }
 
 .profileCard {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: white;
   border-radius: 12px;
   padding: 2rem;
   margin-bottom: 2rem;
-  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .profileHeader {
@@ -79,57 +75,96 @@
   align-items: center;
   gap: 1.5rem;
   margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #ecf0f1;
 }
 
 .avatar {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 3rem;
   font-weight: bold;
   color: white;
-  border: 4px solid rgba(255, 255, 255, 0.3);
+  border: 4px solid #ecf0f1;
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
 }
 
 .profileInfo h2 {
   margin: 0 0 0.5rem 0;
   font-size: 2rem;
+  color: #2c3e50;
 }
 
 .badge {
-  background: rgba(255, 255, 255, 0.2);
+  background: #3498db;
   padding: 0.4rem 1rem;
   border-radius: 20px;
   font-size: 0.9rem;
   font-weight: 600;
+  color: white;
+  display: inline-block;
 }
 
 .profileDetails {
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
+}
+
+.detailRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
 }
 
 .detailItem {
   display: flex;
-  justify-content: space-between;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  backdrop-filter: blur(10px);
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border-left: 4px solid #3498db;
+  transition: all 0.3s ease;
+}
+
+.detailItem:hover {
+  background: #ecf0f1;
+  transform: translateX(5px);
+  box-shadow: 0 2px 10px rgba(52, 152, 219, 0.1);
+}
+
+.detailIcon {
+  font-size: 2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.detailContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
 }
 
 .detailLabel {
+  font-size: 0.75rem;
   font-weight: 600;
-  opacity: 0.9;
+  color: #7f8c8d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .detailValue {
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  word-break: break-word;
 }
 
 .form {
@@ -147,21 +182,23 @@
 .formGroup label {
   font-weight: 600;
   font-size: 0.95rem;
+  color: #2c3e50;
 }
 
 .formGroup input {
   padding: 0.75rem;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid #e2e8f0;
   border-radius: 8px;
   font-size: 1rem;
-  background: rgba(255, 255, 255, 0.9);
+  background: white;
   color: #2d3748;
+  transition: all 0.3s ease;
 }
 
 .formGroup input:focus {
   outline: none;
-  border-color: white;
-  background: white;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
 }
 
 .formButtons {
@@ -182,34 +219,35 @@
 }
 
 .btnSave {
-  background: white;
-  color: #667eea;
+  background: #27ae60;
+  color: white;
 }
 
 .btnSave:hover {
+  background: #229954;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
 }
 
 .btnCancel {
-  background: rgba(255, 255, 255, 0.2);
+  background: #95a5a6;
   color: white;
-  border: 2px solid white;
 }
 
 .btnCancel:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: #7f8c8d;
 }
 
 .vehiclesCard {
-  background: #f7fafc;
+  background: white;
   border-radius: 12px;
   padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .vehiclesCard h3 {
   margin: 0 0 1.5rem 0;
-  color: #2d3748;
+  color: #2c3e50;
   font-size: 1.5rem;
 }
 
@@ -222,16 +260,16 @@
   display: flex;
   gap: 1rem;
   padding: 1.5rem;
-  background: white;
+  background: #f8f9fa;
   border-radius: 8px;
-  border: 2px solid #e2e8f0;
+  border-left: 4px solid #3498db;
   transition: all 0.3s ease;
+  position: relative;
 }
 
 .vehicleItem:hover {
-  border-color: #667eea;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
 }
 
 .vehicleIcon {
@@ -246,14 +284,14 @@
 
 .vehicleInfo h4 {
   margin: 0 0 0.5rem 0;
-  color: #2d3748;
+  color: #2c3e50;
   font-size: 1.2rem;
 }
 
 .vehiclePlate {
   font-size: 1.1rem;
   font-weight: bold;
-  color: #667eea;
+  color: #3498db;
   margin-bottom: 0.5rem;
   display: block;
 }
@@ -262,7 +300,31 @@
   display: flex;
   gap: 1.5rem;
   font-size: 0.9rem;
-  color: #718096;
+  color: #7f8c8d;
+  flex-wrap: wrap;
+}
+
+.vehicleActions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.btnEditVehicle {
+  padding: 0.5rem 1rem;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btnEditVehicle:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
 }
 
 .available {
@@ -378,13 +440,21 @@
 }
 
 .modalButtons .btnSave {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #27ae60;
   color: white;
 }
 
+.modalButtons .btnSave:hover {
+  background: #229954;
+}
+
 .modalButtons .btnCancel {
-  background: #e2e8f0;
-  color: #2d3748;
+  background: #95a5a6;
+  color: white;
+}
+
+.modalButtons .btnCancel:hover {
+  background: #7f8c8d;
 }
 
 .loading {
@@ -394,13 +464,29 @@
   min-height: 100vh;
   font-size: 1.5rem;
   color: white;
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .main {
+    padding: 1.5rem;
+  }
 }
 
 @media (max-width: 768px) {
+  .main {
+    padding: 1rem;
+  }
+
   .header {
     flex-direction: column;
     gap: 1rem;
     align-items: flex-start;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
   }
 
   .headerButtons {
@@ -412,9 +498,23 @@
     width: 100%;
   }
 
+  .profileCard {
+    padding: 1.5rem;
+  }
+
   .profileHeader {
     flex-direction: column;
     text-align: center;
+  }
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 2.5rem;
+  }
+
+  .profileInfo h2 {
+    font-size: 1.5rem;
   }
 
   .detailItem {
@@ -422,8 +522,89 @@
     gap: 0.5rem;
   }
 
+  .vehiclesCard {
+    padding: 1.5rem;
+  }
+
+  .vehiclesCard h3 {
+    font-size: 1.25rem;
+  }
+
+  .vehicleItem {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .vehicleIcon {
+    font-size: 2.5rem;
+  }
+
   .vehicleSpecs {
     flex-direction: column;
     gap: 0.5rem;
+  }
+
+  .vehicleActions {
+    width: 100%;
+  }
+
+  .btnEditVehicle {
+    width: 100%;
+  }
+
+  .modal {
+    padding: 1.5rem;
+    width: 95%;
+  }
+
+  .modalHeader h2 {
+    font-size: 1.25rem;
+  }
+
+  .formButtons {
+    flex-direction: column;
+  }
+
+  .modalButtons {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 0.75rem;
+  }
+
+  .header h1 {
+    font-size: 1.25rem;
+  }
+
+  .profileCard,
+  .vehiclesCard {
+    padding: 1rem;
+  }
+
+  .btnEdit,
+  .btnPassword {
+    padding: 0.6rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .avatar {
+    width: 70px;
+    height: 70px;
+    font-size: 2rem;
+  }
+
+  .profileInfo h2 {
+    font-size: 1.25rem;
+  }
+
+  .vehicleInfo h4 {
+    font-size: 1rem;
+  }
+
+  .vehiclePlate {
+    font-size: 1rem;
   }
 }
