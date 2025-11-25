@@ -20,6 +20,7 @@ export default function MinhasEntregas() {
     }
 
     const motoristaObj = JSON.parse(motoristaData);
+    console.log('MinhasEntregas mounted - motorista from localStorage:', motoristaObj);
     setMotorista(motoristaObj);
     fetchEntregas(motoristaObj.id);
   }, [filtroStatus]);
@@ -31,16 +32,32 @@ export default function MinhasEntregas() {
       if (filtroStatus) {
         url += `&status=${filtroStatus}`;
       }
-
+      console.log('fetchEntregas - url:', url);
       const response = await fetch(url);
+      console.log('fetchEntregas - response status:', response.status);
       const data = await response.json();
+      console.log('fetchEntregas - data:', data);
 
       // Ordenar entregas: PENDENTE primeiro, depois EM_ROTA, depois ENTREGUE
-      const ordenadas = data.sort((a, b) => {
+      let entregasArray = [];
+      if (Array.isArray(data)) {
+        entregasArray = data;
+      } else if (data && data.id) {
+        // API devolveu um único objeto de entrega
+        entregasArray = [data];
+      } else if (data && Array.isArray(data.entregas)) {
+        entregasArray = data.entregas;
+      } else {
+        console.warn('fetchEntregas - resposta inesperada, definindo array vazio');
+        entregasArray = [];
+      }
+
+      const ordenadas = entregasArray.sort((a, b) => {
         const ordem = { 'PENDENTE': 1, 'EM_ROTA': 2, 'ENTREGUE': 3 };
-        return ordem[a.status] - ordem[b.status];
+        return (ordem[a.status] || 99) - (ordem[b.status] || 99);
       });
 
+      console.log('fetchEntregas - entregas encontradas:', ordenadas.length);
       setEntregas(ordenadas);
     } catch (error) {
       console.error('Erro ao buscar entregas:', error);
@@ -49,7 +66,17 @@ export default function MinhasEntregas() {
     }
   };
 
-  const handleVerDetalhes = (entregaId) => {
+  const handleVerDetalhes = (entregaId, entregaObj) => {
+    // Log para depuração: mostrar o objeto entrega e o id recebido
+    console.log('handleVerDetalhes chamado com id:', entregaId, 'entregaObj:', entregaObj);
+
+    if (!entregaId && entregaId !== 0) {
+      console.error('ID da entrega inválido:', entregaId, 'entregaObj:', entregaObj);
+      alert('Não foi possível abrir detalhes: ID da entrega inválido.');
+      return;
+    }
+
+    // Navegar para a página de detalhes do motorista
     router.push(`/entrega/${entregaId}`);
   };
 
@@ -238,7 +265,7 @@ export default function MinhasEntregas() {
 
                 <div className={styles.entregaActions}>
                   <button
-                    onClick={() => handleVerDetalhes(entrega.id)}
+                    onClick={() => handleVerDetalhes(entrega.id, entrega)}
                     className={styles.btnDetalhes}
                   >
                     Ver Detalhes e Mapa 🗺️

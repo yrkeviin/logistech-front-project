@@ -1,11 +1,13 @@
-'use client';
+ 'use client';
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import HeaderMotorista from '../../../components/HeaderMotorista/HeaderMotorista';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 
-export default function DetalheEntrega({ params }) {
+export default function DetalheEntrega() {
   const router = useRouter();
+  const params = useParams();
+  const { id } = params || {};
   const [entrega, setEntrega] = useState(null);
   const [loading, setLoading] = useState(true);
   const [motorista, setMotorista] = useState(null);
@@ -23,14 +25,20 @@ export default function DetalheEntrega({ params }) {
 
     const motoristaObj = JSON.parse(motoristaData);
     setMotorista(motoristaObj);
-    fetchEntrega();
-  }, []);
+
+    // Só buscar entrega quando o id estiver disponível
+    console.log('DetalheEntrega useEffect - id (params):', id);
+    if (id) {
+      fetchEntrega();
+    }
+  }, [id]);
 
   const fetchEntrega = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/entregas/${params.id}`);
+      const response = await fetch(`/api/entregas/${id}`);
       const data = await response.json();
+      console.log('fetchEntrega retornou:', data);
       setEntrega(data);
     } catch (error) {
       console.error('Erro ao buscar entrega:', error);
@@ -41,7 +49,7 @@ export default function DetalheEntrega({ params }) {
 
   const atualizarStatus = async (novoStatus) => {
     try {
-      const response = await fetch(`/api/entregas/${params.id}`, {
+      const response = await fetch(`/api/entregas/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: novoStatus })
@@ -81,9 +89,9 @@ export default function DetalheEntrega({ params }) {
     try {
       // Em produção, você faria upload real da imagem
       // Por agora, vamos apenas salvar o nome do arquivo
-      const nomeArquivo = `comprovante_${params.id}_${Date.now()}.jpg`;
+      const nomeArquivo = `comprovante_${id}_${Date.now()}.jpg`;
 
-      const response = await fetch(`/api/entregas/${params.id}`, {
+      const response = await fetch(`/api/entregas/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -137,6 +145,11 @@ export default function DetalheEntrega({ params }) {
     );
   }
 
+  // Defensivo: garantir que status seja string antes de usar replace / construir classes
+  const status = entrega?.status ?? '';
+  const statusLabel = status ? status.replace('_', ' ') : 'N/A';
+  const statusClass = status ? styles['status' + status] : '';
+
   return (
     <div className={styles.container}>
       <HeaderMotorista />
@@ -147,8 +160,8 @@ export default function DetalheEntrega({ params }) {
             ← Voltar
           </button>
           <h1>Entrega #{entrega.id}</h1>
-          <span className={`${styles.statusBadge} ${styles['status' + entrega.status]}`}>
-            {entrega.status.replace('_', ' ')}
+          <span className={`${styles.statusBadge} ${statusClass}`}>
+            {statusLabel}
           </span>
         </div>
 
