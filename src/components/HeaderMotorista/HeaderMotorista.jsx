@@ -15,19 +15,22 @@ export default function HeaderMotorista() {
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
-        <Image src="/image/logoLogis.png" alt="LogisTech" width={120} height={40} />
+        <Image src="/image/logoLogis.png" alt="LogisTech" width={150} height={50} className={styles.logoImage} />
         <span className={styles.subtitle}>Motorista</span>
       </div>
 
       <nav className={styles.nav}>
         <a href="/minhas-entregas" className={styles.navLink}>
-          📦 Minhas Entregas
+          Minhas Entregas
+        </a>
+        <a href="/provas-entregas" className={styles.navLink}>
+          Comprovantes
         </a>
         <a href="/perfil-motorista" className={styles.navLink}>
-          👤 Perfil
+          Perfil
         </a>
         <button onClick={handleLogout} className={styles.logoutBtn}>
-          🚪 Sair
+          Sair
         </button>
       </nav>
     </header>
