@@ -37,26 +37,50 @@ export default function PerfilMotorista() {
       return;
     }
 
-    const motorista = JSON.parse(motoristaData);
-    fetchMotorista(motorista.email);
+    try {
+      const motorista = JSON.parse(motoristaData);
+      if (motorista && motorista.email) {
+        fetchMotorista(motorista.email);
+      } else {
+        console.error('Dados inválidos no localStorage');
+        router.push('/login-motorista');
+      }
+    } catch (error) {
+      console.error('Erro ao parsear dados do motorista:', error);
+      localStorage.removeItem('motorista');
+      router.push('/login-motorista');
+    }
   }, []);
 
   const fetchMotorista = async (email) => {
     try {
+      if (!email) {
+        console.error('Email não fornecido');
+        router.push('/login-motorista');
+        return;
+      }
+
       const res = await fetch(`/api/usuarios?email=${encodeURIComponent(email)}`);
+      
+      if (!res.ok) {
+        console.error('Erro na resposta da API:', res.status);
+        router.push('/login-motorista');
+        return;
+      }
+
       const data = await res.json();
       
-      if (res.ok && data) {
+      if (data && data.id) {
         setMotorista(data);
         setFormData({
-          nome: data.nome,
-          telefone: data.telefone,
-          email: data.email
+          nome: data.nome || '',
+          telefone: data.telefone || '',
+          email: data.email || ''
         });
         // Buscar veículos do motorista
         fetchVeiculos(data.id);
       } else {
-        console.error('Motorista não encontrado');
+        console.error('Dados do motorista inválidos:', data);
         router.push('/login-motorista');
       }
     } catch (error) {
@@ -186,8 +210,13 @@ export default function PerfilMotorista() {
     }
   };
 
-  if (!motorista) {
-    return <div className={styles.loading}>Carregando...</div>;
+  if (!motorista || !motorista.id || !motorista.nome) {
+    return (
+      <div className={styles.container}>
+        <HeaderMotorista />
+        <div className={styles.loading}>Carregando perfil...</div>
+      </div>
+    );
   }
 
   return (
@@ -201,11 +230,11 @@ export default function PerfilMotorista() {
             <div className={styles.headerButtons}>
               {!isEditing && (
                 <button onClick={() => setIsEditing(true)} className={styles.btnEdit}>
-                  ✏️ Editar Perfil
+                  Editar Perfil
                 </button>
               )}
               <button onClick={() => setShowSenhaModal(true)} className={styles.btnPassword}>
-                🔒 Alterar Senha
+                Alterar Senha
               </button>
             </div>
           </div>
@@ -213,10 +242,10 @@ export default function PerfilMotorista() {
           <div className={styles.profileCard}>
             <div className={styles.profileHeader}>
               <div className={styles.avatar}>
-                {motorista.nome.charAt(0).toUpperCase()}
+                {motorista?.nome?.charAt(0)?.toUpperCase() || 'M'}
               </div>
               <div className={styles.profileInfo}>
-                <h2>{motorista.nome}</h2>
+                <h2>{motorista?.nome || 'Motorista'}</h2>
                 <span className={styles.badge}>Motorista</span>
               </div>
             </div>
@@ -269,34 +298,33 @@ export default function PerfilMotorista() {
               <div className={styles.profileDetails}>
                 <div className={styles.detailRow}>
                   <div className={styles.detailItem}>
-                    <div className={styles.detailIcon}>📧</div>
                     <div className={styles.detailContent}>
                       <span className={styles.detailLabel}>E-mail</span>
-                      <span className={styles.detailValue}>{motorista.email}</span>
+                      <span className={styles.detailValue}>{motorista?.email || '-'}</span>
                     </div>
                   </div>
                   <div className={styles.detailItem}>
-                    <div className={styles.detailIcon}>📱</div>
                     <div className={styles.detailContent}>
                       <span className={styles.detailLabel}>Telefone</span>
-                      <span className={styles.detailValue}>{motorista.telefone}</span>
+                      <span className={styles.detailValue}>{motorista?.telefone || '-'}</span>
                     </div>
                   </div>
                 </div>
                 <div className={styles.detailRow}>
                   <div className={styles.detailItem}>
-                    <div className={styles.detailIcon}>👤</div>
                     <div className={styles.detailContent}>
                       <span className={styles.detailLabel}>Função</span>
-                      <span className={styles.detailValue}>{motorista.funcao}</span>
+                      <span className={styles.detailValue}>{motorista?.funcao || 'MOTORISTA'}</span>
                     </div>
                   </div>
                   <div className={styles.detailItem}>
-                    <div className={styles.detailIcon}>📅</div>
                     <div className={styles.detailContent}>
                       <span className={styles.detailLabel}>Membro desde</span>
                       <span className={styles.detailValue}>
-                        {new Date(motorista.criado_em).toLocaleDateString('pt-BR')}
+                        {motorista?.criado_em 
+                          ? new Date(motorista.criado_em).toLocaleDateString('pt-BR')
+                          : '-'
+                        }
                       </span>
                     </div>
                   </div>
@@ -306,12 +334,11 @@ export default function PerfilMotorista() {
           </div>
 
           <div className={styles.vehiclesCard}>
-            <h3>🚚 Meus Veículos</h3>
+            <h3>Meus Veículos</h3>
             {veiculos.length > 0 ? (
               <div className={styles.vehiclesList}>
                 {veiculos.map(veiculo => (
                   <div key={veiculo.id} className={styles.vehicleItem}>
-                    <div className={styles.vehicleIcon}>🚛</div>
                     <div className={styles.vehicleInfo}>
                       <h4>{veiculo.modelo || 'Sem modelo'}</h4>
                       <p className={styles.vehiclePlate}>{veiculo.placa}</p>
@@ -328,7 +355,7 @@ export default function PerfilMotorista() {
                         onClick={() => handleEditVeiculo(veiculo)}
                         className={styles.btnEditVehicle}
                       >
-                        ✏️ Editar
+                        Editar
                       </button>
                     </div>
                   </div>
