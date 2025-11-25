@@ -1588,7 +1588,7 @@
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
     max-width: 900px;
     width: 95%;
-    max-height: 90vh;
+    max-height: 95vh;
     overflow: hidden;
     animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
@@ -1772,7 +1772,7 @@
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
     max-width: 1000px;
     width: 95%;
-    max-height: 90vh;
+    max-height: 95vh;
     overflow: hidden;
     animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
@@ -2141,7 +2141,7 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
     max-width: 720px;
     width: 92%;
-    max-height: 85vh;
+    max-height: 95vh;
     overflow: hidden;
     animation: modalSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
@@ -2217,7 +2217,7 @@
     border: 1.5px solid rgba(255, 255, 255, 0.12);
     border-radius: 18px;
     padding: 1.5rem;
-    min-height: 135px;
+    min-height: 185px;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
     overflow: hidden;
@@ -2606,4 +2606,324 @@
         align-items: flex-start;
         gap: 0.8rem;
     }
+}
+
+.clickableItem {
+    cursor: pointer;
+}
+
+.pendingItemBody {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.8rem;
+}
+
+.clienteName {
+    color: #e2e8f0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.pedidoValue {
+    color: #10b981;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.clickHint {
+    color: #64748b;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-align: right;
+    margin-top: 0.5rem;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.pendingItem:hover .clickHint {
+    opacity: 1;
+    color: #fbbf24;
+}
+
+.detailsModalContainer {
+    background: linear-gradient(135deg, 
+        rgba(30, 41, 59, 0.98) 0%, 
+        rgba(15, 23, 42, 0.98) 50%,
+        rgba(30, 41, 59, 0.98) 100%);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    box-shadow: 
+        0 32px 64px rgba(0, 0, 0, 0.5),
+        0 16px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: fadeInUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.pedidoDetailsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.08) 0%, 
+        rgba(255, 255, 255, 0.03) 100%);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pedidoMainInfo h3 {
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.statusBadgeDetails {
+    padding: 0.6rem 1.2rem;
+    border-radius: 25px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, 
+        rgba(251, 191, 36, 0.25) 0%, 
+        rgba(245, 158, 11, 0.35) 100%);
+    color: #fbbf24;
+    border: 2px solid rgba(251, 191, 36, 0.4);
+    display: inline-block;
+}
+
+.pedidoValue {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.valueLabel {
+    color: #94a3b8;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+}
+
+.valueAmount {
+    color: #10b981;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.detailsSection {
+    margin-bottom: 2rem;
+    padding: 0 1.5rem;
+}
+
+.detailsSection h4 {
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detailsGrid {
+    display: grid;
+    gap: 1rem;
+}
+
+.detailItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1rem;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(255, 255, 255, 0.02) 100%);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.detailLabel {
+    color: #94a3b8;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    min-width: 100px;
+}
+
+.detailValue {
+    color: #e2e8f0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    text-align: right;
+    flex: 1;
+    margin-left: 1rem;
+}
+
+.observacoes {
+    padding: 1rem;
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.1) 0%, 
+        rgba(59, 130, 246, 0.05) 100%);
+    border-radius: 12px;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    color: #e2e8f0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Responsividade para modal de detalhes */
+
+@media (max-width: 768px) {
+    .detailsModalContainer {
+        width: 95%;
+        margin: 1rem;
+        max-height: 85vh;
+    }
+
+    .pedidoDetailsHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .pedidoValue {
+        align-items: flex-start;
+    }
+
+    .detailItem {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .detailValue {
+        text-align: left;
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+}
+
+/* Loading overlay e spinner */
+
+.loadingOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, 
+        rgba(15, 23, 42, 0.95) 0%, 
+        rgba(30, 41, 59, 0.95) 100%);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.loadingSpinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(59, 130, 246, 0.2);
+    border-top: 4px solid #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.loadingSpinner p {
+    color: #e2e8f0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-align: center;
+    margin: 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes spin {
+    0% { 
+        transform: rotate(0deg); 
+    }
+    100% { 
+        transform: rotate(360deg); 
+    }
+}
+
+/* Estado vazio */
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(255, 255, 255, 0.02) 100%);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 2rem 0;
+}
+
+.emptyIcon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.6;
+}
+
+.emptyState h3 {
+    color: #e2e8f0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+}
+
+.emptyState p {
+    color: #94a3b8;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin: 0;
+    max-width: 300px;
+    line-height: 1.5;
 }
