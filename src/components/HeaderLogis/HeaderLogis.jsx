@@ -11,7 +11,7 @@ export default function HeaderLogis() {
         <ul>
             <li><a href="/entregas">Entregas</a></li>
             <li><a href="/informacoes">Informações</a></li>
-            <li><a href="/estoque">Estoque</a></li>
+
         </ul>
     </div>
   )
