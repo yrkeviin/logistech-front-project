@@ -10,6 +10,32 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const funcao = searchParams.get('funcao'); // Filtrar por função (ADMIN ou MOTORISTA)
     const busca = searchParams.get('busca'); // Busca por nome, email ou telefone
+    const email = searchParams.get('email'); // Busca por email específico
+
+    // Se email for fornecido, buscar usuário específico
+    if (email) {
+      const usuario = await prisma.usuario.findUnique({
+        where: { email },
+        include: {
+          _count: {
+            select: {
+              veiculos: true,
+              pedidos_cliente: true,
+              entregas: true
+            }
+          }
+        }
+      });
+
+      if (!usuario) {
+        return NextResponse.json(
+          { erro: 'Usuário não encontrado' },
+          { status: 404 }
+        );
+      }
+
+      return NextResponse.json(usuario);
+    }
 
     // Construir filtros dinâmicos
     const where = {};
