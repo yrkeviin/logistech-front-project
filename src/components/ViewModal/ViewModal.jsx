@@ -2,27 +2,28 @@
 import React, { useEffect } from 'react';
 import styles from './ViewModal.module.css';
 
-export default function ViewModal({ title, onClose, children }) {
+export default function ViewModal({ title, children, onClose }) {
   useEffect(() => {
-    const onKey = (e) => {
+    const handleEsc = (e) => {
       if (e.key === 'Escape') onClose();
     };
-    document.addEventListener('keydown', onKey);
-    // prevent background scroll while modal is open
-    const prev = document.body.style.overflow;
+    document.addEventListener('keydown', handleEsc);
     document.body.style.overflow = 'hidden';
+    
     return () => {
-      document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = prev;
+      document.removeEventListener('keydown', handleEsc);
+      document.body.style.overflow = 'auto';
     };
   }, [onClose]);
 
   return (
-    <div className={styles.modalOverlay} onClick={onClose} role="dialog" aria-modal="true">
-      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.closeBtn} onClick={onClose} aria-label="Fechar">×</button>
-        <h2 className={styles.title}>{title}</h2>
-        {children}
+    <div className={styles.overlay} onClick={onClose}>
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+        <button className={styles.closeBtn} onClick={onClose}>×</button>
+        {title && <h2 className={styles.title}>{title}</h2>}
+        <div className={styles.content}>
+          {children}
+        </div>
       </div>
     </div>
   );

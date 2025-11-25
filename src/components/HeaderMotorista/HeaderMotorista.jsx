@@ -9,7 +9,7 @@ export default function HeaderMotorista() {
 
   const handleLogout = () => {
     localStorage.removeItem('motorista');
-    router.push('/login-motorista');
+    router.push('/');
   };
 
   return (
