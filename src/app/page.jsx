@@ -1,6 +1,5 @@
 'use client';
 
-import { Form, Input, Button, Alert, Radio } from 'antd';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import axios from 'axios';
@@ -10,11 +9,16 @@ export default function LoginPage() {
   const [erro, setErro] = useState(null);
   const [carregando, setCarregando] = useState(false);
   const [tipoUsuario, setTipoUsuario] = useState('ADMIN');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
   const router = useRouter();
 
-  const onFinish = async (values) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setErro(null);
     setCarregando(true);
+
+    const values = { email, senha };
 
     try {
       if (tipoUsuario === 'MOTORISTA') {
@@ -72,71 +76,61 @@ export default function LoginPage() {
         </div>
 
         {erro && (
-          <Alert
-            message="Erro"
-            description={erro}
-            type="error"
-            className={styles.errorAlert}
-          />
+          <div className={styles.errorAlert}>
+            <strong>Erro:</strong> {erro}
+          </div>
         )}
 
-        <Form onFinish={onFinish} layout="vertical" initialValues={{ tipoUsuario: 'ADMIN' }}>
-          <Form.Item
-            name="tipoUsuario"
-            className={styles.formItem}
-          >
-            <Radio.Group 
-              onChange={(e) => setTipoUsuario(e.target.value)} 
-              value={tipoUsuario}
-              buttonStyle="solid"
-              className={styles.userTypeGroup}
-            >
-              <Radio.Button 
-                value="ADMIN" 
-                className={styles.userTypeButton}
+        <form onSubmit={handleSubmit} className={styles.loginForm}>
+          <div className={styles.formItem}>
+            <div className={styles.userTypeGroup}>
+              <button
+                type="button"
+                className={`${styles.userTypeButton} ${tipoUsuario === 'ADMIN' ? styles.selected : ''}`}
+                onClick={() => setTipoUsuario('ADMIN')}
               >
-                👔 Admin
-              </Radio.Button>
-              <Radio.Button 
-                value="MOTORISTA" 
-                className={styles.userTypeButton}
+                Admin
+              </button>
+              <button
+                type="button"
+                className={`${styles.userTypeButton} ${tipoUsuario === 'MOTORISTA' ? styles.selected : ''}`}
+                onClick={() => setTipoUsuario('MOTORISTA')}
               >
-                🚚 Motorista
-              </Radio.Button>
-            </Radio.Group>
-          </Form.Item>
+                Motorista
+              </button>
+            </div>
+          </div>
 
-          <Form.Item
-            className={styles.formItem}
-            name="email"
-            rules={[
-              { required: true, message: 'Digite seu email!' },
-              { type: 'email', message: 'Digite um email válido!' }
-            ]}>
-            <input type="text" placeholder='Email@logistech.com' />
-          </Form.Item>
+          <div className={styles.formItem}>
+            <input
+              type="email"
+              placeholder="Email@logistech.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-          <Form.Item
-          className={styles.formItem}
-            name="senha"
-            rules={[{ required: true, message: 'Digite sua senha!' }]}>
-            <input type="password" placeholder='Senha'
-          />
-          </Form.Item>
+          <div className={styles.formItem}>
+            <input
+              type="password"
+              placeholder="Senha"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              required
+            />
+          </div>
 
-          <Form.Item>
-            <Button 
-              type="primary" 
-              htmlType="submit" 
-              block 
-              size="large"
-              loading={carregando}
+          <div className={styles.formItem}>
+            <button
+              type="submit"
+              disabled={carregando}
               className={`${styles.submitButton} ${tipoUsuario === 'MOTORISTA' ? styles.submitButtonMotorista : styles.submitButtonAdmin}`}
             >
-              {tipoUsuario === 'MOTORISTA' ? '🚚 Entrar como Motorista' : '👔 Entrar como Admin'}
-            </Button>
-          </Form.Item>
-        </Form>
+              {carregando ? 'Entrando...' : (tipoUsuario === 'MOTORISTA' ? 'Entrar como Motorista' : 'Entrar como Admin')}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

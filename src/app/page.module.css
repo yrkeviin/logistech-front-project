@@ -53,6 +53,15 @@
 
 .errorAlert {
   margin-bottom: 20px;
+  padding: 12px;
+  background-color: #ff4d4f;
+  color: white;
+  border-radius: 5px;
+  border: 1px solid #ff7875;
+}
+
+.loginForm {
+  width: 100%;
 }
 
 .formItem {
@@ -60,27 +69,58 @@
 }
 
 .formItem input {
-    height: 40px;
-    background-color: #393B43;
-    width: 100%;
-    border: none;
-    outline: none;
-    border-radius: 5px;
-    padding: 0 10px;
+  height: 40px;
+  background-color: #393B43;
+  width: 100%;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  padding: 0 10px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.formItem input::placeholder {
+  color: #999;
 }
 
 .userTypeGroup {
   width: 100%;
   display: flex;
+  gap: 2px;
 }
 
 .userTypeButton {
   flex: 1;
   text-align: center;
   height: 45px;
-  line-height: 45px;
+  line-height: 43px;
   font-size: 16px;
   font-weight: 600;
+  background-color: #FF3A18;
+  border: 1px solid #FF3A18;
+  color: white;
+  cursor: pointer;
+  border-radius: 0;
+  transition: all 0.3s ease;
+}
+
+.userTypeButton:first-child {
+  border-radius: 6px 0 0 6px;
+}
+
+.userTypeButton:last-child {
+  border-radius: 0 6px 6px 0;
+}
+
+.userTypeButton:hover {
+  background-color: #ce3030;
+  border-color: #ce3030;
+}
+
+.userTypeButton.selected {
+  background-color: #ce3030;
+  border-color: #ce3030;
 }
 
 .inputField {
@@ -90,16 +130,34 @@
 }
 
 .submitButton {
+  width: 100%;
   border: none;
   height: 45px;
   font-size: 16px;
   font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .submitButtonAdmin {
   background: linear-gradient(135deg, #FF3A18 0%, #ce3030 100%);
 }
 
+.submitButtonAdmin:hover:not(:disabled) {
+  background: linear-gradient(135deg, #e6330e 0%, #b82a2a 100%);
+}
+
 .submitButtonMotorista {
   background: linear-gradient(135deg, #ce3030 0%, #FF3A18 100%);
+}
+
+.submitButtonMotorista:hover:not(:disabled) {
+  background: linear-gradient(135deg, #b82a2a 0%, #e6330e 100%);
 }
