@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 .container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  background: #1a1d29;
+  font-family: 'Inter', sans-serif;
 }
 
 .main {
@@ -21,9 +24,11 @@
 }
 
 .header h1 {
-  font-size: 2rem;
-  color: white;
+  font-size: 1.75rem;
+  color: #f8fafc;
   margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.3px;
 }
 
 .headerButtons {
@@ -42,32 +47,36 @@
 }
 
 .btnEdit {
-  background: #3498db;
+  background: #3b82f6;
   color: white;
+  border: 1px solid #3b82f6;
 }
 
 .btnEdit:hover {
-  background: #2980b9;
+  background: #2563eb;
+  border-color: #2563eb;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
 }
 
 .btnPassword {
-  background: #95a5a6;
-  color: white;
+  background: #242938;
+  color: #cbd5e1;
+  border: 1px solid #2d3548;
 }
 
 .btnPassword:hover {
-  background: #7f8c8d;
+  background: #2d3548;
+  border-color: #3d4558;
   transform: translateY(-2px);
 }
 
 .profileCard {
-  background: white;
-  border-radius: 12px;
+  background: #242938;
+  border: 1px solid #2d3548;
+  border-radius: 8px;
   padding: 2rem;
   margin-bottom: 2rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .profileHeader {
@@ -76,35 +85,35 @@
   gap: 1.5rem;
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
-  border-bottom: 2px solid #ecf0f1;
+  border-bottom: 1px solid #2d3548;
 }
 
 .avatar {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  background: #3b82f6;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 3rem;
   font-weight: bold;
   color: white;
-  border: 4px solid #ecf0f1;
-  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+  border: 3px solid #2d3548;
 }
 
 .profileInfo h2 {
   margin: 0 0 0.5rem 0;
-  font-size: 2rem;
-  color: #2c3e50;
+  font-size: 1.75rem;
+  color: #f8fafc;
+  font-weight: 600;
 }
 
 .badge {
-  background: #3498db;
+  background: #3b82f6;
   padding: 0.4rem 1rem;
-  border-radius: 20px;
-  font-size: 0.9rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
   font-weight: 600;
   color: white;
   display: inline-block;
@@ -126,17 +135,16 @@
   display: flex;
   align-items: flex-start;
   gap: 1rem;
-  padding: 1.5rem;
-  background: #f8f9fa;
-  border-radius: 10px;
-  border-left: 4px solid #3498db;
-  transition: all 0.3s ease;
+  padding: 1.25rem;
+  background: #1a1d29;
+  border-radius: 6px;
+  border-left: 3px solid #3b82f6;
+  transition: all 0.2s ease;
 }
 
 .detailItem:hover {
-  background: #ecf0f1;
+  background: #1e2230;
   transform: translateX(5px);
-  box-shadow: 0 2px 10px rgba(52, 152, 219, 0.1);
 }
 
 .detailContent {
@@ -149,7 +157,7 @@
 .detailLabel {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #7f8c8d;
+  color: #94a3b8;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -157,7 +165,7 @@
 .detailValue {
   font-size: 1rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #f8fafc;
   word-break: break-word;
 }
 
@@ -176,23 +184,23 @@
 .formGroup label {
   font-weight: 600;
   font-size: 0.95rem;
-  color: #2c3e50;
+  color: #f8fafc;
 }
 
 .formGroup input {
   padding: 0.75rem;
-  border: 2px solid #e2e8f0;
-  border-radius: 8px;
+  border: 1px solid #2d3548;
+  border-radius: 6px;
   font-size: 1rem;
-  background: white;
-  color: #2d3748;
-  transition: all 0.3s ease;
+  background: #1a1d29;
+  color: #f8fafc;
+  transition: all 0.2s ease;
 }
 
 .formGroup input:focus {
   outline: none;
-  border-color: #3498db;
-  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  border-color: #3b82f6;
+  background: #1e2230;
 }
 
 .formButtons {
@@ -213,36 +221,38 @@
 }
 
 .btnSave {
-  background: #27ae60;
+  background: #10b981;
   color: white;
 }
 
 .btnSave:hover {
-  background: #229954;
+  background: #059669;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
 }
 
 .btnCancel {
-  background: #95a5a6;
-  color: white;
+  background: #242938;
+  color: #cbd5e1;
+  border: 1px solid #2d3548;
 }
 
 .btnCancel:hover {
-  background: #7f8c8d;
+  background: #2d3548;
+  border-color: #3d4558;
 }
 
 .vehiclesCard {
-  background: white;
-  border-radius: 12px;
+  background: #242938;
+  border: 1px solid #2d3548;
+  border-radius: 8px;
   padding: 2rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .vehiclesCard h3 {
   margin: 0 0 1.5rem 0;
-  color: #2c3e50;
+  color: #f8fafc;
   font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .vehiclesList {
@@ -253,17 +263,17 @@
 .vehicleItem {
   display: flex;
   gap: 1rem;
-  padding: 1.5rem;
-  background: #f8f9fa;
-  border-radius: 8px;
-  border-left: 4px solid #3498db;
-  transition: all 0.3s ease;
+  padding: 1.25rem;
+  background: #1a1d29;
+  border-radius: 6px;
+  border-left: 3px solid #3b82f6;
+  transition: all 0.2s ease;
   position: relative;
 }
 
 .vehicleItem:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+  background: #1e2230;
 }
 
 .vehicleInfo {
@@ -272,14 +282,15 @@
 
 .vehicleInfo h4 {
   margin: 0 0 0.5rem 0;
-  color: #2c3e50;
+  color: #f8fafc;
   font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .vehiclePlate {
   font-size: 1.1rem;
   font-weight: bold;
-  color: #3498db;
+  color: #3b82f6;
   margin-bottom: 0.5rem;
   display: block;
 }
@@ -288,7 +299,7 @@
   display: flex;
   gap: 1.5rem;
   font-size: 0.9rem;
-  color: #7f8c8d;
+  color: #94a3b8;
   flex-wrap: wrap;
 }
 
@@ -300,18 +311,18 @@
 
 .btnEditVehicle {
   padding: 0.5rem 1rem;
-  background: #3498db;
+  background: #3b82f6;
   color: white;
   border: none;
   border-radius: 6px;
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .btnEditVehicle:hover {
-  background: #2980b9;
+  background: #2563eb;
   transform: translateY(-2px);
 }
 
@@ -327,7 +338,7 @@
 
 .noVehicles {
   text-align: center;
-  color: #a0aec0;
+  color: #94a3b8;
   padding: 2rem;
   font-size: 1.1rem;
 }
@@ -338,7 +349,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -347,14 +358,14 @@
 }
 
 .modal {
-  background: white;
-  border-radius: 16px;
+  background: #242938;
+  border: 1px solid #2d3548;
+  border-radius: 8px;
   padding: 2rem;
   max-width: 500px;
   width: 90%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
 .modalHeader {
@@ -363,13 +374,14 @@
   align-items: center;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #f0f0f0;
+  border-bottom: 1px solid #2d3548;
 }
 
 .modalHeader h2 {
   margin: 0;
-  color: #2d3748;
+  color: #f8fafc;
   font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .closeBtn {
@@ -388,8 +400,8 @@
 }
 
 .closeBtn:hover {
-  background: #f7fafc;
-  color: #2d3748;
+  background: #2d3548;
+  color: #f8fafc;
 }
 
 .modalForm {
@@ -406,19 +418,22 @@
 
 .modalForm .formGroup label {
   font-weight: 600;
-  color: #2d3748;
+  color: #f8fafc;
 }
 
 .modalForm .formGroup input {
   padding: 0.75rem;
-  border: 2px solid #e2e8f0;
-  border-radius: 8px;
+  border: 1px solid #2d3548;
+  border-radius: 6px;
   font-size: 1rem;
+  background: #1a1d29;
+  color: #f8fafc;
 }
 
 .modalForm .formGroup input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #3b82f6;
+  background: #1e2230;
 }
 
 .modalButtons {
@@ -428,21 +443,23 @@
 }
 
 .modalButtons .btnSave {
-  background: #27ae60;
+  background: #10b981;
   color: white;
 }
 
 .modalButtons .btnSave:hover {
-  background: #229954;
+  background: #059669;
 }
 
 .modalButtons .btnCancel {
-  background: #95a5a6;
-  color: white;
+  background: #242938;
+  color: #cbd5e1;
+  border: 1px solid #2d3548;
 }
 
 .modalButtons .btnCancel:hover {
-  background: #7f8c8d;
+  background: #2d3548;
+  border-color: #3d4558;
 }
 
 .loading {
@@ -451,8 +468,8 @@
   justify-content: center;
   min-height: 100vh;
   font-size: 1.5rem;
-  color: white;
-  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: #f8fafc;
+  background: #1a1d29;
 }
 
 /* Responsividade */

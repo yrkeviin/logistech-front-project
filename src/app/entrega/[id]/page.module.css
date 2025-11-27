@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 .container {
   min-height: 100vh;
-  background-color: #252e43;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: #1a1d29;
+  font-family: 'Inter', sans-serif;
 }
 
 .content {
@@ -20,26 +22,28 @@
 
 .header h1 {
   flex: 1;
-  color: #ffffff;
-  font-size: 1.5rem;
+  color: #f8fafc;
+  font-size: 1.75rem;
   margin: 0;
   font-weight: 600;
+  letter-spacing: -0.3px;
 }
 
 .btnBack {
-  padding: 0.5rem 1rem;
-  background: #ffffff;
-  color: #0f1724;
-  border: 1px solid #e6eef8;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  padding: 0.6rem 1.2rem;
+  background: #242938;
+  color: #cbd5e1;
+  border: 1px solid #2d3548;
+  border-radius: 6px;
+  font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  transition: box-shadow 0.15s ease, transform 0.15s ease;
+  transition: all 0.2s ease;
 }
 
 .btnBack:hover {
-  box-shadow: 0 6px 18px rgba(15, 23, 36, 0.06);
+  background: #2d3548;
+  border-color: #3d4558;
   transform: translateY(-2px);
 }
 
@@ -75,19 +79,20 @@
 }
 
 .card {
-  background: #ffffff;
-  padding: 1.25rem;
+  background: #242938;
+  border: 1px solid #2d3548;
+  padding: 1.4rem;
   margin-bottom: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 6px 18px rgba(15, 23, 36, 0.04);
+  border-radius: 8px;
 }
 
 .card h2 {
-  margin: 0 0 0.75rem 0;
-  color: #0f1724;
+  margin: 0 0 1rem 0;
+  color: #f8fafc;
   font-size: 1.05rem;
-  padding-bottom: 0.6rem;
-  border-bottom: 1px solid #f1f5f9;
+  font-weight: 600;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #2d3548;
 }
 
 .infoGroup {
@@ -104,33 +109,33 @@
 }
 
 .label {
-  color: #6b7280;
-  font-weight: 600;
-  font-size: 0.9rem;
+  color: #94a3b8;
+  font-weight: 500;
+  font-size: 0.875rem;
 }
 
 .value {
-  color: #0f1724;
+  color: #f8fafc;
   font-weight: 600;
   text-align: right;
 }
 
 .valueHighlight {
-  color: #0b6b3a;
+  color: #10b981;
   font-weight: 700;
   font-size: 1rem;
   text-align: right;
 }
 
 .phone {
-  color: #0f5fe0;
+  color: #3b82f6;
   font-weight: 600;
   text-decoration: none;
-  transition: color 0.15s ease;
+  transition: color 0.2s ease;
 }
 
 .phone:hover {
-  color: #0b50c8;
+  color: #2563eb;
   text-decoration: underline;
 }
 
@@ -142,29 +147,29 @@
 
 .address p {
   margin: 0;
-  color: #0f1724;
-  font-size: 1rem;
+  color: #f8fafc;
+  font-size: 0.95rem;
   line-height: 1.5;
   padding: 0.9rem;
-  background: #fbfdff;
-  border-radius: 8px;
-  border-left: 3px solid #d6e8ff;
+  background: #1a1d29;
+  border-radius: 6px;
+  border-left: 3px solid #3b82f6;
 }
 
 .btnMapa {
-  padding: 0.6rem 1rem;
-  background: #0f5fe0;
+  padding: 0.6rem 1.2rem;
+  background: #3b82f6;
   color: white;
   text-decoration: none;
-  border-radius: 8px;
+  border-radius: 6px;
   font-weight: 600;
   text-align: center;
-  transition: box-shadow 0.15s ease, transform 0.15s ease;
+  transition: all 0.2s ease;
   display: inline-block;
 }
 
 .btnMapa:hover {
-  box-shadow: 0 8px 24px rgba(15, 95, 224, 0.12);
+  background: #2563eb;
   transform: translateY(-2px);
 }
 
@@ -180,17 +185,17 @@
 
 .mapAddress {
   margin: 0;
-  color: #0f1724;
-  font-size: 0.98rem;
+  color: #f8fafc;
+  font-size: 0.95rem;
   font-weight: 500;
 }
 
 .btnNavegar {
-  padding: 0.6rem 1rem;
-  background: #0b6b3a;
+  padding: 0.6rem 1.2rem;
+  background: #10b981;
   color: white;
   text-decoration: none;
-  border-radius: 8px;
+  border-radius: 6px;
   font-weight: 600;
   font-size: 0.95rem;
   transition: box-shadow 0.15s ease, transform 0.15s ease;

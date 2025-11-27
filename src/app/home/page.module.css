@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 @keyframes fadeInUp {
     from {
@@ -96,31 +94,17 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    background: linear-gradient(135deg, #252E43 0%, #1a1f35 100%);
+    background: #1a1d29;
     min-height: 100vh;
-    position: relative;
-    overflow-x: hidden;
-}
-
-.container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 300px;
-    background: radial-gradient(ellipse at top, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
-    pointer-events: none;
+    font-family: 'Inter', sans-serif;
 }
 
 .dashboard {
     display: flex;
     align-items: center;
-    color: white;
+    color: #f8fafc;
     font-family: 'Inter', sans-serif;
-    padding: 3rem 4rem 2rem;
-    position: relative;
-    z-index: 2;
+    padding: 2rem 2.5rem;
 }
 
 .decorativeElements {
@@ -129,26 +113,19 @@
 }
 
 .dashboardTitle h1 {
-    font-size: 3rem;
-    font-weight: 800;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 50%, #e2e8f0 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: slideIn 1s ease-out;
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    letter-spacing: -1px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    color: #f8fafc;
+    letter-spacing: -0.5px;
 }
 
 .dashboardTitle p {
-    font-size: 1.2rem;
-    color: #cbd5e1;
+    font-size: 1.1rem;
+    color: #94a3b8;
     margin: 0;
     font-weight: 500;
     font-family: 'Inter', sans-serif;
-    animation: slideIn 1s ease-out 0.2s both;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .quadrados {
@@ -204,10 +181,10 @@
 
 .statsContainer {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
-    padding: 2rem 4rem;
-    max-width: 1400px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem 2.5rem;
+    max-width: 1600px;
     margin: 0 auto;
     width: 100%;
 }
@@ -217,28 +194,24 @@
 }
 
 .cardStatus {
-    background: rgba(57, 59, 67, 0.8);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
+    background: #242938;
+    border: 1px solid #2d3548;
+    border-radius: 8px;
     overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
 }
 
 .cardStatus:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-4px);
+    border-color: #3d4558;
 }
 
 .banner, .banner2, .banner3 {
-    border-radius: 20px 20px 0 0;
+    border-radius: 8px 8px 0 0;
     background-position: center;
     width: 100%;
-    height: 120px;
-    padding: 1.5rem;
+    height: 100px;
+    padding: 1.25rem;
     background-size: cover;
     background-repeat: no-repeat;
     display: flex;
@@ -255,38 +228,36 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.1) 100%);
 }
 
 .banner {
-    background-image: linear-gradient(135deg, rgba(255, 193, 7, 0.9) 0%, rgba(255, 152, 0, 0.7) 100%), url('/image/amareloBanner.png');
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
 }
 
 .banner2 {
-    background-image: linear-gradient(135deg, rgba(59, 130, 246, 0.9) 0%, rgba(37, 99, 235, 0.7) 100%), url('/image/azulBanner.png');
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
 }
 
 .banner3 {
-    background-image: linear-gradient(135deg, rgba(34, 197, 94, 0.9) 0%, rgba(22, 163, 74, 0.7) 100%), url('/image/verdeBanner.png');
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
 }
 
 .cardIcon {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     z-index: 2;
     position: relative;
-    animation: pulse 3s infinite;
-    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-    transition: transform 0.3s ease;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 700;
+    transition: transform 0.2s ease;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.2);
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 0.4rem 0.9rem;
+    border-radius: 4px;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    letter-spacing: 1px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .cardIcon:hover {
@@ -301,23 +272,21 @@
 }
 
 .cardContent h1 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.6rem;
-    font-weight: 700;
-    margin: 0 0 0.8rem 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
     color: #ffffff;
-    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
-    letter-spacing: 0.5px;
+    letter-spacing: 0;
 }
 
 .cardNumber {
-    font-size: 3rem;
-    font-weight: 900;
-    font-family: 'Poppins', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
     color: #ffffff;
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
     line-height: 1;
-    letter-spacing: -1px;
+    letter-spacing: -0.5px;
 }
 
 .cardBody {
