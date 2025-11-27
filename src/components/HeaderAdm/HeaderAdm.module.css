@@ -49,3 +49,21 @@
     transition: .3s ease-in-out;
     border-bottom: 1.5px solid #FF3A18;
 }
+
+.btnSair {
+    background-color: #FF3A18;
+    color: white;
+    border: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    margin-right: 2rem;
+    transition: 0.3s ease-in-out;
+}
+
+.btnSair:hover {
+    background-color: #d63214;
+    transform: scale(1.05);
+}
