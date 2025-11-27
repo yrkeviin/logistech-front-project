@@ -1,56 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Container Principal */
 .container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: #1a1d29;
   min-height: 100vh;
-  background-color: #252e43;  
+  font-family: 'Inter', sans-serif;
 }
 
+/* Content */
 .content {
-  padding: 2rem;
-  max-width: 1200px;
+  padding: 2rem 2.5rem;
+  width: 100%;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
+/* Header */
 .header {
   margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #2d3548;
 }
 
 .header h1 {
-  color: white;
-  font-size: 2rem;
-  margin: 0 0 0.5rem 0;
+  color: #f8fafc;
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  letter-spacing: -0.3px;
 }
 
 .welcome {
-  color: #ecf0f1;
-  font-size: 1.1rem;
+  color: #94a3b8;
+  font-size: 0.9rem;
   margin: 0;
+  font-weight: 400;
 }
 
 /* Estatísticas */
 .stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.2rem;
   margin-bottom: 2rem;
 }
 
 .statCard {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 12px;
+  background: #242938;
+  padding: 1.25rem 1.1rem;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   gap: 1rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s;
+  border: 1px solid #2d3548;
+  transition: all 0.2s ease;
 }
 
 .statCard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  border-color: #3d4558;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .statIcon {
-  font-size: 2.5rem;
+  font-size: 1.8rem;
+  opacity: 0.9;
 }
 
 .statInfo {
@@ -58,107 +74,109 @@
 }
 
 .statValue {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #2c3e50;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #f8fafc;
   line-height: 1;
 }
 
 .statLabel {
-  font-size: 0.875rem;
-  color: #7f8c8d;
-  margin-top: 0.25rem;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin-top: 0.35rem;
+  font-weight: 500;
 }
 
 .statPendente {
-  border-left: 4px solid #f39c12;
+  border-left: 3px solid #f59e0b;
 }
 
 .statEmRota {
-  border-left: 4px solid #3498db;
+  border-left: 3px solid #3b82f6;
 }
 
 .statEntregue {
-  border-left: 4px solid #27ae60;
+  border-left: 3px solid #10b981;
 }
 
 /* Filtros */
 .filters {
   display: flex;
   gap: 0.75rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
   flex-wrap: wrap;
 }
 
 .filterBtn {
-  padding: 0.75rem 1.5rem;
-  background: white;
-  color: #2c3e50;
-  border: 2px solid transparent;
-  border-radius: 8px;
-  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+  background: #242938;
+  color: #cbd5e1;
+  border: 1px solid #2d3548;
+  border-radius: 6px;
+  font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
 }
 
 .filterBtn:hover {
-  background: #ecf0f1;
-  transform: translateY(-2px);
+  background: #2d3548;
+  border-color: #3d4558;
 }
 
 .filterBtn.active {
-  background: #3498db;
+  background: #3b82f6;
   color: white;
-  border-color: #2980b9;
-  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+  border-color: #3b82f6;
 }
 
 /* Lista de Entregas */
 .entregasList {
   display: grid;
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(520px, 1fr));
+  gap: 1.25rem;
 }
 
 .entregaCard {
-  background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s;
+  background: #242938;
+  border-radius: 8px;
+  padding: 1.4rem;
+  border: 1px solid #2d3548;
+  transition: all 0.2s ease;
 }
 
 .entregaCard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: #3d4558;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .entregaHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid #ecf0f1;
+  margin-bottom: 1.1rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid #2d3548;
 }
 
 .entregaId {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #2c3e50;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #f8fafc;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
 .icon {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 
 .statusBadge {
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.875rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -181,8 +199,8 @@
 
 .entregaInfo {
   display: grid;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
+  gap: 0.7rem;
+  margin-bottom: 1.1rem;
 }
 
 .infoRow {
@@ -193,110 +211,241 @@
 }
 
 .label {
-  color: #7f8c8d;
+  color: #94a3b8;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .value {
-  color: #2c3e50;
-  font-weight: 600;
+  color: #e2e8f0;
+  font-weight: 500;
   text-align: right;
+  font-size: 0.85rem;
 }
 
 .entregaActions {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 2px solid #ecf0f1;
+  margin-top: 1.1rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid #2d3548;
   display: flex;
   gap: 0.75rem;
 }
 
 .btnDetalhes {
   flex: 1;
-  padding: 0.875rem 1.5rem;
-  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  padding: 0.7rem 1.3rem;
+  background: #3b82f6;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
 }
 
 .btnDetalhes:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(52, 152, 219, 0.4);
+  background: #2563eb;
+}
+
+.btnDetalhes:active {
+  background: #1d4ed8;
 }
 
 .loading {
   text-align: center;
-  padding: 4rem;
-  color: white;
-  font-size: 1.2rem;
+  padding: 4rem 2rem;
+  color: #94a3b8;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .noData {
   text-align: center;
   padding: 4rem 2rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background: #242938;
+  border-radius: 8px;
+  border: 1px solid #2d3548;
 }
 
 .noDataIcon {
-  font-size: 4rem;
+  font-size: 3rem;
   margin-bottom: 1rem;
+  opacity: 0.6;
 }
 
 .noData h3 {
-  color: #2c3e50;
+  color: #f8fafc;
   margin: 0 0 0.5rem 0;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .noData p {
-  color: #7f8c8d;
+  color: #94a3b8;
   margin: 0;
-  font-size: 1rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+/* Responsividade */
+@media (max-width: 1400px) {
+  .entregasList {
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  }
+}
+
+@media (max-width: 1200px) {
+  .content {
+    padding: 2rem 2rem;
+  }
+
+  .stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .entregasList {
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .entregasList {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 768px) {
   .content {
-    padding: 1rem;
-  }
-
-  .stats {
-    grid-template-columns: 1fr;
+    padding: 1.5rem 1rem;
   }
 
   .header h1 {
     font-size: 1.5rem;
   }
 
+  .welcome {
+    font-size: 0.85rem;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  .entregasList {
+    grid-template-columns: 1fr;
+  }
+
+  .statCard {
+    padding: 1rem 0.8rem;
+    gap: 0.8rem;
+  }
+
+  .statIcon {
+    font-size: 1.6rem;
+  }
+
+  .statValue {
+    font-size: 1.3rem;
+  }
+
+  .statLabel {
+    font-size: 0.7rem;
+  }
+
   .filters {
-    flex-direction: column;
+    gap: 0.6rem;
   }
 
   .filterBtn {
-    width: 100%;
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .entregaCard {
+    padding: 1.1rem;
   }
 
   .entregaHeader {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.75rem;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.8rem;
+  }
+
+  .entregaId {
+    font-size: 1rem;
+  }
+
+  .icon {
+    font-size: 1.1rem;
+  }
+
+  .statusBadge {
+    padding: 0.4rem 0.9rem;
+    font-size: 0.65rem;
   }
 
   .infoRow {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.25rem;
+    padding: 0.55rem 0.7rem;
+  }
+
+  .label {
+    font-size: 0.75rem;
   }
 
   .value {
-    text-align: left;
+    font-size: 0.8rem;
+  }
+
+  .btnDetalhes {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    padding: 1.2rem 0.8rem;
+  }
+
+  .header h1 {
+    font-size: 1.4rem;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+
+  .statCard {
+    padding: 0.9rem 0.7rem;
+  }
+
+  .entregasList {
+    grid-template-columns: 1fr;
+  }
+
+  .noData {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .noDataIcon {
+    font-size: 3rem;
+  }
+
+  .noData h3 {
+    font-size: 1.1rem;
+  }
+
+  .noData p {
+    font-size: 0.85rem;
   }
 }

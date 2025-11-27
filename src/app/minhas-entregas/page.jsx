@@ -94,7 +94,7 @@ export default function MinhasEntregas() {
           <div>
             <h1>Minhas Entregas</h1>
             {motorista && (
-              <p className={styles.welcome}>Olá, {motorista.nome.split(' ')[0]}! 👋</p>
+              <p className={styles.welcome}>Olá, {motorista.nome.split(' ')[0]}!</p>
             )}
           </div>
         </div>
@@ -105,7 +105,7 @@ export default function MinhasEntregas() {
             <div className={styles.statIcon}>📦</div>
             <div className={styles.statInfo}>
               <div className={styles.statValue}>{estatisticas.total}</div>
-              <div className={styles.statLabel}>Total de Entregas</div>
+              <div className={styles.statLabel}>Total</div>
             </div>
           </div>
 
@@ -113,7 +113,7 @@ export default function MinhasEntregas() {
             <div className={styles.statIcon}>📅</div>
             <div className={styles.statInfo}>
               <div className={styles.statValue}>{estatisticas.hoje}</div>
-              <div className={styles.statLabel}>Entregas Hoje</div>
+              <div className={styles.statLabel}>Hoje</div>
             </div>
           </div>
 
@@ -154,19 +154,19 @@ export default function MinhasEntregas() {
             className={`${styles.filterBtn} ${filtroStatus === 'PENDENTE' ? styles.active : ''}`}
             onClick={() => setFiltroStatus('PENDENTE')}
           >
-            ⏳ Pendentes
+            Pendentes
           </button>
           <button
             className={`${styles.filterBtn} ${filtroStatus === 'EM_ROTA' ? styles.active : ''}`}
             onClick={() => setFiltroStatus('EM_ROTA')}
           >
-            🚚 Em Rota
+            Em Rota
           </button>
           <button
             className={`${styles.filterBtn} ${filtroStatus === 'ENTREGUE' ? styles.active : ''}`}
             onClick={() => setFiltroStatus('ENTREGUE')}
           >
-            ✅ Entregues
+            Entregues
           </button>
         </div>
 
@@ -177,7 +177,7 @@ export default function MinhasEntregas() {
           <div className={styles.noData}>
             <div className={styles.noDataIcon}>📭</div>
             <h3>Nenhuma entrega encontrada</h3>
-            <p>Você não tem entregas no momento</p>
+            <p>Você não tem entregas cadastradas no momento</p>
           </div>
         ) : (
           <div className={styles.entregasList}>
@@ -195,32 +195,32 @@ export default function MinhasEntregas() {
 
                 <div className={styles.entregaInfo}>
                   <div className={styles.infoRow}>
-                    <span className={styles.label}>📋 Pedido:</span>
+                    <span className={styles.label}>Pedido:</span>
                     <span className={styles.value}>{entrega.pedido?.numero_pedido}</span>
                   </div>
 
                   <div className={styles.infoRow}>
-                    <span className={styles.label}>👤 Cliente:</span>
+                    <span className={styles.label}>Cliente:</span>
                     <span className={styles.value}>{entrega.pedido?.cliente?.nome}</span>
                   </div>
 
                   <div className={styles.infoRow}>
-                    <span className={styles.label}>📍 Endereço:</span>
+                    <span className={styles.label}>Endereço:</span>
                     <span className={styles.value}>{entrega.pedido?.endereco_cliente}</span>
                   </div>
 
                   <div className={styles.infoRow}>
-                    <span className={styles.label}>💰 Valor:</span>
+                    <span className={styles.label}>Valor:</span>
                     <span className={styles.value}>R$ {entrega.pedido?.valor_total}</span>
                   </div>
 
                   <div className={styles.infoRow}>
-                    <span className={styles.label}>🚐 Veículo:</span>
+                    <span className={styles.label}>Veículo:</span>
                     <span className={styles.value}>{entrega.veiculo?.placa} - {entrega.veiculo?.modelo}</span>
                   </div>
 
                   <div className={styles.infoRow}>
-                    <span className={styles.label}>📅 Atribuído em:</span>
+                    <span className={styles.label}>Atribuído em:</span>
                     <span className={styles.value}>
                       {new Date(entrega.atribuido_em).toLocaleString('pt-BR')}
                     </span>
@@ -228,7 +228,7 @@ export default function MinhasEntregas() {
 
                   {entrega.entregue_em && (
                     <div className={styles.infoRow}>
-                      <span className={styles.label}>✅ Entregue em:</span>
+                      <span className={styles.label}>Entregue em:</span>
                       <span className={styles.value}>
                         {new Date(entrega.entregue_em).toLocaleString('pt-BR')}
                       </span>
@@ -241,7 +241,7 @@ export default function MinhasEntregas() {
                     onClick={() => handleVerDetalhes(entrega.id)}
                     className={styles.btnDetalhes}
                   >
-                    Ver Detalhes e Mapa 🗺️
+                    Ver Detalhes e Mapa
                   </button>
                 </div>
               </div>
