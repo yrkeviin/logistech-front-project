@@ -6,6 +6,9 @@ import { useRouter } from 'next/navigation';
 
 export default function DetalheEntrega({ params }) {
   const router = useRouter();
+  // `params` can be a Promise in client components. Unwrap it with React.use()
+  // to safely access dynamic route params (see Next.js guidance).
+  const { id } = React.use(params);
   const [entrega, setEntrega] = useState(null);
   const [loading, setLoading] = useState(true);
   const [motorista, setMotorista] = useState(null);
@@ -29,7 +32,7 @@ export default function DetalheEntrega({ params }) {
   const fetchEntrega = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/entregas/${params.id}`);
+  const response = await fetch(`/api/entregas/${id}`);
       const data = await response.json();
       setEntrega(data);
     } catch (error) {
@@ -41,7 +44,7 @@ export default function DetalheEntrega({ params }) {
 
   const atualizarStatus = async (novoStatus) => {
     try {
-      const response = await fetch(`/api/entregas/${params.id}`, {
+  const response = await fetch(`/api/entregas/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: novoStatus })
@@ -81,9 +84,9 @@ export default function DetalheEntrega({ params }) {
     try {
       // Em produção, você faria upload real da imagem
       // Por agora, vamos apenas salvar o nome do arquivo
-      const nomeArquivo = `comprovante_${params.id}_${Date.now()}.jpg`;
+  const nomeArquivo = `comprovante_${id}_${Date.now()}.jpg`;
 
-      const response = await fetch(`/api/entregas/${params.id}`, {
+  const response = await fetch(`/api/entregas/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -144,9 +147,9 @@ export default function DetalheEntrega({ params }) {
       <div className={styles.content}>
         <div className={styles.header}>
           <button onClick={() => router.back()} className={styles.btnBack}>
-            ← Voltar
+            Voltar
           </button>
-          <h1>Entrega #{entrega.id}</h1>
+          <h1>Detalhes da entrega — #{entrega.id}</h1>
           <span className={`${styles.statusBadge} ${styles['status' + entrega.status]}`}>
             {entrega.status.replace('_', ' ')}
           </span>
@@ -155,7 +158,7 @@ export default function DetalheEntrega({ params }) {
         <div className={styles.grid}>
           {/* Informações do Cliente */}
           <div className={styles.card}>
-            <h2>👤 Informações do Cliente</h2>
+            <h2>Informações do cliente</h2>
             <div className={styles.infoGroup}>
               <div className={styles.infoItem}>
                 <span className={styles.label}>Nome:</span>
@@ -164,7 +167,7 @@ export default function DetalheEntrega({ params }) {
               <div className={styles.infoItem}>
                 <span className={styles.label}>Telefone:</span>
                 <a href={`tel:${entrega.pedido?.cliente?.telefone}`} className={styles.phone}>
-                  📞 {entrega.pedido?.cliente?.telefone}
+                  {entrega.pedido?.cliente?.telefone}
                 </a>
               </div>
               <div className={styles.infoItem}>
@@ -176,7 +179,7 @@ export default function DetalheEntrega({ params }) {
 
           {/* Informações do Pedido */}
           <div className={styles.card}>
-            <h2>📦 Informações do Pedido</h2>
+            <h2>Detalhes do pedido</h2>
             <div className={styles.infoGroup}>
               <div className={styles.infoItem}>
                 <span className={styles.label}>Número:</span>
@@ -196,40 +199,39 @@ export default function DetalheEntrega({ params }) {
 
         {/* Endereço de Entrega */}
         <div className={styles.card}>
-          <h2>📍 Endereço de Entrega</h2>
+          <h2>Endereço de entrega</h2>
           <div className={styles.address}>
             <p>{entrega.pedido?.endereco_cliente}</p>
-            <a 
-              href={getDirectionsUrl()} 
-              target="_blank" 
+            <a
+              href={getDirectionsUrl()}
+              target="_blank"
               rel="noopener noreferrer"
               className={styles.btnMapa}
             >
-              🗺️ Abrir no Google Maps
+              Abrir no Google Maps
             </a>
           </div>
         </div>
 
         {/* Mapa Simulado */}
         <div className={styles.card}>
-          <h2>🗺️ Localização no Mapa</h2>
+          <h2>Localização</h2>
           <div className={styles.mapPlaceholder}>
-            <div className={styles.mapIcon}>📍</div>
-            <p>{entrega.pedido?.endereco_cliente}</p>
-            <a 
-              href={getDirectionsUrl()} 
-              target="_blank" 
+            <p className={styles.mapAddress}>{entrega.pedido?.endereco_cliente}</p>
+            <a
+              href={getDirectionsUrl()}
+              target="_blank"
               rel="noopener noreferrer"
               className={styles.btnNavegar}
             >
-              Iniciar Navegação GPS
+              Iniciar navegação
             </a>
           </div>
         </div>
 
         {/* Informações da Entrega */}
         <div className={styles.card}>
-          <h2>🚚 Informações da Entrega</h2>
+          <h2>Informações da entrega</h2>
           <div className={styles.infoGroup}>
             <div className={styles.infoItem}>
               <span className={styles.label}>Veículo:</span>
@@ -269,7 +271,7 @@ export default function DetalheEntrega({ params }) {
                 onClick={() => atualizarStatus('EM_ROTA')}
                 className={`${styles.btnAction} ${styles.btnEmRota}`}
               >
-                🚚 Iniciar Rota
+                Iniciar rota
               </button>
             )}
 
@@ -279,22 +281,21 @@ export default function DetalheEntrega({ params }) {
                   onClick={() => setShowProvaModal(true)}
                   className={`${styles.btnAction} ${styles.btnEntregue}`}
                 >
-                  ✅ Marcar como Entregue
+                  Marcar como entregue
                 </button>
                 <button
                   onClick={() => atualizarStatus('PENDENTE')}
                   className={`${styles.btnAction} ${styles.btnVoltar}`}
                 >
-                  ⏮️ Voltar para Pendente
+                  Reverter para pendente
                 </button>
               </>
             )}
 
             {entrega.status === 'ENTREGUE' && (
               <div className={styles.entregueInfo}>
-                <div className={styles.successIcon}>✅</div>
-                <h3>Entrega Concluída!</h3>
-                <p>Esta entrega foi concluída com sucesso</p>
+                <h3>Entrega concluída</h3>
+                <p>Esta entrega foi concluída com sucesso.</p>
               </div>
             )}
           </div>
@@ -306,23 +307,23 @@ export default function DetalheEntrega({ params }) {
         <div className={styles.modalOverlay} onClick={() => setShowProvaModal(false)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
             <button className={styles.closeBtn} onClick={() => setShowProvaModal(false)}>×</button>
-            <h2>📸 Prova de Entrega</h2>
+            <h2>Comprovante de entrega</h2>
             <p className={styles.modalSubtitle}>
-              Tire ou anexe uma foto do comprovante de entrega
+              Anexe uma foto ou arquivo do comprovante de entrega
             </p>
 
             <div className={styles.uploadArea}>
               {previewUrl ? (
                 <div className={styles.preview}>
                   <img src={previewUrl} alt="Preview" />
-                  <button 
+                  <button
                     onClick={() => {
                       setComprovante(null);
                       setPreviewUrl('');
                     }}
                     className={styles.btnRemover}
                   >
-                    🗑️ Remover
+                    Remover
                   </button>
                 </div>
               ) : (
@@ -334,8 +335,8 @@ export default function DetalheEntrega({ params }) {
                     onChange={handleFileChange}
                     className={styles.fileInput}
                   />
-                  <div className={styles.uploadIcon}>📷</div>
-                  <p>Clique para tirar foto ou selecionar arquivo</p>
+                  <div className={styles.uploadIcon} aria-hidden />
+                  <p>Selecione um arquivo ou tire uma foto</p>
                 </label>
               )}
             </div>
