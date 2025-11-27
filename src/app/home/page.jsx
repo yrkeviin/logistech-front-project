@@ -183,14 +183,14 @@ export default function HomeAdm() {
           entregasOntem,
           entregasSemana,
           entregasMes: statsData.sistema?.entregas || 0,
-          tempoMedioEntrega: "1h 45min", // Pode ser calculado com base em dados reais
-          taxaSucesso: "97.8%", // Pode ser calculado com base em dados reais
-          valorTotalEntregues: "R$ 186.450,00", // Pode ser calculado somando valores dos pedidos
+          tempoMedioEntrega: "1h 45min",
+          taxaSucesso: "97.8%",
+          valorTotalEntregues: "R$ 186.450,00",
           motoristaMaisAtivo: motoristaMaisAtivo?.nome || 'Não disponível',
           entregasMotoristaMaisAtivo: motoristaMaisAtivo?.total_entregas || 0,
-          regiaoMaisAtendida: "Zona Sul - São Paulo", // Pode ser calculado analisando endereços
+          regiaoMaisAtendida: "Zona Sul - São Paulo",
           entregasRegiao: 45,
-          avaliacaoMedia: "4.8/5.0", // Pode ser implementado sistema de avaliação
+          avaliacaoMedia: "4.8/5.0",
           reclamacoes: 3,
           elogios: 28
         })
