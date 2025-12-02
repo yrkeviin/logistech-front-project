@@ -10,7 +10,7 @@ export async function PUT(request, { params }) {
     const { senhaAtual, novaSenha } = await request.json();
 
     // Buscar usuário
-    const usuario = await prisma.usuarios.findUnique({
+    const usuario = await prisma.usuario.findUnique({
       where: { id: parseInt(id) }
     });
 
@@ -34,7 +34,7 @@ export async function PUT(request, { params }) {
     const novaSenhaHash = await bcrypt.hash(novaSenha, 10);
 
     // Atualizar senha
-    await prisma.usuarios.update({
+    await prisma.usuario.update({
       where: { id: parseInt(id) },
       data: { senha: novaSenhaHash }
     });
