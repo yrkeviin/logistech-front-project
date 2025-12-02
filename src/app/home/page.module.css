@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
 
 @keyframes fadeInUp {
     from {
@@ -94,17 +96,31 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    background: #1a1d29;
+    background: linear-gradient(135deg, #252E43 0%, #1a1f35 100%);
     min-height: 100vh;
-    font-family: 'Inter', sans-serif;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 300px;
+    background: radial-gradient(ellipse at top, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    pointer-events: none;
 }
 
 .dashboard {
     display: flex;
     align-items: center;
-    color: #f8fafc;
+    color: white;
     font-family: 'Inter', sans-serif;
-    padding: 2rem 2.5rem;
+    padding: 3rem 4rem 2rem;
+    position: relative;
+    z-index: 2;
 }
 
 .decorativeElements {
@@ -113,19 +129,26 @@
 }
 
 .dashboardTitle h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    font-family: 'Inter', sans-serif;
-    color: #f8fafc;
-    letter-spacing: -0.5px;
+    font-size: 3rem;
+    font-weight: 800;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 50%, #e2e8f0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: slideIn 1s ease-out;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    letter-spacing: -1px;
 }
 
 .dashboardTitle p {
-    font-size: 1.1rem;
-    color: #94a3b8;
+    font-size: 1.2rem;
+    color: #cbd5e1;
     margin: 0;
     font-weight: 500;
     font-family: 'Inter', sans-serif;
+    animation: slideIn 1s ease-out 0.2s both;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .quadrados {
@@ -181,10 +204,10 @@
 
 .statsContainer {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    padding: 2rem 2.5rem;
-    max-width: 1600px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    padding: 2rem 4rem;
+    max-width: 1400px;
     margin: 0 auto;
     width: 100%;
 }
@@ -194,24 +217,28 @@
 }
 
 .cardStatus {
-    background: #242938;
-    border: 1px solid #2d3548;
-    border-radius: 8px;
+    background: rgba(57, 59, 67, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
     overflow: hidden;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .cardStatus:hover {
-    transform: translateY(-4px);
-    border-color: #3d4558;
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .banner, .banner2, .banner3 {
-    border-radius: 8px 8px 0 0;
+    border-radius: 20px 20px 0 0;
     background-position: center;
     width: 100%;
-    height: 100px;
-    padding: 1.25rem;
+    height: 120px;
+    padding: 1.5rem;
     background-size: cover;
     background-repeat: no-repeat;
     display: flex;
@@ -228,36 +255,38 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
 }
 
 .banner {
-    background-image: url(../../../public/image/amareloBanner.png);
+    background-image: linear-gradient(135deg, rgba(255, 193, 7, 0.9) 0%, rgba(255, 152, 0, 0.7) 100%), url('/image/amareloBanner.png');
 }
 
 .banner2 {
-    background-image: url(../../../public/image/azulBanner.png);
+    background-image: linear-gradient(135deg, rgba(59, 130, 246, 0.9) 0%, rgba(37, 99, 235, 0.7) 100%), url('/image/azulBanner.png');
 }
 
 .banner3 {
-    background-image: url(../../../public/image/verdeBanner.png);
+    background-image: linear-gradient(135deg, rgba(34, 197, 94, 0.9) 0%, rgba(22, 163, 74, 0.7) 100%), url('/image/verdeBanner.png');
 }
 
 .cardIcon {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     z-index: 2;
     position: relative;
-    transition: transform 0.2s ease;
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
+    animation: pulse 3s infinite;
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    transition: transform 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
     color: #ffffff;
-    background: rgba(0, 0, 0, 0.2);
-    padding: 0.4rem 0.9rem;
-    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    letter-spacing: 1px;
 }
 
 .cardIcon:hover {
@@ -272,21 +301,23 @@
 }
 
 .cardContent h1 {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin: 0 0 0.5rem 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0 0 0.8rem 0;
     color: #ffffff;
-    letter-spacing: 0;
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.5px;
 }
 
 .cardNumber {
-    font-size: 2.5rem;
-    font-weight: 700;
-    font-family: 'Inter', sans-serif;
+    font-size: 3rem;
+    font-weight: 900;
+    font-family: 'Poppins', sans-serif;
     color: #ffffff;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
     line-height: 1;
-    letter-spacing: -0.5px;
+    letter-spacing: -1px;
 }
 
 .cardBody {
@@ -2799,7 +2830,6 @@
     line-height: 1.5;
 }
 
-/* Responsividade para modal de detalhes */
 
 @media (max-width: 768px) {
     .detailsModalContainer {
@@ -2891,8 +2921,6 @@
         transform: rotate(360deg); 
     }
 }
-
-/* Estado vazio */
 
 .emptyState {
     display: flex;
