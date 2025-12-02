@@ -109,7 +109,9 @@ export default function PerfilMotorista() {
       });
 
       if (res.ok) {
-        const updated = await res.json();
+        const resp = await res.json();
+        // API retorna { mensagem, usuario } no PUT; suportar ambos formatos
+        const updated = resp.usuario || resp;
         setMotorista(updated);
         setIsEditing(false);
         
