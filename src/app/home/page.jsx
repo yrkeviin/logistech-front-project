@@ -336,7 +336,7 @@ export default function HomeAdm() {
             </div>
           </div>
           <div className={styles.cardBody}>
-            <p>Pedidos aguardando processamento e atribuição de motorista</p>
+            <p>Pedidos aguardando processamento e atribuição</p>
             <div className={styles.cardActions}>
               <button className={styles.actionBtn} onClick={handleOpenPendingModal}>Ver Detalhes</button>
             </div>
