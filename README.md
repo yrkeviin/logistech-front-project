@@ -114,7 +114,6 @@ logistech-front-project/
 npm run dev      # Servidor de desenvolvimento
 npm run build    # Build de produção
 npm run start    # Iniciar em produção
-npm run lint     # Verificar código
 ```
 
 ## 👥 Autores
