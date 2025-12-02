@@ -130,6 +130,16 @@ export default function LoginPage() {
               {carregando ? 'Entrando...' : (tipoUsuario === 'MOTORISTA' ? 'Entrar como Motorista' : 'Entrar como Admin')}
             </button>
           </div>
+
+          <div className={styles.cadastroLink}>
+            Não tem uma conta?{' '}
+            <a href="/cadastro" onClick={(e) => {
+              e.preventDefault();
+              router.push('/cadastro');
+            }}>
+              Cadastre-se
+            </a>
+          </div>
         </form>
       </div>
     </div>

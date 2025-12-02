@@ -12,11 +12,21 @@ export default function HeaderAdm() {
     router.push('/')
   }
 
+  const handleLogoClick = () => {
+    router.push('/home')
+  }
+
   return (
     <div className={styles.header}>
-        <img className={styles.logo} src="/image/logoAdm.png" alt="" />
+        <img 
+          className={styles.logo} 
+          src="/image/logoAdm.png" 
+          alt="Logo Logistech" 
+          onClick={handleLogoClick}
+          style={{ cursor: 'pointer' }}
+        />
 
-        <h1>LOGISTECH</h1>
+        <h1 onClick={handleLogoClick} style={{ cursor: 'pointer' }}>LOGISTECH</h1>
 
         <ul>
             <li><a href="/home">Dashboard</a></li>
