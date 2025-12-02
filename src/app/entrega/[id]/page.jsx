@@ -1,13 +1,11 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
-import HeaderMotorista from '../../../components/HeaderMotorista/HeaderMotorista';
+import HeaderMotorista from '../../../components/HeaderLogis/HeaderLogis';
 import { useRouter } from 'next/navigation';
 
 export default function DetalheEntrega({ params }) {
   const router = useRouter();
-  // `params` can be a Promise in client components. Unwrap it with React.use()
-  // to safely access dynamic route params (see Next.js guidance).
   const { id } = React.use(params);
   const [entrega, setEntrega] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,7 +15,6 @@ export default function DetalheEntrega({ params }) {
   const [previewUrl, setPreviewUrl] = useState('');
 
   useEffect(() => {
-    // Verificar autenticação
     const motoristaData = localStorage.getItem('motorista');
     if (!motoristaData) {
       router.push('/login-motorista');
@@ -82,8 +79,6 @@ export default function DetalheEntrega({ params }) {
     }
 
     try {
-      // Em produção, você faria upload real da imagem
-      // Por agora, vamos apenas salvar o nome do arquivo
   const nomeArquivo = `comprovante_${id}_${Date.now()}.jpg`;
 
   const response = await fetch(`/api/entregas/${id}`, {
@@ -156,7 +151,6 @@ export default function DetalheEntrega({ params }) {
         </div>
 
         <div className={styles.grid}>
-          {/* Informações do Cliente */}
           <div className={styles.card}>
             <h2>Informações do cliente</h2>
             <div className={styles.infoGroup}>
@@ -177,7 +171,6 @@ export default function DetalheEntrega({ params }) {
             </div>
           </div>
 
-          {/* Informações do Pedido */}
           <div className={styles.card}>
             <h2>Detalhes do pedido</h2>
             <div className={styles.infoGroup}>
@@ -197,7 +190,6 @@ export default function DetalheEntrega({ params }) {
           </div>
         </div>
 
-        {/* Endereço de Entrega */}
         <div className={styles.card}>
           <h2>Endereço de entrega</h2>
           <div className={styles.address}>
@@ -213,7 +205,6 @@ export default function DetalheEntrega({ params }) {
           </div>
         </div>
 
-        {/* Mapa Simulado */}
         <div className={styles.card}>
           <h2>Localização</h2>
           <div className={styles.mapPlaceholder}>
@@ -229,7 +220,6 @@ export default function DetalheEntrega({ params }) {
           </div>
         </div>
 
-        {/* Informações da Entrega */}
         <div className={styles.card}>
           <h2>Informações da entrega</h2>
           <div className={styles.infoGroup}>
@@ -262,7 +252,6 @@ export default function DetalheEntrega({ params }) {
           </div>
         </div>
 
-        {/* Ações de Status */}
         <div className={styles.actions}>
           <h2>Atualizar Status da Entrega</h2>
           <div className={styles.actionButtons}>
@@ -302,7 +291,6 @@ export default function DetalheEntrega({ params }) {
         </div>
       </div>
 
-      {/* Modal de Prova de Entrega */}
       {showProvaModal && (
         <div className={styles.modalOverlay} onClick={() => setShowProvaModal(false)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import HeaderMotorista from '../../components/HeaderMotorista/HeaderMotorista';
+import HeaderLogis from '../../components/HeaderLogis/HeaderLogis';
 import styles from './page.module.css';
 
 export default function PerfilMotorista() {
@@ -33,7 +33,7 @@ export default function PerfilMotorista() {
   useEffect(() => {
     const motoristaData = localStorage.getItem('motorista');
     if (!motoristaData) {
-      router.push('/login-motorista');
+      router.push('/');
       return;
     }
 
@@ -43,12 +43,12 @@ export default function PerfilMotorista() {
         fetchMotorista(motorista.email);
       } else {
         console.error('Dados inválidos no localStorage');
-        router.push('/login-motorista');
+        router.push('/');
       }
     } catch (error) {
       console.error('Erro ao parsear dados do motorista:', error);
       localStorage.removeItem('motorista');
-      router.push('/login-motorista');
+      router.push('/');
     }
   }, []);
 
@@ -56,7 +56,7 @@ export default function PerfilMotorista() {
     try {
       if (!email) {
         console.error('Email não fornecido');
-        router.push('/login-motorista');
+        router.push('/');
         return;
       }
 
@@ -64,7 +64,7 @@ export default function PerfilMotorista() {
       
       if (!res.ok) {
         console.error('Erro na resposta da API:', res.status);
-        router.push('/login-motorista');
+        router.push('/');
         return;
       }
 
@@ -77,15 +77,14 @@ export default function PerfilMotorista() {
           telefone: data.telefone || '',
           email: data.email || ''
         });
-        // Buscar veículos do motorista
         fetchVeiculos(data.id);
       } else {
         console.error('Dados do motorista inválidos:', data);
-        router.push('/login-motorista');
+        router.push('/');
       }
     } catch (error) {
       console.error('Erro ao carregar motorista:', error);
-      router.push('/login-motorista');
+      router.push('/');
     }
   };
 
@@ -114,7 +113,6 @@ export default function PerfilMotorista() {
         setMotorista(updated);
         setIsEditing(false);
         
-        // Atualizar localStorage
         const motoristaStorage = JSON.parse(localStorage.getItem('motorista'));
         localStorage.setItem('motorista', JSON.stringify({
           ...motoristaStorage,
@@ -213,7 +211,6 @@ export default function PerfilMotorista() {
   if (!motorista || !motorista.id || !motorista.nome) {
     return (
       <div className={styles.container}>
-        <HeaderMotorista />
         <div className={styles.loading}>Carregando perfil...</div>
       </div>
     );
@@ -221,7 +218,7 @@ export default function PerfilMotorista() {
 
   return (
     <div className={styles.container}>
-      <HeaderMotorista />
+      <HeaderLogis />
       
       <main className={styles.main}>
         <div className={styles.content}>

@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
-import HeaderMotorista from '../../components/HeaderMotorista/HeaderMotorista';
+import HeaderLogis from '../../components/HeaderLogis/HeaderLogis';
 import { useRouter } from 'next/navigation';
 
 export default function MinhasEntregas() {
@@ -12,7 +12,6 @@ export default function MinhasEntregas() {
   const [filtroStatus, setFiltroStatus] = useState('');
 
   useEffect(() => {
-    // Verificar autenticação
     const motoristaData = localStorage.getItem('motorista');
     if (!motoristaData) {
       router.push('/login-motorista');
@@ -35,7 +34,6 @@ export default function MinhasEntregas() {
       const response = await fetch(url);
       const data = await response.json();
 
-      // Ordenar entregas: PENDENTE primeiro, depois EM_ROTA, depois ENTREGUE
       const ordenadas = data.sort((a, b) => {
         const ordem = { 'PENDENTE': 1, 'EM_ROTA': 2, 'ENTREGUE': 3 };
         return ordem[a.status] - ordem[b.status];
@@ -87,7 +85,7 @@ export default function MinhasEntregas() {
 
   return (
     <div className={styles.container}>
-      <HeaderMotorista />
+      <HeaderLogis />
 
       <div className={styles.content}>
         <div className={styles.header}>
@@ -99,7 +97,6 @@ export default function MinhasEntregas() {
           </div>
         </div>
 
-        {/* Estatísticas */}
         <div className={styles.stats}>
           <div className={styles.statCard}>
             <div className={styles.statIcon}>📦</div>
@@ -142,7 +139,6 @@ export default function MinhasEntregas() {
           </div>
         </div>
 
-        {/* Filtros */}
         <div className={styles.filters}>
           <button
             className={`${styles.filterBtn} ${filtroStatus === '' ? styles.active : ''}`}
@@ -170,7 +166,6 @@ export default function MinhasEntregas() {
           </button>
         </div>
 
-        {/* Lista de Entregas */}
         {loading ? (
           <div className={styles.loading}>Carregando entregas...</div>
         ) : entregas.length === 0 ? (

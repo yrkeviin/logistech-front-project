@@ -1,7 +1,17 @@
+'use client'
 import React from 'react'
+import { useRouter } from 'next/navigation'
 import styles from './HeaderLogis.module.css'
 
 export default function HeaderLogis() {
+  const router = useRouter()
+
+  const handleLogout = () => {
+    localStorage.removeItem('usuario')
+    localStorage.removeItem('token')
+    router.push('/')
+  }
+
   return (
     <div className={styles.header}>
         <img className={styles.logo} src="/image/logoLogis.png" alt="" />
@@ -9,10 +19,14 @@ export default function HeaderLogis() {
         <h1>LOGISTECH</h1>
 
         <ul>
-            <li><a href="/entregas">Entregas</a></li>
-            <li><a href="/informacoes">Informações</a></li>
-
+            <li><a href="/minhas-entregas">Minhas Entregas</a></li>
+            <li><a href="/provas-entregas">Comprovantes</a></li>
+            <li><a href="/perfil-motorista">Perfil</a></li>
         </ul>
+
+        <button onClick={handleLogout} className={styles.btnSair}>
+          Sair
+        </button>
     </div>
   )
 }

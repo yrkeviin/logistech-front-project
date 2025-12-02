@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import HeaderMotorista from '../../components/HeaderMotorista/HeaderMotorista';
+import HeaderLogis from '../../components/HeaderLogis/HeaderLogis';
 import styles from './page.module.css';
 
 export default function ProvasEntregas() {
@@ -19,7 +19,6 @@ export default function ProvasEntregas() {
   const [entregas, setEntregas] = useState([]);
 
   useEffect(() => {
-    // Verificar autenticação
     const motoristaData = localStorage.getItem('motorista');
     if (!motoristaData) {
       router.push('/login-motorista');
@@ -133,8 +132,6 @@ export default function ProvasEntregas() {
     setLoading(true);
 
     try {
-      // Simular upload de arquivos e envio do comprovante
-      // Em uma aplicação real, você faria upload das imagens para um serviço de armazenamento
       const comprovante = `${formData.primeiroNome}_${formData.segundoNome}_${Date.now()}`;
 
       const response = await fetch(`/api/entregas/${formData.entregaId}`, {
@@ -149,7 +146,6 @@ export default function ProvasEntregas() {
 
       if (response.ok) {
         alert('Comprovante de entrega enviado com sucesso!');
-        // Resetar formulário
         setFormData({
           primeiroNome: '',
           segundoNome: '',
@@ -157,7 +153,6 @@ export default function ProvasEntregas() {
           entregaId: ''
         });
         setFiles([]);
-        // Atualizar lista de entregas
         fetchEntregasPendentes(motorista.id);
       } else {
         throw new Error('Erro ao enviar comprovante');
@@ -176,7 +171,7 @@ export default function ProvasEntregas() {
 
   return (
     <div className={styles.container}>
-      <HeaderMotorista />
+      <HeaderLogis />
       <div className={styles.content}>
         <div className={styles.header}>
           <h1>Comprovante de Entrega</h1>
