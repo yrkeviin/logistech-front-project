@@ -4,32 +4,32 @@ Sistema web para gerenciamento de entregas e logística, desenvolvido com Next.j
 
 ## 🚀 Tecnologias
 
-- **Next.js 14** - Framework React com App Router
-- **React 18** - Biblioteca para interfaces de usuário
-- **Prisma** - ORM para banco de dados
-- **PostgreSQL** - Banco de dados relacional
-- **CSS Modules** - Estilização com escopo local
+- **Next.js 14** - Framework React com App Router.
+- **React 18** - Biblioteca para interfaces de usuário.
+- **Prisma ORM** - Gerenciamento de modelos e migrations.
+- **PostgreSQL** - Banco de dados relacional.
+- **CSS Modules** - Estilização com escopo local.
 
-## 📋 Funcionalidades
+## 📋 Objetivo do Sistema
 
 ### Área Administrativa
-- Dashboard com estatísticas de entregas
-- Gestão de motoristas (criar, editar, visualizar, deletar)
-- Gestão de entregas (atribuir, reatribuir, acompanhar status)
-- Criação de veículos vinculados aos motoristas
+- Dashboard com estatísticas de entregas.
+- Gestão de motoristas (criar, editar, visualizar, deletar).
+- Gestão de entregas (atribuir, reatribuir, acompanhar status).
+- Criação de veículos vinculados aos motoristas.
 
 ### Área do Motorista
-- Visualização das entregas atribuídas
-- Atualização de status das entregas
-- Upload de comprovantes de entrega
-- Perfil do motorista
+- Visualização das entregas atribuídas.
+- Atualização de status das entregas.
+- Upload de comprovantes de entrega.
+- Perfil do motorista.
 
-## 🛠️ Instalação
+## 🛠️ Configurações Necessárias
 
 ### Pré-requisitos
-- Node.js 18+
-- PostgreSQL
-- npm ou pnpm
+- Node.js 18+.
+- PostgreSQL.
+- npm ou pnpm.
 
 ### Passos
 
@@ -69,7 +69,7 @@ npm run dev
 ```
 
 6. **Acesse no navegador**
-- Aplicação: [http://localhost:3000](http://localhost:3000)
+- Aplicação: [http://localhost:3000](http://localhost:3000).
 - Prisma Studio: `npx prisma studio`
 
 ## 📁 Estrutura do Projeto
@@ -103,10 +103,10 @@ logistech-front-project/
 
 ## 🗄️ Modelos do Banco de Dados
 
-- **Usuario** - Administradores e motoristas
-- **Veiculo** - Veículos vinculados aos motoristas
-- **Pedido** - Pedidos dos clientes
-- **Entrega** - Entregas atribuídas aos motoristas
+- **Usuario** - Administradores e motoristas.
+- **Veiculo** - Veículos vinculados aos motoristas.
+- **Pedido** - Pedidos dos clientes.
+- **Entrega** - Entregas atribuídas aos motoristas.
 
 ## 📝 Scripts Disponíveis
 
@@ -118,7 +118,7 @@ npm run start    # Iniciar em produção
 
 ## 👥 Autores
 
-Desenvolvido por alunos do curso de Desenvolvimento de Sistemas.
+Desenvolvido por alunos do curso de Desenvolvimento de Sistemas 1.
 
 ## 📄 Licença
 
