@@ -12,11 +12,21 @@ export default function HeaderLogis() {
     router.push('/')
   }
 
+  const handleLogoClick = () => {
+    router.push('/minhas-entregas')
+  }
+
   return (
     <div className={styles.header}>
-        <img className={styles.logo} src="/image/logoLogis.png" alt="" />
+        <img 
+          className={styles.logo} 
+          src="/image/logoLogis.png" 
+          alt="Logo Logistech" 
+          onClick={handleLogoClick}
+          style={{ cursor: 'pointer' }}
+        />
 
-        <h1>LOGISTECH</h1>
+        <h1 onClick={handleLogoClick} style={{ cursor: 'pointer' }}>LOGISTECH</h1>
 
         <ul>
             <li><a href="/minhas-entregas">Minhas Entregas</a></li>
