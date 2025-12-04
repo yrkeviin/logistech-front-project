@@ -368,7 +368,7 @@ export default function HomeAdm() {
             </div>
           </div>
           <div className={styles.cardBody}>
-            <p>Entregas concluídas com sucesso</p>
+            <p>Entregas concluídas com sucesso pelos entregadores</p>
             <div className={styles.cardActions}>
               <button className={styles.actionBtn3} onClick={handleOpenReportModal}>Relatório</button>
             </div>

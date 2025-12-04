@@ -4,8 +4,9 @@
     width: 100%;
     display: flex;
     align-items: center;
+    background-color: #292d3e;
     color: white;
-    height: 9vh;
+    height: 15vh;
     font-family: 'Poppins', sans-serif;
 }
 

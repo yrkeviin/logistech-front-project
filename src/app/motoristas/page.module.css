@@ -38,6 +38,8 @@
   margin: 0 auto;
 }
 
+
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -308,7 +310,7 @@
 
 .modalContent h2 {
   margin: 0 0 2rem;
-  color: #1e293b;
+  color: #f8fafc;
   font-size: 1.8rem;
   font-weight: 700;
   font-family: 'Inter', sans-serif;
@@ -390,14 +392,14 @@
 .viewSection {
   margin-bottom: 2rem;
   padding: 1.5rem;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(147, 197, 253, 0.05));
+  background: #1a1d29;
   border-radius: 12px;
   border-left: 4px solid #3b82f6;
 }
 
 .viewSection h3 {
   margin: 0 0 1rem;
-  color: #1e293b;
+  color: #3b82f6;
   font-size: 1.2rem;
   font-weight: 700;
   font-family: 'Inter', sans-serif;
@@ -405,13 +407,13 @@
 
 .viewSection p {
   margin: 0.8rem 0;
-  color: #475569;
+  color:  #94a3b8;
   font-size: 0.95rem;
   line-height: 1.6;
 }
 
 .viewSection p strong {
-  color: #1e293b;
+  color: #f8fafc;
   font-weight: 600;
   margin-right: 0.5rem;
 }
@@ -457,13 +459,13 @@
     padding: 1.5rem;
   }
 
-  .header {
+  .pageHeader {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
   }
 
-  .header h1 {
+  .pageHeader h1 {
     font-size: 1.8rem;
   }
 
