@@ -6,67 +6,148 @@
     align-items: center;
     background-color: #292d3e;
     color: white;
-    height: 15vh;
+    min-height: clamp(3.75rem, 9vh, 6rem);
+    padding: 0.5rem 0;
     font-family: 'Poppins', sans-serif;
 }
 
 .header .logo {
-    width: 3.2%;
-    margin: 0 1.5rem;
+    width: clamp(2rem, 3.2%, 3rem);
+    margin: 0 clamp(0.75rem, 2vw, 1.5rem);
+    flex-shrink: 0;
 }
 
 .header .logo img {
     width: 100%;
+    height: auto;
 }
 
 .header h1 {
-    transition: .4s ease-in-out;
-    font-size: 1.5rem;
+    transition: 0.4s ease-in-out;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    white-space: nowrap;
 }
 
 .header h1:hover {
     color: #FF3A18;
-    transition: .3s ease-in-out;
+    transition: 0.3s ease-in-out;
     cursor: pointer;
 }
 
 .header ul {
     display: flex;
     list-style: none;
-    gap: 4rem;
-    margin-right: 5rem;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    margin-right: clamp(1.5rem, 5vw, 5rem);
     margin-left: auto;
-    font-size: .88rem;
+    font-size: clamp(0.75rem, 1.5vw, 0.88rem);
+    padding: 0;
 }
 
 .header ul li a {
     text-decoration: none;
     color: white;
     font-weight: 500;
-    transition: .4s ease-in-out;
-    border-bottom: 1.5px solid transparent;
+    transition: 0.4s ease-in-out;
+    border-bottom: 0.09375rem solid transparent;
+    padding: 0.25rem 0;
+    white-space: nowrap;
 }
 
 .header ul li a:hover {
     color: #FF3A18;
-    transition: .3s ease-in-out;
-    border-bottom: 1.5px solid #FF3A18;
+    transition: 0.3s ease-in-out;
+    border-bottom: 0.09375rem solid #FF3A18;
 }
 
 .btnSair {
     background-color: #FF3A18;
     color: white;
     border: none;
-    padding: 0.5rem 1.2rem;
-    border-radius: 5px;
+    padding: clamp(0.4rem, 1vw, 0.5rem) clamp(0.9rem, 2vw, 1.2rem);
+    border-radius: 0.3125rem;
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: clamp(0.75rem, 1.5vw, 0.85rem);
     cursor: pointer;
-    margin-right: 2rem;
+    margin-right: clamp(1rem, 3vw, 2rem);
     transition: 0.3s ease-in-out;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .btnSair:hover {
     background-color: #d63214;
     transform: scale(1.05);
+}
+
+/* Media Queries */
+
+@media (max-width: 64rem) {
+    .header {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 1rem 0;
+    }
+
+    .header ul {
+        order: 3;
+        width: 100%;
+        justify-content: space-around;
+        margin: 1rem 0 0 0;
+        padding: 1rem 0 0 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btnSair {
+        order: 2;
+    }
+}
+
+@media (max-width: 48rem) {
+    .header ul {
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    .header ul li {
+        flex: 0 0 auto;
+    }
+}
+
+@media (max-width: 21.25rem) {
+    .header {
+        padding: 0.75rem 0;
+    }
+
+    .header .logo {
+        margin: 0 0.5rem;
+    }
+
+    .header h1 {
+        font-size: 1rem;
+    }
+
+    .header ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 0 0 0;
+    }
+
+    .header ul li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .header ul li a {
+        display: block;
+        padding: 0.5rem;
+    }
+
+    .btnSair {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.7rem;
+        margin-right: 0.5rem;
+    }
 }

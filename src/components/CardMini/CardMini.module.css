@@ -1,51 +1,78 @@
-.header {
-    width: 100%;
+.card {
     display: flex;
     align-items: center;
-    color: white;
-    height: 9vh;
-    font-family: 'Poppins', sans-serif;
+    gap: clamp(0.75rem, 2vw, 1.5rem);
+    padding: clamp(1rem, 3vw, 1.5rem);
+    background: rgba(57, 59, 67, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: clamp(0.75rem, 2vw, 1rem);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
 }
 
-.header .logo {
-    width: 3.2%;
-    margin: 0 1.5rem;
+.card:hover {
+    transform: translateY(-0.25rem);
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.3);
 }
 
-.header .logo img {
-    width: 100%;
+.card img {
+    width: clamp(2.5rem, 8vw, 4rem);
+    height: clamp(2.5rem, 8vw, 4rem);
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
-.header h1 {
-    transition: .4s ease-in-out;
-    font-size: 1.5rem;
-}
-
-.header h1:hover {
-    color: #FF3A18;
-    transition: .3s ease-in-out;
-    cursor: pointer;
-}
-
-.header ul {
+.info {
     display: flex;
-    list-style: none;
-    gap: 4rem;
-    margin-right: 5rem;
-    margin-left: auto;
-    font-size: .88rem;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 1;
 }
 
-.header ul li a {
-    text-decoration: none;
-    color: white;
+.info h1 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1;
+}
+
+.info p {
+    font-size: clamp(0.75rem, 2vw, 0.95rem);
+    color: #94a3b8;
+    margin: 0;
     font-weight: 500;
-    transition: .4s ease-in-out;
-    border-bottom: 1.5px solid transparent;
 }
 
-.header ul li a:hover {
-    color: #FF3A18;
-    transition: .3s ease-in-out;
-    border-bottom: 1.5px solid #FF3A18;
+/* Media Queries */
+
+@media (max-width: 48rem) {
+    .card {
+        padding: 1rem;
+    }
+
+    .card img {
+        width: 3rem;
+        height: 3rem;
+    }
+}
+
+@media (max-width: 21.25rem) {
+    .card {
+        padding: 0.875rem;
+        gap: 0.75rem;
+    }
+
+    .card img {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+    
+    .info h1 {
+        font-size: 1.5rem;
+    }
+    
+    .info p {
+        font-size: 0.75rem;
+    }
 }
