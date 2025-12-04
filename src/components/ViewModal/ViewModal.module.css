@@ -1,4 +1,4 @@
-/* Estilos do modal de visualização compartilhado - aprimorado */
+/* Estilos do modal de visualização compartilhado - totalmente responsivo */
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -10,17 +10,16 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  padding: 20px;
+  padding: clamp(0.5rem, 2vw, 1.25rem);
   overflow-y: auto;
 }
 
 .modalContent {
   position: relative;
   background: white;
-  width: 90%;
-  max-width: 800px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  width: min(90vw, 50rem);
+  border-radius: clamp(0.5rem, 2vw, 0.75rem);
+  box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.15);
   max-height: 85vh;
   display: flex;
   flex-direction: column;
@@ -32,38 +31,39 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 2rem;
+  padding: clamp(1rem, 3vw, 1.5rem) clamp(1.5rem, 4vw, 2rem);
   border-bottom: 1px solid #e5e7eb;
   background: white;
-  border-radius: 12px 12px 0 0;
+  border-radius: clamp(0.5rem, 2vw, 0.75rem) clamp(0.5rem, 2vw, 0.75rem) 0 0;
   flex-shrink: 0;
 }
 
 .modalHeader h2 {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
   color: #1f2937;
-  padding-right: 40px;
+  padding-right: clamp(2rem, 5vw, 2.5rem);
 }
 
 .closeBtn {
   position: absolute;
-  right: 1.5rem;
-  top: 1.5rem;
+  right: clamp(1rem, 3vw, 1.5rem);
+  top: clamp(1rem, 3vw, 1.5rem);
   background: none;
   border: none;
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
   color: #6b7280;
   cursor: pointer;
   padding: 0;
-  width: 32px;
-  height: 32px;
+  width: clamp(1.75rem, 5vw, 2rem);
+  height: clamp(1.75rem, 5vw, 2rem);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   transition: all 0.2s;
   line-height: 1;
+  flex-shrink: 0;
 }
 
 .closeBtn:hover {
@@ -72,23 +72,23 @@
 }
 
 .modalBody {
-  padding: 2rem;
+  padding: clamp(1rem, 3vw, 2rem);
   overflow-y: auto;
   flex: 1;
 }
 
 .title {
-  margin: 0 0 12px 0;
-  font-size: 20px;
+  margin: 0 0 0.75rem 0;
+  font-size: clamp(1.1rem, 3vw, 1.25rem);
   color: #0b2140;
   font-weight: 600;
 }
 
 .viewSection {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+  padding: clamp(0.75rem, 2vw, 1rem);
   background: #f9fafb;
-  border-radius: 8px;
+  border-radius: clamp(0.4rem, 1.5vw, 0.5rem);
   border: 1px solid #e5e7eb;
 }
 
@@ -97,17 +97,17 @@
 }
 
 .viewSection h3 {
-  margin: 0 0 0.75rem 0;
-  font-size: 1rem;
+  margin: 0 0 clamp(0.5rem, 1.5vw, 0.75rem) 0;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
   color: #1f2937;
   font-weight: 600;
-  border-bottom: 2px solid #3b82f6;
+  border-bottom: 0.125rem solid #3b82f6;
   padding-bottom: 0.5rem;
 }
 
 .viewSection p {
   margin: 0.5rem 0;
-  font-size: 0.875rem;
+  font-size: clamp(0.8rem, 2vw, 0.875rem);
   color: #374151;
   line-height: 1.5;
 }
@@ -120,47 +120,49 @@
 
 .statusBadge {
   display: inline-block;
-  padding: 6px 12px;
-  border-radius: 999px;
+  padding: clamp(0.3rem, 1vw, 0.375rem) clamp(0.6rem, 2vw, 0.75rem);
+  border-radius: 62.4375rem;
   color: #fff;
   font-weight: 600;
-  font-size: 12px;
+  font-size: clamp(0.7rem, 1.5vw, 0.75rem);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.03125rem;
 }
 
 /* Scrollbar customizada para o modal body */
 .modalBody::-webkit-scrollbar {
-  width: 8px;
+  width: 0.5rem;
 }
 
 .modalBody::-webkit-scrollbar-track {
   background: #f1f1f1;
-  border-radius: 10px;
+  border-radius: 0.625rem;
 }
 
 .modalBody::-webkit-scrollbar-thumb {
   background: #888;
-  border-radius: 10px;
+  border-radius: 0.625rem;
 }
 
 .modalBody::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
+/* Media Queries Específicas */
+
+@media (max-width: 48rem) {
   .modalContent {
-    width: 95%;
+    width: 95vw;
     max-height: 90vh;
+    border-radius: 0.625rem;
   }
 
   .modalHeader {
-    padding: 1rem 1.5rem;
+    padding: 1rem 1.25rem;
   }
 
   .modalHeader h2 {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
   }
 
   .modalBody {
@@ -170,5 +172,51 @@
   .closeBtn {
     right: 1rem;
     top: 1rem;
+  }
+
+  .viewSection {
+    padding: 0.875rem;
+  }
+}
+
+@media (max-width: 21.25rem) {
+  .modalContent {
+    width: 98vw;
+    max-height: 95vh;
+    border-radius: 0.5rem;
+  }
+
+  .modalHeader {
+    padding: 0.875rem 1rem;
+  }
+
+  .modalHeader h2 {
+    font-size: 1rem;
+    padding-right: 1.75rem;
+  }
+
+  .modalBody {
+    padding: 0.875rem;
+  }
+
+  .closeBtn {
+    right: 0.75rem;
+    top: 0.75rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 1.25rem;
+  }
+
+  .viewSection {
+    padding: 0.75rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .viewSection h3 {
+    font-size: 0.875rem;
+  }
+
+  .viewSection p {
+    font-size: 0.75rem;
   }
 }

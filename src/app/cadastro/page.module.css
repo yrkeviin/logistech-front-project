@@ -4,46 +4,46 @@
   align-items: center;
   min-height: 100vh;
   background-color: #252E43;
-  padding: 20px;
+  padding: clamp(1rem, 3vw, 2rem);
 }
 
 .cadastroCard {
-  padding: 40px;
-  border-radius: 16px;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border-radius: 1rem;
   width: 100%;
-  max-width: 450px;
+  max-width: min(90vw, 28rem);
 }
 
 .cadastroHeader {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: clamp(1.25rem, 3vw, 1.875rem);
 }
 
 .cadastroTitle {
   color: #667eea;
-  margin-bottom: 10px;
-  font-size: 1.8rem;
+  margin-bottom: 0.625rem;
+  font-size: clamp(1.25rem, 4vw, 1.8rem);
   font-weight: 700;
-  margin: 0 0 10px 0;
+  margin: 0 0 0.625rem 0;
 }
 
 .logoContainer {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   align-items: end;
-  gap: 10px;
+  gap: 0.625rem;
 }
 
 .logoContainer h1 {
   color: white;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  margin-bottom: 15px;
   margin: 0;
+  font-size: clamp(1.25rem, 4vw, 1.5rem);
 }
 
 .logoContainer img {
-  width: 60px;
+  width: clamp(2.5rem, 15%, 3.75rem);
   height: auto;
 }
 
@@ -51,17 +51,18 @@
   color: #718096;
   margin: 0;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: 1rem;
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
 }
 
 .errorAlert {
-  margin-bottom: 20px;
-  padding: 12px;
+  margin-bottom: 1.25rem;
+  padding: 0.75rem;
   background-color: #ff4d4f;
   color: white;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   border: 1px solid #ff7875;
   text-align: center;
+  font-size: clamp(0.813rem, 2vw, 0.875rem);
 }
 
 .cadastroForm {
@@ -69,19 +70,19 @@
 }
 
 .formItem {
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 .formItem input {
-  height: 45px;
+  height: clamp(2.5rem, 5vw, 2.8125rem);
   background-color: #393B43;
   width: 100%;
   border: none;
   outline: none;
-  border-radius: 5px;
-  padding: 0 15px;
+  border-radius: 0.3125rem;
+  padding: 0 clamp(0.75rem, 2vw, 0.9375rem);
   color: #fff;
-  font-size: 14px;
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
   transition: background-color 0.3s;
 }
 
@@ -101,23 +102,23 @@
 .userTypeGroup {
   width: 100%;
   display: flex;
-  gap: 2px;
-  margin-bottom: 20px;
+  gap: 0.125rem;
+  margin-bottom: 1.25rem;
 }
 
 .userTypeButton {
   flex: 1;
   text-align: center;
-  height: 45px;
-  line-height: 43px;
-  font-size: 16px;
+  height: clamp(2.5rem, 5vw, 2.8125rem);
+  line-height: clamp(2.5rem, 5vw, 2.8125rem);
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
   font-weight: 600;
   background-color: #393B43;
   color: #999;
-  border: 2px solid #4a4d58;
+  border: 0.125rem solid #4a4d58;
   cursor: pointer;
   transition: all 0.3s;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   position: relative;
 }
 
@@ -130,7 +131,7 @@
   background-color: #667eea;
   color: white;
   border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 0 0 0.1875rem rgba(102, 126, 234, 0.2);
   transform: scale(1.02);
 }
 
@@ -141,20 +142,21 @@
 
 .submitButton {
   width: 100%;
-  height: 45px;
+  height: clamp(2.5rem, 5vw, 2.8125rem);
   background-color: #667eea;
   color: white;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 0.3125rem;
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 10px;
+  transition: all 0.3s;
+  margin-top: 0.625rem;
 }
 
 .submitButton:hover:not(:disabled) {
   background-color: #5568d3;
+  transform: translateY(-0.125rem);
 }
 
 .submitButton:disabled {
@@ -164,9 +166,9 @@
 
 .loginLink {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 1.25rem;
   color: #718096;
-  font-size: 14px;
+  font-size: clamp(0.813rem, 2vw, 0.875rem);
 }
 
 .loginLink a {
@@ -179,4 +181,51 @@
 .loginLink a:hover {
   color: #5568d3;
   text-decoration: underline;
+}
+
+/* Media Queries Específicas */
+
+@media (max-width: 64rem) {
+  .cadastroContainer {
+    padding: 1.5rem 1rem;
+  }
+  
+  .logoContainer {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+@media (max-width: 48rem) {
+  .cadastroCard {
+    padding: 2rem 1.5rem;
+  }
+
+  .formItem {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 21.25rem) {
+  .cadastroContainer {
+    padding: 1rem 0.5rem;
+  }
+
+  .cadastroCard {
+    padding: 1.5rem 1rem;
+    border-radius: 0.75rem;
+  }
+
+  .logoContainer {
+    margin-bottom: 1rem;
+  }
+
+  .formItem {
+    margin-bottom: 0.875rem;
+  }
+
+  .userTypeGroup {
+    gap: 0.375rem;
+    margin-bottom: 1rem;
+  }
 }

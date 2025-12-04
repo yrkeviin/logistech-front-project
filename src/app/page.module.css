@@ -4,60 +4,64 @@
   align-items: center;
   min-height: 100vh;
   background-color: #252E43;
-  padding: 20px;
+  padding: clamp(1rem, 3vw, 2rem);
 }
 
 .loginCard {
-  padding: 40px;
-  border-radius: 16px;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border-radius: 1rem;
   width: 100%;
-  max-width: 400px;
+  max-width: min(90vw, 25rem);
 }
 
 .loginHeader {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: clamp(1.25rem, 3vw, 1.875rem);
 }
 
 .loginTitle {
   color: #667eea;
-  margin-bottom: 10px;
-  font-size: 1.8rem;
+  margin-bottom: 0.625rem;
+  font-size: clamp(1.25rem, 4vw, 1.8rem);
   font-weight: 700;
-  margin: 0 0 10px 0;
+  margin: 0 0 0.625rem 0;
 }
 
 .logoContainer {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
-  align-items:end;
+  margin-bottom: 1.25rem;
+  align-items: end;
+  gap: 0.5rem;
 }
 
 .logoContainer h1 {
-    color: white;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    margin-bottom: 15px;
+  color: white;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin-bottom: 0.9375rem;
+  font-size: clamp(1.25rem, 4vw, 1.5rem);
 }
 
 .logoContainer img {
-    width: 20%;
+  width: clamp(3rem, 20%, 4rem);
+  height: auto;
 }
 
 .loginSubtitle {
   color: #718096;
   margin: 0;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: 1rem;
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
 }
 
 .errorAlert {
-  margin-bottom: 20px;
-  padding: 12px;
+  margin-bottom: 1.25rem;
+  padding: 0.75rem;
   background-color: #ff4d4f;
   color: white;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   border: 1px solid #ff7875;
+  font-size: clamp(0.813rem, 2vw, 0.875rem);
 }
 
 .loginForm {
@@ -65,19 +69,24 @@
 }
 
 .formItem {
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 .formItem input {
-  height: 40px;
+  height: clamp(2.5rem, 5vw, 2.8125rem);
   background-color: #393B43;
   width: 100%;
   border: none;
   outline: none;
-  border-radius: 5px;
-  padding: 0 10px;
+  border-radius: 0.3125rem;
+  padding: 0 clamp(0.625rem, 2vw, 0.875rem);
   color: #fff;
-  font-size: 14px;
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
+  transition: background-color 0.3s;
+}
+
+.formItem input:focus {
+  background-color: #454854;
 }
 
 .formItem input::placeholder {
@@ -87,21 +96,21 @@
 .userTypeGroup {
   width: 100%;
   display: flex;
-  gap: 10px;
+  gap: 0.625rem;
 }
 
 .userTypeButton {
   flex: 1;
   text-align: center;
-  height: 45px;
-  line-height: 43px;
-  font-size: 16px;
+  height: clamp(2.5rem, 5vw, 2.8125rem);
+  line-height: clamp(2.5rem, 5vw, 2.8125rem);
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
   font-weight: 600;
   background-color: #393B43;
   color: #999;
-  border: 2px solid #4a4d58;
+  border: 0.125rem solid #4a4d58;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   transition: all 0.3s ease;
   position: relative;
 }
@@ -115,23 +124,23 @@
   background-color: #FF3A18;
   color: white;
   border-color: #FF3A18;
-  box-shadow: 0 0 0 3px rgba(255, 58, 24, 0.2);
+  box-shadow: 0 0 0 0.1875rem rgba(255, 58, 24, 0.2);
   transform: scale(1.02);
 }
 
 .inputField {
-    font-size: 16px;
-    color: #ffff;
-    background-color: #393B43;
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
+  color: #ffff;
+  background-color: #393B43;
 }
 
 .submitButton {
   width: 100%;
   border: none;
-  height: 45px;
-  font-size: 16px;
+  height: clamp(2.5rem, 5vw, 2.8125rem);
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
   font-weight: 600;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   cursor: pointer;
   transition: all 0.3s ease;
   color: white;
@@ -148,6 +157,7 @@
 
 .submitButtonAdmin:hover:not(:disabled) {
   background: linear-gradient(135deg, #e6330e 0%, #b82a2a 100%);
+  transform: translateY(-0.125rem);
 }
 
 .submitButtonMotorista {
@@ -156,13 +166,14 @@
 
 .submitButtonMotorista:hover:not(:disabled) {
   background: linear-gradient(135deg, #b82a2a 0%, #e6330e 100%);
+  transform: translateY(-0.125rem);
 }
 
 .cadastroLink {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 1.25rem;
   color: #718096;
-  font-size: 14px;
+  font-size: clamp(0.813rem, 2vw, 0.875rem);
 }
 
 .cadastroLink a {
@@ -175,4 +186,50 @@
 .cadastroLink a:hover {
   color: #ce3030;
   text-decoration: underline;
+}
+
+/* Media Queries Específicas */
+
+@media (max-width: 64rem) {
+  .loginContainer {
+    padding: 1.5rem 1rem;
+  }
+  
+  .logoContainer {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+@media (max-width: 48rem) {
+  .loginCard {
+    padding: 2rem 1.5rem;
+  }
+
+  .formItem {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 21.25rem) {
+  .loginContainer {
+    padding: 1rem 0.5rem;
+  }
+
+  .loginCard {
+    padding: 1.5rem 1rem;
+    border-radius: 0.75rem;
+  }
+
+  .logoContainer {
+    margin-bottom: 1rem;
+  }
+
+  .formItem {
+    margin-bottom: 0.875rem;
+  }
+
+  .userTypeGroup {
+    gap: 0.5rem;
+  }
 }
